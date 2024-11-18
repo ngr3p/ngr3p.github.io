@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Video</title>
+    <title>Fullscreen Video with Preloader</title>
     <style>
         /* Reset default margins */
         * {
@@ -28,17 +28,70 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            background-color: black; /* Ensures black background if video fails to load */
+            background-color: black;
+            display: none; /* Hide video until preloader finishes */
+        }
+
+        /* Preloader styles */
+        #preloader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        #preloader div {
+            width: 50px;
+            height: 50px;
+            margin: 5px auto;
+            border: 5px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Preloader animation */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
-    <video autoplay muted loop>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Video -->
+    <video id="fullscreenVideo" autoplay muted loop>
         <source src="video.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+
     <script>
-        console.log("Video is set to fullscreen, looping, with a black background.");
+        // Disable right-click
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        // Preloader functionality
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const video = document.getElementById('fullscreenVideo');
+
+            // Simulate a short delay for demo purposes
+            setTimeout(() => {
+                preloader.style.display = 'none'; // Hide preloader
+                video.style.display = 'block'; // Show video
+            }, 2000); // Adjust delay as needed
+        });
     </script>
 </body>
 </html>
