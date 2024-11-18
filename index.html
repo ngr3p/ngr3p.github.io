@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ngr3p</title>
-  <style>
-    body {
-      background-color: black;
-      margin: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Video</title>
+    <style>
+        /* Reset default margins */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Make body and html full height */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background-color: black; /* Background color set to black */
+        }
+
+        /* Video full screen style */
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: black; /* Ensures black background if video fails to load */
+        }
+    </style>
 </head>
 <body>
+    <video autoplay muted loop>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <script>
+        console.log("Video is set to fullscreen, looping, with a black background.");
+    </script>
 </body>
 </html>
