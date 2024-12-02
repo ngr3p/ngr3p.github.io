@@ -3,95 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ngr3p</title>
-    <style>
-        /* Reset default margins */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Make body and html full height */
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            background-color: black; /* Background color set to black */
-        }
-
-        /* Video full screen style */
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background-color: black;
-            display: none; /* Hide video until preloader finishes */
-        }
-
-        /* Preloader styles */
-        #preloader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
-        }
-
-        #preloader div {
-            width: 50px;
-            height: 50px;
-            margin: 5px auto;
-            border: 5px solid white;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-        }
-
-        /* Preloader animation */
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <title>[ngr3p]</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div></div>
-        <p>Loading...</p>
+    <div id="loading">
+        <div class="loader"></div>
     </div>
-
-    <!-- Video -->
-    <video id="fullscreenVideo" autoplay muted loop>
-        <source src="video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <script>
-        // Disable right-click
-        document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-        // Preloader functionality
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            const video = document.getElementById('fullscreenVideo');
-
-            // Simulate a short delay for demo purposes
-            setTimeout(() => {
-                preloader.style.display = 'none'; // Hide preloader
-                video.style.display = 'block'; // Show video
-            }, 2000); // Adjust delay as needed
-        });
-    </script>
+    <video id="video" src="video.mp4" autoplay loop muted></video>
+    <script src="js/script.js"></script>
 </body>
 </html>
