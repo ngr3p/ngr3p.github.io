@@ -16,6 +16,6 @@ const video = document.getElementById('video');
 const loading = document.getElementById('loading');
 
 video.addEventListener('canplaythrough', () => {
-    loading.style.display = 'none'; // Oculta o loader
-    video.style.display = 'block'; // Exibe o vídeo
+    loading.style.display = 'none';
+    video.style.display = 'block';
 });
