@@ -23,22 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 600);
     });
 
-    // --- 2. HEADER & SCROLL EFFECT ---
-    const header = document.querySelector('.main-header');
+    // --- 2. HEADER & SCROLL EFFECT (ESTABILIZADO) ---
+    // Removida a lógica de manipulação manual de style para preservar o CSS fixo
     const footer = document.querySelector('.main-footer');
     let hiddenPosts = Array.from(document.querySelectorAll('.hidden-post'));
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.style.background = 'rgba(10, 10, 10, 0.9)';
-            header.style.backdropFilter = 'blur(10px)';
-            header.style.padding = '15px 0';
-        } else {
-            header.style.background = 'transparent';
-            header.style.backdropFilter = 'none';
-            header.style.padding = '40px 0';
-        }
-    });
 
     // --- 3. REVEAL ANIMATION (INTERSECTION OBSERVER) ---
     const revealObserver = new IntersectionObserver((entries) => {
