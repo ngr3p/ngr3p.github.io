@@ -600,18 +600,32 @@ body {
     .post-title { font-size: 2.8rem !important; padding-right: 5% !important; }
 }
 
-/* --- LANDSCAPE (CELULAR DEITADO) --- */
+/* --- LANDSCAPE (AJUSTE PARA DISPOSITIVOS REAIS) --- */
 @media (max-width: 932px) and (orientation: landscape) {
     .hero-section {
+        /* Mudamos de 100vh para auto para o conteúdo definir a altura se necessário */
         height: auto !important; 
-        min-height: 120vh; /* Aumentado para garantir que o fundo cubra o scroll */
-        padding: 140px 0 60px 0 !important; /* Aumentado para 140px para dar folga do menu */
+        min-height: 100vh;
+        
+        /* 1. Alinhamento no TOPO (flex-start) para não subir no menu */
         display: flex;
-        align-items: flex-start !important; /* ISSO resolve o problema: alinha no topo, não no meio */
+        align-items: flex-start !important; 
+        
+        /* 2. Padding superior maior para empurrar o texto para baixo do menu fixo */
+        padding-top: 140px !important; 
+        padding-bottom: 60px !important;
     }
 
     .post-title {
-        font-size: 2.5rem !important; /* Reduzido levemente para caber na altura curta do iPhone */
-        margin-bottom: 20px;
+        /* 3. Redução estratégica da fonte para caber na altura curta do mobile landscape */
+        font-size: 2.8rem !important; 
+        line-height: 1;
+        margin-bottom: 25px;
+        padding-right: 15% !important;
+    }
+
+    .description-container {
+        /* Diminui a margem para o botão subir e aparecer na tela sem scroll */
+        margin-bottom: 30px;
     }
 }
