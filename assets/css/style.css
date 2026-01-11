@@ -600,32 +600,35 @@ body {
     .post-title { font-size: 2.8rem !important; padding-right: 5% !important; }
 }
 
-/* --- LANDSCAPE (AJUSTE PARA DISPOSITIVOS REAIS) --- */
+/* --- LANDSCAPE (RESOLUÇÃO DEFINITIVA PARA CELULAR REAL) --- */
 @media (max-width: 932px) and (orientation: landscape) {
     .hero-section {
-        /* Mudamos de 100vh para auto para o conteúdo definir a altura se necessário */
+        /* 1. Mudamos para block para o padding-top ser a única regra de posição */
+        display: block !important; 
         height: auto !important; 
-        min-height: 100vh;
+        min-height: 120vh !important; 
         
-        /* 1. Alinhamento no TOPO (flex-start) para não subir no menu */
-        display: flex;
-        align-items: flex-start !important; 
-        
-        /* 2. Padding superior maior para empurrar o texto para baixo do menu fixo */
-        padding-top: 140px !important; 
-        padding-bottom: 60px !important;
+        /* 2. Padding superior forçado para empurrar o NTLM para baixo do logo */
+        padding-top: 160px !important; 
+        padding-bottom: 80px !important;
+    }
+
+    .hero-section .container {
+        /* Remove qualquer tentativa de centralização residual */
+        top: 0 !important;
+        transform: none !important;
     }
 
     .post-title {
-        /* 3. Redução estratégica da fonte para caber na altura curta do mobile landscape */
-        font-size: 2.8rem !important; 
-        line-height: 1;
-        margin-bottom: 25px;
-        padding-right: 15% !important;
+        /* 3. Reduzimos a fonte para não estourar a largura com o padding lateral */
+        font-size: 2.5rem !important; 
+        line-height: 1.1;
+        margin-bottom: 20px;
+        padding-right: 10% !important; /* Liberando espaço para o texto não subir */
     }
 
     .description-container {
-        /* Diminui a margem para o botão subir e aparecer na tela sem scroll */
-        margin-bottom: 30px;
+        margin-bottom: 25px;
+        max-width: 90%;
     }
 }
