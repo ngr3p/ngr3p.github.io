@@ -613,23 +613,6 @@ body {
         min-height: 120vh; /* Garante que o fundo não corte ao scrollar */
     }
 
-
-    .main-header {
-        /* 1. Travamos uma altura fixa para o Header no landscape */
-        /* Isso impede que ele "empurre" o conteúdo ao mudar o padding */
-        height: 70px !important; 
-        display: flex;
-        align-items: center;
-        transition: background 0.4s ease; /* Suaviza apenas a cor, não o tamanho */
-    }
-
-    .main-header.header-scrolled {
-        /* 2. Mantemos a mesma altura de 70px aqui */
-        /* Assim, o layout da Hero não sente nenhuma diferença de espaço */
-        padding: 0 !important; 
-        height: 70px !important; 
-    }
-
     .post-title {
         /* Diminui a fonte apenas quando a tela é "baixinha" */
         font-size: 2.2rem !important;
