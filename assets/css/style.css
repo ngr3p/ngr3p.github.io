@@ -600,35 +600,42 @@ body {
     .post-title { font-size: 2.8rem !important; padding-right: 5% !important; }
 }
 
-/* --- LANDSCAPE (RESOLUÇÃO DEFINITIVA PARA CELULAR REAL) --- */
+/* --- LANDSCAPE (SOLUÇÃO DE IMPACTO) --- */
 @media (max-width: 932px) and (orientation: landscape) {
     .hero-section {
-        /* 1. Mudamos para block para o padding-top ser a única regra de posição */
-        display: block !important; 
-        height: auto !important; 
-        min-height: 120vh !important; 
-        
-        /* 2. Padding superior forçado para empurrar o NTLM para baixo do logo */
-        padding-top: 160px !important; 
-        padding-bottom: 80px !important;
+        display: block !important;
+        height: auto !important;
+        min-height: 120vh !important;
+        /* Aumentamos o padding para dar espaço real do menu fixo */
+        padding-top: 150px !important; 
+        padding-bottom: 50px !important;
     }
 
     .hero-section .container {
-        /* Remove qualquer tentativa de centralização residual */
+        /* Reset total: tira do meio e bota no topo */
+        position: relative !important;
         top: 0 !important;
         transform: none !important;
+        margin: 0 auto !important;
+        display: block !important;
     }
 
     .post-title {
-        /* 3. Reduzimos a fonte para não estourar a largura com o padding lateral */
-        font-size: 2.5rem !important; 
-        line-height: 1.1;
-        margin-bottom: 20px;
-        padding-right: 10% !important; /* Liberando espaço para o texto não subir */
+        /* Diminuímos o tamanho para o NTLM não ocupar a altura toda */
+        font-size: 2.2rem !important;
+        line-height: 1.1 !important;
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+        padding-right: 5% !important; /* Libera largura total */
     }
 
     .description-container {
         margin-bottom: 25px;
-        max-width: 90%;
+        max-width: 100%;
+    }
+
+    /* Opcional: diminui o logo no landscape para ganhar espaço vertical */
+    .brand-logo img {
+        height: 30px !important;
     }
 }
