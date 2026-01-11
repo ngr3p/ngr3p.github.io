@@ -600,3 +600,28 @@ body {
     .post-title { font-size: 2.8rem !important; padding-right: 5% !important; }
 }
 
+/* Se a tela tiver menos de 500px de ALTURA (celulares deitados) */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        /* Desativa a centralização que joga o texto pra cima do logo */
+        display: flex !important;
+        align-items: flex-start !important; 
+        
+        /* Força um recuo fixo do topo para o NTLM aparecer abaixo da caveira */
+        padding-top: 130px !important; 
+        height: auto !important;
+        min-height: 120vh; /* Garante que o fundo não corte ao scrollar */
+    }
+
+    .post-title {
+        /* Diminui a fonte apenas quando a tela é "baixinha" */
+        font-size: 2.2rem !important;
+        padding-right: 5% !important;
+        margin-bottom: 15px;
+    }
+
+    .brand-logo img {
+        /* Reduz o logo para sobrar mais espaço para o texto */
+        height: 30px !important;
+    }
+}
