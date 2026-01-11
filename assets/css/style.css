@@ -604,8 +604,14 @@ body {
 @media (max-width: 932px) and (orientation: landscape) {
     .hero-section {
         height: auto !important; 
-        min-height: 100vh;
-        padding: 120px 0 60px 0 !important;
-        align-items: center !important; /* MANTÉM NO MEIO NA HORIZONTAL TAMBÉM */
+        min-height: 120vh; /* Aumentado para garantir que o fundo cubra o scroll */
+        padding: 140px 0 60px 0 !important; /* Aumentado para 140px para dar folga do menu */
+        display: flex;
+        align-items: flex-start !important; /* ISSO resolve o problema: alinha no topo, não no meio */
+    }
+
+    .post-title {
+        font-size: 2.5rem !important; /* Reduzido levemente para caber na altura curta do iPhone */
+        margin-bottom: 20px;
     }
 }
