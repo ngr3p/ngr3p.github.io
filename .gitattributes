@@ -1,0 +1,40 @@
+# Global configuration: Detect text files and force LF
+* text=auto eol=lf
+
+# Documentation and Scripts (Critical for Linux/VPS compatibility)
+*.md text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.pl text eol=lf
+*.rb text eol=lf
+
+# Configuration and Serialization files
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+*.toml text eol=lf
+*.conf text eol=lf
+*.env text eol=lf
+*.ini text eol=lf
+
+# Infrastructure and Docker
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+*.sql text eol=lf
+
+# Web and Templates
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+
+# Ensure binary files are not corrupted
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary

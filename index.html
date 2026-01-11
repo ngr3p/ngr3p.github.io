@@ -1,16 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[ngr3p]</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="ngr3p - Offensive Security & Red Team Research">
+    <title>ngr3p // Red Team Blog</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <div id="loading">
-        <div class="loader"></div>
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
     </div>
-    <video id="video" src="assets/video.mp4" autoplay loop muted></video>
-    <script src="js/script.js"></script>
+    
+    <header class="main-header">
+        <nav class="nav-container container">
+            <a href="index.html" class="brand-logo">
+                <img src="assets/images/ui/logo.png" alt="ngr3p">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="container"> 
+            <article class="post-card featured">
+                <h1 class="post-title">NTLM Relay Attacks in 2026</h1>
+                <div class="description-container">
+                    <div class="vertical-bar"></div>
+                    <p class="description-text">
+                        Post-exploitation starts with privilege escalation.<br>
+                        Gain root. Control everything.
+                    </p>
+                </div>
+                <a href="#" class="cta-button">Read Analysis</a>
+            </article>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="latest-posts" id="blog">
+            <h2 class="section-label">Latest Researches<span>_</span></h2>
+            
+            <div class="posts-grid">
+                <a href="post.html" class="grid-item">
+                    <span class="post-cat">#ActiveDirectory</span>
+                    <h3>NTLM Relay Attacks in 2026</h3>
+                    <p>Moving laterally across the domain by exploiting legacy protocols and misconfigurations.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item">
+                    <span class="post-cat">#MalwareDev</span>
+                    <h3>Process Injection Techniques</h3>
+                    <p>Exploring modern ways to hide malicious code inside legitimate system processes.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item">
+                    <span class="post-cat">#WebHacking</span>
+                    <h3>Bypassing WAF with JWT</h3>
+                    <p>How broken identity implementations can lead to full administrative access.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#WindowsInternals</span>
+                    <h3>EDR Evasion via Syscalls</h3>
+                    <p>Direct system calls to bypass user-mode hooks in modern security solutions.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#CloudSecurity</span>
+                    <h3>AWS IAM Misconfigurations</h3>
+                    <p>Escalating privileges through overly permissive Identity and Access Management roles.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#Cryptography</span>
+                    <h3>Cracking Kerberos Tickets</h3>
+                    <p>Advanced Kerberoasting techniques and hash cracking at scale for domain takeover.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#Phishing</span>
+                    <h3>Adversary-in-the-Middle</h3>
+                    <p>Bypassing Multi-Factor Authentication (MFA) using sophisticated proxy tools.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#ReverseEngineering</span>
+                    <h3>Analyzing Kernel Drivers</h3>
+                    <p>Finding vulnerabilities in third-party drivers to execute code at Ring 0.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#RedTeam</span>
+                    <h3>C2 Infrastructure Setup</h3>
+                    <p>Building resilient Command and Control channels using domain fronting and CDNs.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#PostExploitation</span>
+                    <h3>Linux Persistence Mechanisms</h3>
+                    <p>From systemd services to hidden cronjobs: how to stay inside the box.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#ExploitDev</span>
+                    <h3>Heap Overflow Analysis</h3>
+                    <p>Understanding memory corruption bugs to build reliable exploits for Linux binaries.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+
+                <a href="#" class="grid-item hidden-post">
+                    <span class="post-cat">#OPSEC</span>
+                    <h3>Obfuscating PowerShell</h3>
+                    <p>Techniques to avoid AMSI detection and logging while executing offensive scripts.</p>
+                    <span class="read-link">Read Analysis</span>
+                </a>
+            </div>
+        </section>
+        <section class="about-section" id="about">
+            <h2 class="section-label">About<span>_</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I'm Leo, aka <strong>ngr3p</strong> — this blog is a personal initiative to explore offensive security with intention, focus, and consistency.</p>
+
+                    <p>I’m driven by curiosity. I explore systems to understand how they work, where security flaws exist, and how they can be corrected and improved to become more resilient.</p>
+
+                    <p>Everything you see here is part of my learning process — documenting, practicing, reflecting, repeating. This blog is my personal repository. Sharing what I learn is part of my mission. If it helps someone else along the way, then it’s already worth it.</p>
+
+                    <p class="highlight-text">If you're on this journey too — welcome. Stay focused. Stay sharp. Keep breaking things, and document everything.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Contact<span>_</span></h3>
+                    <ul class="contact-list">
+                        <li><i class="fa-regular fa-envelope"></i> <a href="mailto:ngr3p@disroot.org">ngr3p@disroot.org</a></li>
+                        <li><i class="fa-brands fa-instagram"></i> <a href="https://instagram.com/ngr3p" target="_blank">@ngr3p</a></li>
+                        <li><i class="fa-brands fa-github"></i> <a href="https://github.com/ngr3p" target="_blank">github.com/ngr3p</a></li>
+                        <li><i class="fa-brands fa-x-twitter"></i> <a href="https://x.com/ngr3p" target="_blank">@ngr3p</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p>&copy; 2026 ngr3p // Offense informs Defense.</p>
+            <div class="footer-links">
+                <a href="https://github.com/ngr3p" target="_blank" title="Source Code & Tools">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://x.com/ngr3p" target="_blank" title="Infosec News & Threads">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a href="https://instagram.com/ngr3p" target="_blank" title="Technical Carousels">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
