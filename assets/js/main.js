@@ -23,10 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 600);
     });
 
-    // --- 2. HEADER & SCROLL EFFECT (FIXO) ---
-    // Removida a lógica de alternância de cores para manter o padrão da post.html
+    // --- 2. HEADER & SCROLL EFFECT ---
+    const header = document.querySelector('.main-header');
     const footer = document.querySelector('.main-footer');
     let hiddenPosts = Array.from(document.querySelectorAll('.hidden-post'));
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.style.background = 'rgba(10, 10, 10, 0.9)';
+            header.style.backdropFilter = 'blur(10px)';
+            header.style.padding = '15px 0';
+        } else {
+            header.style.background = 'transparent';
+            header.style.backdropFilter = 'none';
+            header.style.padding = '40px 0';
+        }
+    });
 
     // --- 3. REVEAL ANIMATION (INTERSECTION OBSERVER) ---
     const revealObserver = new IntersectionObserver((entries) => {
@@ -54,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 4. MECÂNICA DE CARREGAMENTO (6 INICIAIS + INFINITE SCROLL) ---
     
     function showMorePosts(amount) {
+        // .splice remove os itens do array original, evitando duplicatas ou cargas infinitas
         const toShow = hiddenPosts.splice(0, amount);
         
         toShow.forEach(post => {
@@ -63,12 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Carrega +3 posts iniciais após um micro-delay para garantir estabilidade do DOM
     setTimeout(() => {
         if (hiddenPosts.length > 0) {
             showMorePosts(3);
         }
     }, 100);
 
+    // Observer para o Infinite Scroll com margem de 200px para carregar antes do fim
     const loadMoreObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hiddenPosts.length > 0) {
             showMorePosts(3);
