@@ -593,13 +593,41 @@ body {
 }
 
 /* --- CLEANUP LINKS/BUTTONS (RESET STATES) --- */
-a:focus, button:focus, a:active, button:active {
-    outline: none;
-    box-shadow: none;
+/* 1. Remove o foco persistente e o highlight de sistema */
+a, button, .grid-item, .cta-button, #load-more-btn {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none; /* Impede seleção de texto ao clicar rápido */
 }
 
+/* 2. Reseta a cor de links visitados */
 a:visited {
-    color: inherit; /* Impede a cor roxa padrão */
+    color: inherit !important;
+}
+
+/* 3. Limpa qualquer rastro de seleção/foco após o clique no Mobile */
+a:focus, a:active, 
+button:focus, button:active,
+.grid-item:focus, .grid-item:active {
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* 4. Garante que o hover só aconteça em dispositivos que REALMENTE tem mouse */
+/* Isso impede que o celular "simule" um hover que fica travado */
+@media (hover: hover) {
+    .nav-links a:hover { color: var(--accent-green); text-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }
+    .cta-button:hover { background: var(--accent-green); color: var(--bg-color); box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); }
+    .grid-item:hover { border-color: var(--accent-green); background: rgba(0, 255, 136, 0.03); transform: translateY(-5px); }
+    #load-more-btn:hover { background: var(--accent-green); color: var(--bg-color); box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); }
+}
+
+/* 5. Estilo de feedback rápido apenas ENQUANTO o dedo está encostado */
+.cta-button:active, #load-more-btn:active {
+    background: var(--accent-green) !important;
+    color: var(--bg-color) !important;
+    opacity: 0.8;
 }
 
 /* --- MEDIA QUERIES --- */
