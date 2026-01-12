@@ -24,6 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 2. HEADER & SCROLL EFFECT (ESTABILIZADO) ---
+    const header = document.querySelector('.main-header'); // Seleciona o menu
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('header-scrolled');
+        } else {
+            // Só remove a classe se NÃO estivermos na página interna (single-post)
+            // Pois na página do post queremos o menu sempre escuro para ler melhor
+            if (!document.body.classList.contains('single-post')) {
+                header.classList.remove('header-scrolled');
+            }
+        }
+    });
+    
     const footer = document.querySelector('.main-footer');
     const heroContainer = document.querySelector('.hero-section .container');
     const postsGrid = document.querySelector('.posts-grid');
