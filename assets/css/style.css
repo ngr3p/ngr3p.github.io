@@ -37,24 +37,20 @@ body {
 
 /* --- HEADER (PADRONIZADO) --- */
 .main-header {
-    padding: 15px 0; /* Já começa com o padding reduzido */
+    padding: 15px 0;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: transparent;
 }
 
-/* Forçamos o estilo fixo para o Index e Post */
 .main-header.header-scrolled,
 .single-post .main-header {
     padding: 15px 0 !important;
     background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .nav-container {
@@ -99,10 +95,9 @@ body {
 /* --- HERO (COM AS ALTURAS QUE VOCÊ DEFINIU) --- */
 .hero-section {
     width: 100%;
-    height: 700px; /* Desktop Geral */
+    height: 700px;
     display: flex;
     align-items: center;
-    padding-top: 100px;
     position: relative;
     overflow: hidden;
     background-image: url('../images/posts/hero.png');
@@ -257,6 +252,40 @@ body {
 .grid-item:hover .read-link {
     color: var(--accent-green);
     text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+/* --- LOAD MORE SECTION --- */
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+#load-more-btn {
+    all: unset;
+    display: inline-block;
+    font-family: var(--font-heading);
+    color: var(--accent-green);
+    border: 1px solid var(--accent-green);
+    padding: 0.6em 2em;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    text-align: center;
+}
+
+#load-more-btn:hover {
+    background: var(--accent-green);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+#load-more-btn.hidden {
+    display: none;
 }
 
 /* --- POST PAGE & ABOUT --- */
@@ -562,9 +591,8 @@ body {
     visibility: hidden;
 }
 
-/* --- MEDIA QUERIES (SINCRONIZADAS COM AS SUAS DIRETRIZES) --- */
+/* --- MEDIA QUERIES --- */
 
-/* XX-Large devices */
 @media (min-width: 1400px) {
     .container { max-width: 1320px; }
     .post-title { padding-right: 50% !important; }
@@ -574,28 +602,24 @@ body {
     .post-title { padding-right: 30% !important; }
 }
 
-/* Laptops / Tablets */
 @media (max-width: 992px) {
-    .hero-section { height: 600px; } /* Aplicado 600px */
+    .hero-section { height: 600px; }
     .about-content { grid-template-columns: 1fr; }
     .contact-card { max-width: 100%; }
     .post-title { padding-right: 20% !important; }
 }
 
-/* Mobile Vertical */
 @media (max-width: 768px) {
     .hero-section { 
-        height: 500px; /* Aplicado 500px */
+        height: 500px;
         background-attachment: scroll; 
     }
     .nav-container { flex-direction: row !important; }
     .footer-content { flex-direction: column; gap: 20px; text-align: center; }
 }
 
-/* Mobile Small */
 @media (max-width: 576px) {
     .nav-links { gap: 15px; }
-    .nav-links a { font-size: 0.7rem; }
     .post-title { font-size: 3rem !important; padding-right: 15% !important; }
 }
 
@@ -603,13 +627,12 @@ body {
     .post-title { font-size: 2.8rem !important; padding-right: 5% !important; }
 }
 
-/* Mobile Landscape (Obrigatório ser auto ou menor) */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
         display: flex !important;
         align-items: flex-start !important; 
         padding-top: 130px !important; 
-        height: auto !important; /* Aplicado auto */
+        height: auto !important; 
         min-height: 120vh;
         background-attachment: scroll !important;
     }

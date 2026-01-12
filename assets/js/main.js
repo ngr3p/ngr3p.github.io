@@ -24,9 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 2. HEADER & SCROLL EFFECT (ESTABILIZADO) ---
-    // Removida a lógica de manipulação manual de style para preservar o CSS fixo
     const footer = document.querySelector('.main-footer');
-    let hiddenPosts = Array.from(document.querySelectorAll('.hidden-post'));
+    const heroContainer = document.querySelector('.hero-section .container');
+    const postsGrid = document.querySelector('.posts-grid');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    
+    let allPosts = [];
+    let displayedCount = 0;
 
     // --- 3. REVEAL ANIMATION (INTERSECTION OBSERVER) ---
     const revealObserver = new IntersectionObserver((entries) => {
@@ -49,36 +53,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    applyReveal(document.querySelectorAll('.grid-item:not(.hidden-post), .post-card'));
+    // --- 4. CARREGAMENTO DOS POSTS (JSON) ---
+    fetch('assets/data/posts.json')
+        .then(response => response.json())
+        .then(data => {
+            allPosts = data;
+            renderInitialState();
+        })
+        .catch(error => console.error('Error loading posts:', error));
 
-    // --- 4. MECÂNICA DE CARREGAMENTO (6 INICIAIS + INFINITE SCROLL) ---
-    
-    function showMorePosts(amount) {
-        // .splice remove os itens do array original, evitando duplicatas ou cargas infinitas
-        const toShow = hiddenPosts.splice(0, amount);
-        
-        toShow.forEach(post => {
-            post.classList.remove('hidden-post');
-            applyReveal([post]);
-            setTimeout(() => post.classList.add('show'), 100);
-        });
+    function renderInitialState() {
+        if (allPosts.length === 0) return;
+
+        // Renderiza o Hero (Post 0)
+        const latest = allPosts[0];
+        if (heroContainer) {
+            heroContainer.innerHTML = `
+                <article class="post-card featured">
+                    <h1 class="post-title">${latest.title}</h1>
+                    <div class="description-container">
+                        <div class="vertical-bar"></div>
+                        <p class="description-text">${latest.description}</p>
+                    </div>
+                    <a href="${latest.url}" class="cta-button">Read Analysis</a>
+                </article>
+            `;
+            applyReveal(heroContainer.querySelectorAll('.post-card'));
+        }
+
+        // Prepara os posts para o Grid (do 1 em diante)
+        renderBatch(6);
     }
 
-    // Carrega +3 posts iniciais após um micro-delay para garantir estabilidade do DOM
-    setTimeout(() => {
-        if (hiddenPosts.length > 0) {
-            showMorePosts(3);
-        }
-    }, 100);
+    function renderBatch(count) {
+        const gridPosts = allPosts.slice(1); // Ignora o post do hero
+        const toRender = gridPosts.slice(displayedCount, displayedCount + count);
 
-    // Observer para o Infinite Scroll com margem de 200px para carregar antes do fim
-    const loadMoreObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hiddenPosts.length > 0) {
-            showMorePosts(3);
-        }
-    }, { rootMargin: '200px' });
+        toRender.forEach((post, index) => {
+            const card = document.createElement('a');
+            card.href = post.url;
+            card.className = 'grid-item';
+            card.innerHTML = `
+                <span class="post-cat">${post.category}</span>
+                <h3>${post.title}</h3>
+                <p>${post.short_desc}</p>
+                <span class="read-link">Read Analysis</span>
+            `;
+            postsGrid.appendChild(card);
+            
+            // Aplica animação com delay pequeno para cada card
+            setTimeout(() => applyReveal([card]), index * 100);
+        });
 
-    if (footer) loadMoreObserver.observe(footer);
+        displayedCount += toRender.length;
+
+        // Esconde o botão se não houver mais posts
+        if (displayedCount >= gridPosts.length && loadMoreBtn) {
+            loadMoreBtn.classList.add('hidden');
+        }
+    }
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => renderBatch(3));
+    }
 
     // --- 5. SYSTEM STATUS ---
     console.log(

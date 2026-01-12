@@ -1,0 +1,110 @@
+[
+  {
+    "id": 12,
+    "title": "NTLM Relay Attacks in 2026",
+    "category": "#ActiveDirectory",
+    "description": "Post-exploitation starts with privilege escalation.<br>Gain root. Control everything.",
+    "short_desc": "Moving laterally across the domain by exploiting legacy protocols and misconfigurations.",
+    "url": "post.html",
+    "date": "2026-01-09"
+  },
+  {
+    "id": 11,
+    "title": "Process Injection Techniques",
+    "category": "#MalwareDev",
+    "description": "Advanced memory manipulation for stealthy execution.<br>Stay undetected by modern EDRs.",
+    "short_desc": "Exploring modern ways to hide malicious code inside legitimate system processes.",
+    "url": "#",
+    "date": "2026-01-08"
+  },
+  {
+    "id": 10,
+    "title": "Bypassing WAF with JWT",
+    "category": "#WebHacking",
+    "description": "Identity is the new perimeter.<br>Exploit broken trust in web tokens.",
+    "short_desc": "How broken identity implementations can lead to full administrative access.",
+    "url": "#",
+    "date": "2026-01-07"
+  },
+  {
+    "id": 9,
+    "title": "EDR Evasion via Syscalls",
+    "category": "#WindowsInternals",
+    "description": "Talking directly to the kernel.<br>Bypassing user-mode monitoring.",
+    "short_desc": "Direct system calls to bypass user-mode hooks in modern security solutions.",
+    "url": "#",
+    "date": "2026-01-06"
+  },
+  {
+    "id": 8,
+    "title": "AWS IAM Misconfigurations",
+    "category": "#CloudSecurity",
+    "description": "One policy to rule them all.<br>Escalate privileges in the cloud.",
+    "short_desc": "Escalating privileges through overly permissive Identity and Access Management roles.",
+    "url": "#",
+    "date": "2026-01-05"
+  },
+  {
+    "id": 7,
+    "title": "Cracking Kerberos Tickets",
+    "category": "#Cryptography",
+    "description": "Exploiting the heart of AD.<br>From hash to Domain Admin.",
+    "short_desc": "Advanced Kerberoasting techniques and hash cracking at scale for domain takeover.",
+    "url": "#",
+    "date": "2026-01-04"
+  },
+  {
+    "id": 6,
+    "title": "Adversary-in-the-Middle",
+    "category": "#Phishing",
+    "description": "MFA is not a silver bullet.<br>Intercepting sessions in real-time.",
+    "short_desc": "Bypassing Multi-Factor Authentication (MFA) using sophisticated proxy tools.",
+    "url": "#",
+    "date": "2026-01-03"
+  },
+  {
+    "id": 5,
+    "title": "Analyzing Kernel Drivers",
+    "category": "#ReverseEngineering",
+    "description": "The highest privilege level.<br>Finding bugs in the core of the OS.",
+    "short_desc": "Finding vulnerabilities in third-party drivers to execute code at Ring 0.",
+    "url": "#",
+    "date": "2026-01-02"
+  },
+  {
+    "id": 4,
+    "title": "C2 Infrastructure Setup",
+    "category": "#RedTeam",
+    "description": "Stealthy communication channels.<br>Building resilient C2 frameworks.",
+    "short_desc": "Building resilient Command and Control channels using domain fronting and CDNs.",
+    "url": "#",
+    "date": "2026-01-01"
+  },
+  {
+    "id": 3,
+    "title": "Linux Persistence Mechanisms",
+    "category": "#PostExploitation",
+    "description": "Hidden but persistent.<br>Maintaining access in Linux environments.",
+    "short_desc": "From systemd services to hidden cronjobs: how to stay inside the box.",
+    "url": "#",
+    "date": "2025-12-30"
+  },
+  {
+    "id": 2,
+    "title": "Heap Overflow Analysis",
+    "category": "#ExploitDev",
+    "description": "Mastering memory corruption.<br>Crafting reliable modern exploits.",
+    "short_desc": "Understanding memory corruption bugs to build reliable exploits for Linux binaries.",
+    "url": "#",
+    "date": "2025-12-28"
+  },
+  {
+    "id": 1,
+    "title": "Obfuscating PowerShell",
+    "category": "#OPSEC",
+    "description": "Bypassing script analysis.<br>AV evasion for offensive automation.",
+    "short_desc": "Techniques to avoid AMSI detection and logging while executing offensive scripts.",
+    "url": "#",
+    "date": "2025-12-25"
+  }
+]
