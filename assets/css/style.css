@@ -729,6 +729,7 @@ body {
     
     .post-title { 
         font-size: 2.2rem; /* Evita quebra de palavras longas */
+        max-width: 8em; /* Força a quebra de linha em telas estreitas */
     }
 
     .description-text {
