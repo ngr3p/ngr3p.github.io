@@ -615,163 +615,130 @@ body {
     visibility: hidden;
 }
 
-/* --- MEDIA QUERIES (OTIMIZADO & RESPONSIVO) --- */
+/* --- MEDIA QUERIES (CORRIGIDO E OTIMIZADO) --- */
 
-/* 1. Telas Extra Grandes (4K, Ultrawide, TVs) - Acima de 1600px */
+/* 1. Telas Grandes (Acima de 1600px) */
 @media (min-width: 1600px) {
-    .container {
-        max-width: 1500px; /* Aproveita mais o espaço horizontal */
-        padding: 0 50px;
-    }
-
-    body {
-        font-size: 18px; /* Aumenta levemente a fonte base para leitura confortável em telas grandes */
-    }
-
-    .post-title {
-        font-size: 6rem; /* Título mais impactante */
-    }
+    .container { max-width: 1500px; padding: 0 50px; }
+    body { font-size: 18px; }
+    .post-title { font-size: 6rem; }
 }
 
-/* 2. Desktops Padrão e Laptops Grandes - 1200px a 1599px */
+/* 2. Desktops e Laptops (Padrao) */
 @media (max-width: 1599px) {
     .container { max-width: 1200px; }
 }
 
-/* 3. Laptops Médios e Tablets em Paisagem (Landscape) - 992px a 1199px */
-@media (max-width: 1199px) {
-    .post-title {
-        font-size: 4rem; /* Ajuste para caber sem quebrar */
-    }
-    
-    .hero-section {
-        /* Garante o full screen, mas permite crescer se o conteúdo for maior que a tela */
-        min-height: 100vh;
-        height: auto; 
-    }
-}
-
-/* 4. Tablets em Retrato (Portrait) e Netbooks - 768px a 991px */
+/* 3. Tablets e Mobile (Abaixo de 991px) - AQUI ESTAVA O PROBLEMA */
 @media (max-width: 991px) {
-    .nav-container {
-        padding: 0 20px;
-    }
+    /* Ajuste do container para não colar na borda */
+    .container { padding: 0 30px; }
 
+    /* Força o alinhamento à esquerda sempre */
     .hero-section {
-        text-align: center; /* Em tablets, centralizar o hero costuma ficar visualmente melhor */
-        justify-content: center;
+        justify-content: center; /* Centraliza verticalmente na tela */
+        align-items: center; /* Centraliza o bloco, mas o texto dentro será left */
     }
-    
+
     .hero-section .container {
-        text-align: center; /* Força o alinhamento central */
+        text-align: left; /* Garante que tudo dentro fique à esquerda */
     }
 
-    .description-container {
-        margin: 0 auto 40px; /* Centraliza o bloco de descrição */
-        justify-content: center;
-        text-align: left; /* Mantém o texto alinhado à esquerda para leitura, mas o bloco no centro */
-    }
-
+    /* Título: Ajuste de tamanho e quebra */
     .post-title {
         font-size: 3.5rem;
+        margin-left: 0;
+        margin-right: 0;
+        text-align: left;
+        max-width: 100%; /* No mobile pode ocupar a largura toda se precisar */
+    }
+
+    /* Descrição: Volta a ser lado a lado (barra | texto) */
+    .description-container {
+        flex-direction: row; /* Importante: Mantém a barra ao lado do texto */
+        align-items: stretch; /* Estica a barra para acompanhar a altura do texto */
+        justify-content: flex-start;
+        text-align: left;
         margin-bottom: 30px;
     }
 
-    .about-content {
-        grid-template-columns: 1fr; /* Coloca a sidebar de contato abaixo do texto */
-        gap: 40px;
+    /* A Barra Verde: Volta a ser vertical */
+    .vertical-bar {
+        width: 4px; /* Largura da barra */
+        height: auto; /* Altura automática */
+        min-height: 100%; /* Garante que apareça */
+        margin-right: 20px; /* Espaço entre a barra e o texto */
+        margin-bottom: 0; /* Remove a margem de baixo que causava o erro */
+        align-self: stretch;
     }
-    
-    .contact-card {
-        max-width: 100%; /* Cartão de contato ocupa a largura total */
+
+    .description-text {
+        font-size: 1.1rem;
     }
+
+    /* Botão: Tamanho natural, alinhado a esquerda */
+    .cta-button {
+        width: auto;
+        display: inline-block;
+    }
+
+    /* Grid de Posts e Sobre */
+    .about-content { grid-template-columns: 1fr; gap: 40px; }
+    .contact-card { max-width: 100%; }
 }
 
-/* 5. Celulares e Tablets Pequenos (Mobile Geral) - 767px para baixo */
+/* 4. Celulares (Abaixo de 767px) */
 @media (max-width: 767px) {
-    /* --- MENU SEMPRE ALINHADO (ESQ/DIR) --- */
+    /* Menu: Logo Esquerda / Links Direita */
     .nav-container {
-        flex-direction: row !important; /* Força linha horizontal */
-        justify-content: space-between !important; /* Logo na ponta, links na outra */
-        align-items: center;
-        padding: 0 20px; /* Margem de segurança lateral */
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        padding: 0 25px;
     }
 
-    .nav-links {
-        gap: 15px; /* Reduz levemente o espaço entre 'Blog' e 'About' para caber */
-        width: auto; /* Ocupa apenas o espaço necessário */
-        justify-content: flex-end;
-    }
+    .nav-links { gap: 15px; width: auto; }
 
-    /* Ajuste para o Hero não "grudar" no menu agora que ele não empilha */
     .hero-section {
+        padding-top: 80px; /* Compensa o menu fixo */
         background-attachment: scroll;
-        padding-top: 80px; /* Altura do menu */
+        align-items: center; /* Garante o centro vertical da tela */
     }
 
-    .description-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .vertical-bar {
-        width: 50px;
-        height: 3px;
-        margin-bottom: 15px;
+    /* Ajuste fino do tamanho do título no celular */
+    .post-title {
+        font-size: 2.8rem; /* Um pouco menor para caber melhor */
+        line-height: 1.1;
     }
 
     .footer-content {
         flex-direction: column;
-        gap: 25px;
+        gap: 20px;
         text-align: center;
     }
 }
 
-/* 6. Celulares Pequenos (iPhone SE, etc) - Abaixo de 575px */
-@media (max-width: 575px) {
-    /* Ajustes finos para garantir que o menu não quebre em telas minúsculas */
-    .nav-links a {
-        font-size: 0.75rem; /* Diminui levemente a fonte do menu */
-        letter-spacing: 1px;
-    }
+/* 5. Celulares Pequenos (Abaixo de 480px) */
+@media (max-width: 480px) {
+    .container { padding: 0 20px; }
     
-    .brand-logo img {
-        height: 30px; /* Reduz um pouco o logo se necessário */
+    .post-title { 
+        font-size: 2.2rem; /* Evita quebra de palavras longas */
     }
 
-    .container {
-        padding: 0 20px;
-    }
-
-    .post-title {
-        font-size: 2.2rem;
-        line-height: 1.2;
-    }
-
-    .cta-button {
-        width: 100%;
-        text-align: center;
-        padding: 1em;
-    }
-
-    .grid-item {
-        padding: 20px;
+    .description-text {
+        font-size: 1rem; /* Texto levemente menor */
     }
 }
 
-/* 7. Modo Paisagem em Celulares (Landscape) - Altura pequena */
+/* 6. Modo Paisagem (Landscape) em Celulares */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
         height: auto !important;
-        min-height: 120vh; /* Garante scroll suficiente */
+        min-height: 120vh;
         padding-top: 100px !important;
         padding-bottom: 50px;
-        align-items: flex-start !important; /* Alinha ao topo para não cortar conteúdo */
+        align-items: flex-start !important; /* Começa do topo */
     }
     
-    .post-title {
-        font-size: 2rem !important;
-        margin-bottom: 15px;
-    }
+    .post-title { font-size: 2rem !important; margin-bottom: 15px; }
 }
