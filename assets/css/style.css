@@ -735,11 +735,6 @@ body {
     .description-text {
         font-size: 1rem; /* Texto levemente menor */
     }
-
-    .vertical-bar {
-        /* Reduz de 20px (do tablet) para 10px */
-        margin-right: 10px; 
-    }
 }
 
 /* 6. Modo Paisagem (Landscape) em Celulares - CENTRALIZADO */
