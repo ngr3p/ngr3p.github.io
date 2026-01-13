@@ -629,60 +629,66 @@ body {
     .container { max-width: 1200px; }
 }
 
-/* 3. Tablets e Mobile (Abaixo de 991px) - AQUI ESTAVA O PROBLEMA */
+/* 3. Tablets e Mobile (Abaixo de 991px) - CORREÇÃO DEFINITIVA DO ESPAÇAMENTO */
 @media (max-width: 991px) {
-    /* Ajuste do container para não colar na borda */
     .container { padding: 0 30px; }
 
     /* Força o alinhamento à esquerda sempre */
     .hero-section {
-        justify-content: center; /* Centraliza verticalmente na tela */
-        align-items: center; /* Centraliza o bloco, mas o texto dentro será left */
+        justify-content: center;
+        align-items: center;
     }
 
     .hero-section .container {
-        text-align: left; /* Garante que tudo dentro fique à esquerda */
+        text-align: left;
     }
 
-    /* Título: Ajuste de tamanho e quebra */
+    /* Título */
     .post-title {
         font-size: 3.5rem;
         margin-left: 0;
         margin-right: 0;
         text-align: left;
-        max-width: 100%; /* No mobile pode ocupar a largura toda se precisar */
+        max-width: 100%;
     }
 
-    /* Descrição: Volta a ser lado a lado (barra | texto) */
+    /* --- AQUI ESTÁ A CORREÇÃO --- */
     .description-container {
-        flex-direction: row; /* Importante: Mantém a barra ao lado do texto */
-        align-items: stretch; /* Estica a barra para acompanhar a altura do texto */
+        display: flex; /* Garante que é flexbox */
+        flex-direction: row; /* Lado a lado */
+        align-items: stretch; /* Estica a altura */
         justify-content: flex-start;
         text-align: left;
         margin-bottom: 30px;
+        
+        /* O SEGREDO: Controlamos a distância aqui. 
+           Antes estava somando gap + margin. Agora fixamos em 12px. */
+        gap: 12px !important; 
     }
 
-    /* A Barra Verde: Volta a ser vertical */
     .vertical-bar {
-        width: 4px; /* Largura da barra */
-        height: auto; /* Altura automática */
-        min-height: 100%; /* Garante que apareça */
-        margin-right: 20px; /* Espaço entre a barra e o texto */
-        margin-bottom: 0; /* Remove a margem de baixo que causava o erro */
+        width: 4px;
+        height: auto;
+        min-height: 100%;
+        
+        /* IMPORTANTE: Zeramos a margem para ela não somar com o gap */
+        margin-right: 0 !important; 
+        margin-bottom: 0;
         align-self: stretch;
     }
+    /* ----------------------------- */
 
     .description-text {
         font-size: 1.1rem;
     }
 
-    /* Botão: Tamanho natural, alinhado a esquerda */
+    /* Botão */
     .cta-button {
         width: auto;
         display: inline-block;
     }
 
-    /* Grid de Posts e Sobre */
+    /* Layout Geral */
     .about-content { grid-template-columns: 1fr; gap: 40px; }
     .contact-card { max-width: 100%; }
 }
@@ -727,6 +733,11 @@ body {
 
     .description-text {
         font-size: 1rem; /* Texto levemente menor */
+    }
+
+    .vertical-bar {
+        /* Reduz de 20px (do tablet) para 10px */
+        margin-right: 10px; 
     }
 }
 
