@@ -10,7 +10,7 @@
 
 * {
     margin: 0;
-    padding: 0;
+    padding: 0; 
     box-sizing: border-box;
 }
 
@@ -97,9 +97,8 @@ body {
 .hero-section {
     width: 100%;
     /* Define altura como 100% da viewport (janela visível) */
-    height: 100vh;
-    /* Suporte moderno para evitar pulos em mobile/tablets com barra de endereço */
-    height: 100dvh; 
+    height: 100vh; /* Fallback */
+    height: 100svh; /* Small Viewport Height - Trava a altura ignorando a barra */
     
     /* Configuração do Flexbox para alinhamento */
     display: flex;
@@ -138,12 +137,9 @@ body {
     font-weight: 700;
     letter-spacing: -2px;
     
-    /* --- O TRUQUE PARA FORÇAR 2 LINHAS --- */
+    /* --- O TRUQUE PARA FORÇAR 2 LINHAS (DESKTOP) --- */
     width: 100%;
-    /* Limita a largura a aprox. 10 caracteres "M" maiúsculos.
-       Isso força títulos médios/longos a quebrarem a linha
-       automaticamente, criando o visual de "bloco". */
-    max-width: min(10em, 100%); 
+    max-width: 10em; 
     
     /* Garante que palavras longas não vazem a tela no mobile */
     text-wrap: balance;
@@ -622,14 +618,14 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 10, 10, 0.85); /* Fundo escuro */
-    backdrop-filter: blur(8px); /* Blur estilo vidro */
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 9999;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Começa do topo */
-    padding-top: 15vh; /* Distância do topo */
+    align-items: flex-start;
+    padding-top: 15vh;
     opacity: 1;
     transition: opacity 0.3s ease;
 }
@@ -694,11 +690,9 @@ body {
     overflow-y: auto;
 }
 
-/* Scrollbar fina para os resultados */
 .search-results::-webkit-scrollbar { width: 6px; }
 .search-results::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
-/* Item de Resultado */
 .search-item {
     display: block;
     padding: 15px 20px;
@@ -711,7 +705,7 @@ body {
 .search-item.active {
     background: rgba(0, 255, 136, 0.05);
     border-left: 3px solid var(--accent-green);
-    outline: none; /* Remove borda padrão do navegador se houver */
+    outline: none;
 }
 
 .search-item h4 {
@@ -729,10 +723,9 @@ body {
 
 /* --- LIGHTBOX (ZOOM EFFECT) --- */
 
-/* 1. Estilo das imagens dentro do post */
 .screenshot-container img, 
 .post-body img {
-    cursor: zoom-in; /* Mostra a lupa */
+    cursor: zoom-in;
     transition: opacity 0.3s;
 }
 
@@ -740,16 +733,15 @@ body {
     opacity: 0.9;
 }
 
-/* 2. O Modal (Fundo Escuro) */
 .image-modal {
     position: fixed;
-    z-index: 10001; /* Fica acima de TUDO (Search é 9999) */
+    z-index: 10001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.95); /* Quase preto total */
+    background-color: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
@@ -764,7 +756,6 @@ body {
     opacity: 0;
 }
 
-/* 3. A Imagem Expandida */
 .modal-content {
     margin: auto;
     display: block;
@@ -776,7 +767,6 @@ body {
     cursor: zoom-out;
 }
 
-/* 4. Legenda (Caption) */
 #caption-text {
     margin-top: 15px;
     color: var(--text-gray);
@@ -786,7 +776,6 @@ body {
     width: 80%;
 }
 
-/* Botão Fechar (X) */
 #close-modal-btn {
     position: absolute;
     top: 20px;
@@ -803,31 +792,40 @@ body {
     color: var(--accent-green);
 }
 
-/* Animação de Zoom */
 @keyframes zoomIn {
     from {transform:scale(0.8); opacity: 0;} 
     to {transform:scale(1); opacity: 1;}
 }
 
-/* --- MEDIA QUERIES (CORRIGIDO E OTIMIZADO) --- */
+/* --- MEDIA QUERIES (FULL OPTIMIZED) --- */
 
-/* 1. Telas Grandes (Acima de 1600px) */
+/* 1. Telas Extra Grandes */
 @media (min-width: 1600px) {
     .container { max-width: 1500px; padding: 0 50px; }
     body { font-size: 18px; }
     .post-title { font-size: 6rem; }
 }
 
-/* 2. Desktops e Laptops (Padrao) */
+/* 2. Desktops Padrão */
 @media (max-width: 1599px) {
     .container { max-width: 1200px; }
 }
 
-/* 3. Tablets e Mobile (Abaixo de 991px) - CORREÇÃO DEFINITIVA DO ESPAÇAMENTO */
+/* 3. Laptops e Tablets Grandes (ADICIONADO AGORA) */
+@media (max-width: 1199px) {
+    .hero-section {
+        min-height: 100svh; /* Estabilidade de altura */
+        height: auto; 
+    }
+    .post-title {
+        font-size: 4rem; /* Tamanho intermediário */
+    }
+}
+
+/* 4. Tablets e Netbooks (Abaixo de 991px) */
 @media (max-width: 991px) {
     .container { padding: 0 30px; }
 
-    /* Força o alinhamento à esquerda sempre */
     .hero-section {
         justify-content: center;
         align-items: center;
@@ -837,7 +835,6 @@ body {
         text-align: left;
     }
 
-    /* Título */
     .post-title {
         font-size: 3.5rem;
         margin-left: 0;
@@ -846,17 +843,14 @@ body {
         max-width: 100%;
     }
 
-    /* --- AQUI ESTÁ A CORREÇÃO --- */
+    /* Correção do espaçamento da barra verde */
     .description-container {
-        display: flex; /* Garante que é flexbox */
-        flex-direction: row; /* Lado a lado */
-        align-items: stretch; /* Estica a altura */
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
         justify-content: flex-start;
         text-align: left;
         margin-bottom: 30px;
-        
-        /* O SEGREDO: Controlamos a distância aqui. 
-           Antes estava somando gap + margin. Agora fixamos em 12px. */
         gap: 12px !important; 
     }
 
@@ -864,32 +858,19 @@ body {
         width: 4px;
         height: auto;
         min-height: 100%;
-        
-        /* IMPORTANTE: Zeramos a margem para ela não somar com o gap */
         margin-right: 0 !important; 
         margin-bottom: 0;
         align-self: stretch;
     }
-    /* ----------------------------- */
 
-    .description-text {
-        font-size: 1.1rem;
-    }
-
-    /* Botão */
-    .cta-button {
-        width: auto;
-        display: inline-block;
-    }
-
-    /* Layout Geral */
+    .description-text { font-size: 1.1rem; }
+    .cta-button { width: auto; display: inline-block; }
     .about-content { grid-template-columns: 1fr; gap: 40px; }
     .contact-card { max-width: 100%; }
 }
 
-/* 4. Celulares (Abaixo de 767px) */
+/* 5. Celulares Gerais (Abaixo de 767px) */
 @media (max-width: 767px) {
-    /* Menu: Logo Esquerda / Links Direita */
     .nav-container {
         flex-direction: row !important;
         justify-content: space-between !important;
@@ -899,15 +880,19 @@ body {
     .nav-links { gap: 15px; width: auto; }
 
     .hero-section {
-        padding-top: 80px; /* Compensa o menu fixo */
+        padding-top: 80px;
         background-attachment: scroll;
-        align-items: center; /* Garante o centro vertical da tela */
+        align-items: center;
     }
 
-    /* Ajuste fino do tamanho do título no celular */
     .post-title {
-        font-size: 2.8rem; /* Um pouco menor para caber melhor */
+        font-size: 2.8rem;
         line-height: 1.1;
+        
+        /* CORREÇÃO DO BUG VERTICAL: Força a quebra de linha */
+        width: 100%;
+        max-width: 9em !important; 
+        text-wrap: balance;
     }
 
     .footer-content {
@@ -917,98 +902,61 @@ body {
     }
 }
 
-/* 5. Celulares Pequenos (Abaixo de 480px) */
+/* 6. Celulares Pequenos (Abaixo de 480px) */
 @media (max-width: 480px) {
     .container { padding: 0 20px; }
     
     .post-title { 
-        font-size: 2.2rem; /* Evita quebra de palavras longas */
-        max-width: 8em; /* Força a quebra de linha em telas estreitas */
+        font-size: 2.2rem;
+        max-width: 8em !important; /* Ajuste fino para telas muito estreitas */
     }
 
-    .description-text {
-        font-size: 1rem; /* Texto levemente menor */
-    }
+    .description-text { font-size: 1rem; }
 }
 
-/* 6. Modo Paisagem (Landscape) em Celulares - CENTRALIZADO */
+/* 7. Modo Paisagem Mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
-        /* Garante que a seção tenha no mínimo a altura da tela */
-        min-height: 100vh; 
+        min-height: 100svh; /* Garante que não pule */
         height: auto !important;
-
-        /* O SEGREDO: Força o alinhamento ao CENTRO vertical */
         display: flex !important;
-        align-items: center !important; /* Antes estava flex-start */
+        align-items: center !important;
         justify-content: center;
-
-        /* Ajustamos o padding apenas para compensar o menu fixo, 
-           sem empurrar o conteúdo demais para baixo */
         padding-top: 80px !important; 
         padding-bottom: 20px;
-        
         background-attachment: scroll;
     }
     
     .post-title { 
         font-size: 2rem !important; 
         margin-bottom: 15px;
-        /* Garante que o título não fique estreito demais na horizontal */
         max-width: 100% !important; 
     }
     
-    /* Garante que a barra e o texto fiquem alinhados */
-    .description-container {
-        align-items: center; 
-    }
+    .description-container { align-items: center; }
 }
 
 /* --- SEARCH RESPONSIVENESS (MOBILE) --- */
 @media (max-width: 768px) {
     .search-overlay {
-        /* No mobile, sobe a caixa para o topo para fugir do teclado virtual */
         padding-top: 20px; 
         align-items: flex-start;
     }
 
     .search-container {
-        /* Ocupa a largura quase total com margens de segurança */
         width: 92%; 
         margin: 0 auto;
         box-shadow: 0 10px 30px rgba(0,0,0,0.9);
     }
 
-    .search-input-wrapper {
-        padding: 15px; /* Menos espaçamento interno */
-    }
-
-    .search-icon {
-        font-size: 1rem; /* Ícone levemente menor */
-        margin-right: 10px;
-    }
-
-    #search-input {
-        font-size: 1rem; /* Fonte ajustada para evitar zoom automático do iOS */
-    }
-
-    /* Ocultamos o botão "ESC" visualmente pois mobile não tem tecla ESC */
-    #close-search {
-        display: none;
-    }
-
-    .search-results {
-        /* Garante que a lista role se for grande, sem estourar a tela */
-        max-height: 60vh; 
-    }
+    .search-input-wrapper { padding: 15px; }
+    .search-icon { font-size: 1rem; margin-right: 10px; }
+    #search-input { font-size: 1rem; }
+    #close-search { display: none; }
+    .search-results { max-height: 60vh; }
 }
 
-/* Ajuste específico para Celular Deitado (Landscape) */
 @media (max-height: 500px) and (orientation: landscape) {
-    .search-overlay {
-        padding-top: 10px;
-    }
-    .search-results {
-        max-height: 40vh; /* Altura reduzida para caber acima do teclado */
-    }
+    .search-overlay { padding-top: 10px; }
+    .search-results { max-height: 40vh; }
 }
