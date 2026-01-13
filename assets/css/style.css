@@ -742,15 +742,35 @@ body {
     }
 }
 
-/* 6. Modo Paisagem (Landscape) em Celulares */
+/* 6. Modo Paisagem (Landscape) em Celulares - CENTRALIZADO */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
+        /* Garante que a seção tenha no mínimo a altura da tela */
+        min-height: 100vh; 
         height: auto !important;
-        min-height: 120vh;
-        padding-top: 100px !important;
-        padding-bottom: 50px;
-        align-items: flex-start !important; /* Começa do topo */
+
+        /* O SEGREDO: Força o alinhamento ao CENTRO vertical */
+        display: flex !important;
+        align-items: center !important; /* Antes estava flex-start */
+        justify-content: center;
+
+        /* Ajustamos o padding apenas para compensar o menu fixo, 
+           sem empurrar o conteúdo demais para baixo */
+        padding-top: 80px !important; 
+        padding-bottom: 20px;
+        
+        background-attachment: scroll;
     }
     
-    .post-title { font-size: 2rem !important; margin-bottom: 15px; }
+    .post-title { 
+        font-size: 2rem !important; 
+        margin-bottom: 15px;
+        /* Garante que o título não fique estreito demais na horizontal */
+        max-width: 100% !important; 
+    }
+    
+    /* Garante que a barra e o texto fiquem alinhados */
+    .description-container {
+        align-items: center; 
+    }
 }
