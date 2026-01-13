@@ -30,6 +30,7 @@
             <ul class="nav-links">
                 <li><a href="#blog">Blog</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#" id="search-trigger" title="Search (Ctrl+K or Cmd+K)"><i class="fa-solid fa-magnifying-glass"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -93,7 +94,17 @@
             </div>
         </div>
     </footer>
-
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-terminal search-icon"></i>
+                <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
+                <button id="close-search">ESC</button>
+            </div>
+            <div id="search-results-container" class="search-results">
+                </div>
+        </div>
+    </div>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -29,6 +29,7 @@
             <ul class="nav-links">
                 <li><a href="index.html#blog">Blog</a></li>
                 <li><a href="index.html#about">About</a></li>
+                <li><a href="#" id="search-trigger" title="Search (Ctrl+K or Cmd+K)"><i class="fa-solid fa-magnifying-glass"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -148,7 +149,22 @@ Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
             </div>
         </div>
     </footer>
-
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-terminal search-icon"></i>
+                <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
+                <button id="close-search">ESC</button>
+            </div>
+            <div id="search-results-container" class="search-results">
+                </div>
+        </div>
+    </div>
+    <div id="image-modal" class="image-modal hidden">
+        <span id="close-modal-btn">&times;</span>
+        <img class="modal-content" id="img-expanded">
+        <div id="caption-text"></div>
+    </div>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

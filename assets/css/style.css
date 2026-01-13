@@ -615,6 +615,200 @@ body {
     visibility: hidden;
 }
 
+/* --- SEARCH OVERLAY (macOS Spotlight Style) --- */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.85); /* Fundo escuro */
+    backdrop-filter: blur(8px); /* Blur estilo vidro */
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Começa do topo */
+    padding-top: 15vh; /* Distância do topo */
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.search-overlay.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.search-icon {
+    color: var(--accent-green);
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+#search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-white);
+    font-size: 1.2rem;
+    font-family: var(--font-code);
+    outline: none;
+}
+
+#close-search {
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--text-gray);
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-code);
+}
+
+.search-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Scrollbar fina para os resultados */
+.search-results::-webkit-scrollbar { width: 6px; }
+.search-results::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* Item de Resultado */
+.search-item {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #242424;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.search-item:hover,
+.search-item.active {
+    background: rgba(0, 255, 136, 0.05);
+    border-left: 3px solid var(--accent-green);
+    outline: none; /* Remove borda padrão do navegador se houver */
+}
+
+.search-item h4 {
+    color: var(--text-white);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.search-item span {
+    color: var(--accent-green);
+    font-size: 0.75rem;
+    font-family: var(--font-code);
+}
+
+/* --- LIGHTBOX (ZOOM EFFECT) --- */
+
+/* 1. Estilo das imagens dentro do post */
+.screenshot-container img, 
+.post-body img {
+    cursor: zoom-in; /* Mostra a lupa */
+    transition: opacity 0.3s;
+}
+
+.screenshot-container img:hover {
+    opacity: 0.9;
+}
+
+/* 2. O Modal (Fundo Escuro) */
+.image-modal {
+    position: fixed;
+    z-index: 10001; /* Fica acima de TUDO (Search é 9999) */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.95); /* Quase preto total */
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.image-modal.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* 3. A Imagem Expandida */
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 85vh;
+    border: 1px solid #333;
+    box-shadow: 0 0 50px rgba(0, 255, 136, 0.1);
+    animation: zoomIn 0.3s;
+    cursor: zoom-out;
+}
+
+/* 4. Legenda (Caption) */
+#caption-text {
+    margin-top: 15px;
+    color: var(--text-gray);
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    text-align: center;
+    width: 80%;
+}
+
+/* Botão Fechar (X) */
+#close-modal-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+#close-modal-btn:hover {
+    color: var(--accent-green);
+}
+
+/* Animação de Zoom */
+@keyframes zoomIn {
+    from {transform:scale(0.8); opacity: 0;} 
+    to {transform:scale(1); opacity: 1;}
+}
+
 /* --- MEDIA QUERIES (CORRIGIDO E OTIMIZADO) --- */
 
 /* 1. Telas Grandes (Acima de 1600px) */
@@ -767,5 +961,54 @@ body {
     /* Garante que a barra e o texto fiquem alinhados */
     .description-container {
         align-items: center; 
+    }
+}
+
+/* --- SEARCH RESPONSIVENESS (MOBILE) --- */
+@media (max-width: 768px) {
+    .search-overlay {
+        /* No mobile, sobe a caixa para o topo para fugir do teclado virtual */
+        padding-top: 20px; 
+        align-items: flex-start;
+    }
+
+    .search-container {
+        /* Ocupa a largura quase total com margens de segurança */
+        width: 92%; 
+        margin: 0 auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+    }
+
+    .search-input-wrapper {
+        padding: 15px; /* Menos espaçamento interno */
+    }
+
+    .search-icon {
+        font-size: 1rem; /* Ícone levemente menor */
+        margin-right: 10px;
+    }
+
+    #search-input {
+        font-size: 1rem; /* Fonte ajustada para evitar zoom automático do iOS */
+    }
+
+    /* Ocultamos o botão "ESC" visualmente pois mobile não tem tecla ESC */
+    #close-search {
+        display: none;
+    }
+
+    .search-results {
+        /* Garante que a lista role se for grande, sem estourar a tela */
+        max-height: 60vh; 
+    }
+}
+
+/* Ajuste específico para Celular Deitado (Landscape) */
+@media (max-height: 500px) and (orientation: landscape) {
+    .search-overlay {
+        padding-top: 10px;
+    }
+    .search-results {
+        max-height: 40vh; /* Altura reduzida para caber acima do teclado */
     }
 }
