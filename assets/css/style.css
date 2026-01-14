@@ -142,6 +142,7 @@ body {
     margin-bottom: 40px;
     font-weight: 700;
     letter-spacing: -2px;
+    text-shadow: 4px 4px 8px #0a0a0a;
     
     /* --- O TRUQUE PARA FORÇAR 2 LINHAS (DESKTOP) --- */
     width: 100%;
@@ -173,27 +174,38 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     line-height: 1.4;
     align-self: center;
+    text-shadow: 3px 3px 6px #0a0a0a;
 }
 
 .cta-button {
     display: inline-block;
     font-family: var(--font-heading);
-    color: var(--accent-green);
+    
+    /* --- ESTADO INICIAL (PREENCHIDO) --- */
+    background: var(--accent-green);      /* Fundo Verde */
+    color: var(--bg-color);               /* Letra Escura (para contraste) */
+    border: 1px solid var(--accent-green);
+    
     text-decoration: none;
     font-size: clamp(0.85rem, 1.1vw, 1rem);
-    border: 1px solid var(--accent-green);
     padding: 0.5em 1.5em;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     white-space: nowrap;
     font-weight: 700;
+    
+    /* Sombra leve no texto para garantir leitura se o verde for muito neon */
+    text-shadow: none; 
 }
 
 .cta-button:hover {
-    background: var(--accent-green);
-    color: var(--bg-color);
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+    /* --- HOVER (TRANSPARENTE) --- */
+                 /* Fundo Transparente */
+    color: var(--accent-green);           /* Letra Verde */
+    
+    /* Mantemos o glow verde pois fica estiloso */
+    background: rgba(0, 255, 136, 0.03);
 }
 
 /* --- BLOG GRID --- */
