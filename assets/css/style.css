@@ -4,9 +4,8 @@
     --text-white: #ffffff;
     --text-gray: #a0a0a0;
     
-    /* --- NOVA VARIÁVEL DE BORDA --- */
-    /* Antes era #242424. Agora está #333333 (mais claro).
-       Se quiser mais claro ainda, tente #404040 */
+    /* --- VARIÁVEL DE BORDA --- */
+    /* #333333 para bordas sutis mas visíveis */
     --border-color: #333333; 
 
     --font-heading: 'Inter', sans-serif; 
@@ -142,6 +141,8 @@ body {
     margin-bottom: 40px;
     font-weight: 700;
     letter-spacing: -2px;
+    
+    /* Sombra escura para contraste */
     text-shadow: 4px 4px 8px #0a0a0a;
     
     /* --- O TRUQUE PARA FORÇAR 2 LINHAS (DESKTOP) --- */
@@ -171,9 +172,9 @@ body {
 .description-text {
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     color: var(--text-white);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     line-height: 1.4;
     align-self: center;
+    /* Sombra expandida para leitura */
     text-shadow: 4px 4px 10px #0a0a0a;
 }
 
@@ -234,7 +235,6 @@ body {
 
 .grid-item {
     padding: 30px;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border: 1px solid var(--border-color);
     transition: all 0.4s ease;
     display: flex;
@@ -326,7 +326,6 @@ body {
 /* --- POST PAGE & ABOUT --- */
 .screenshot-container {
     background: #242424;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border: 1px solid var(--border-color);
     border-radius: 6px;
     margin: 40px 0;
@@ -422,7 +421,6 @@ body {
 
 .single-post .terminal-block {
     background: #000;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border: 1px solid var(--border-color);
     border-radius: 4px;
     margin: 35px 0;
@@ -463,7 +461,6 @@ body {
 
 .about-section {
     padding: 100px 0;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border-top: 1px solid var(--border-color);
 }
 
@@ -498,7 +495,6 @@ body {
 .contact-card {
     background: #0f0f0f;
     padding: 40px;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border: 1px solid var(--border-color);
     border-radius: 4px;
 }
@@ -547,7 +543,6 @@ body {
 
 .main-footer {
     padding: 60px 0;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border-top: 1px solid var(--border-color);
     background-color: var(--bg-color);
     margin-top: 50px;
@@ -716,7 +711,6 @@ body {
 .search-item {
     display: block;
     padding: 15px 20px;
-    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
     border-bottom: 1px solid var(--border-color);
     text-decoration: none;
     transition: background 0.2s;
@@ -813,11 +807,6 @@ body {
     color: var(--accent-green);
 }
 
-@keyframes zoomIn {
-    from {transform:scale(0.8); opacity: 0;} 
-    to {transform:scale(1); opacity: 1;}
-}
-
 /* --- MEDIA QUERIES (FULL OPTIMIZED) --- */
 
 /* 1. Telas Extra Grandes */
@@ -861,7 +850,11 @@ body {
         margin-left: 0;
         margin-right: 0;
         text-align: left;
-        max-width: 100%;
+        
+        /* CORREÇÃO: Voltamos a restringir a largura para forçar a quebra */
+        max-width: 9em !important; 
+        
+        text-wrap: balance;
     }
 
     /* Correção do espaçamento da barra verde */
@@ -906,14 +899,24 @@ body {
         align-items: center;
     }
 
+    /* AJUSTES FINAIS DE TAMANHO */
     .post-title {
-        font-size: 2.8rem;
-        line-height: 1.1;
+        font-size: 3.2rem; /* Reduzido levemente para quebrar melhor */
+        line-height: 1.05;
         
-        /* CORREÇÃO DO BUG VERTICAL: Força a quebra de linha */
         width: 100%;
-        max-width: 9em !important; 
+        /* 7em força a quebra para "C2 Infra Setup..." */
+        max-width: 7em !important; 
         text-wrap: balance;
+    }
+
+    .description-text {
+        font-size: 1.25rem;
+    }
+
+    .cta-button {
+        font-size: 1rem; /* Botão mais elegante */
+        padding: 0.6em 1.5em; /* Padding mais compacto */
     }
 
     .footer-content {
@@ -928,17 +931,28 @@ body {
     .container { padding: 0 20px; }
     
     .post-title { 
-        font-size: 2.2rem;
-        max-width: 8em !important; /* Ajuste fino para telas muito estreitas */
+        font-size: 3.0rem;
+        max-width: 7em !important; 
     }
 
-    .description-text { font-size: 1rem; }
+    .description-text { 
+        font-size: 1.15rem;
+        line-height: 1.5;
+    }
+
+    .cta-button {
+        width: 100%;
+        text-align: center;
+        padding: 0.8em 1em; /* Padding consistente */
+    }
+
+    .vertical-bar { margin-right: 0 !important; }
 }
 
-/* 7. Modo Paisagem Mobile */
+/* 7. Modo Paisagem Mobile (Landscape) */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
-        min-height: 100svh; /* Garante que não pule */
+        min-height: 100svh;
         height: auto !important;
         display: flex !important;
         align-items: center !important;
@@ -949,9 +963,14 @@ body {
     }
     
     .post-title { 
-        font-size: 2rem !important; 
+        font-size: 2.2rem !important; /* Aumentei um pouquinho para leitura */
         margin-bottom: 15px;
-        max-width: 100% !important; 
+        
+        /* O CULPADO ESTAVA AQUI: */
+        /* Antes era 100%. Mudamos para 9em para forçar a quebra. */
+        max-width: 9em !important; 
+        
+        text-wrap: balance;
     }
     
     .description-container { align-items: center; }
