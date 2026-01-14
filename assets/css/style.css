@@ -931,7 +931,7 @@ body {
     .single-post .entry-title { font-size: 2.2rem; }
     
     .description-text { font-size: 1.15rem; line-height: 1.5; }
-    .cta-button { width: 100%; text-align: center; padding: 0.8em 1em; }
+    .cta-button { width: 50%; text-align: center; padding: 0.6em 0.8em; }
     .vertical-bar { margin-right: 0 !important; }
 }
 
