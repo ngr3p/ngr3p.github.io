@@ -174,7 +174,7 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     line-height: 1.4;
     align-self: center;
-    text-shadow: 3px 3px 6px #0a0a0a;
+    text-shadow: 4px 4px 10px #0a0a0a;
 }
 
 .cta-button {
@@ -200,12 +200,8 @@ body {
 }
 
 .cta-button:hover {
-    /* --- HOVER (TRANSPARENTE) --- */
-                 /* Fundo Transparente */
-    color: var(--accent-green);           /* Letra Verde */
-    
-    /* Mantemos o glow verde pois fica estiloso */
     background: rgba(0, 255, 136, 0.03);
+    color: var(--accent-green);
 }
 
 /* --- BLOG GRID --- */
