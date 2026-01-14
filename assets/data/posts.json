@@ -1,8 +1,8 @@
 [
   {
     "id": 13,
-    "title": "C2 Infra Setup with JWT",
-    "category": "#RedTeam",
+    "title": "Bypassing WAF with JWT",
+    "category": "#CloudSecurity",
     "description": "Stealthy communication channels.<br>Building resilient C2 frameworks.",
     "short_desc": "Building resilient Command and Control channels using domain fronting and CDNs.",
     "url": "#",

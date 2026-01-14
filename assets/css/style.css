@@ -865,9 +865,13 @@ body {
 @media (min-width: 1600px) {
     .container { max-width: 1500px; padding: 0 50px; }
     body { font-size: 18px; }
+    
     .post-title { 
         font-size: 6rem;
-        max-width: 8em !important;
+        /* Reduzido de 8em para 6.5em. 
+           Isso força a quebra ANTES do "with", agrupando "with JWT". */
+        max-width: 6.5em !important;
+        text-wrap: balance;
     }
 }
 
@@ -879,12 +883,14 @@ body {
 /* 3. Laptops e Tablets Grandes */
 @media (max-width: 1199px) {
     .hero-section {
-        min-height: 100svh; /* Estabilidade de altura */
+        min-height: 100svh;
         height: auto; 
     }
     .post-title {
-        font-size: 4rem; /* Tamanho intermediário */
-        max-width: 7em !important;
+        font-size: 4rem;
+        /* ADICIONADO: Força a quebra correta em laptops menores */
+        max-width: 7em !important; 
+        text-wrap: balance;
     }
 }
 
@@ -907,8 +913,8 @@ body {
         margin-right: 0;
         text-align: left;
         
-        /* CORREÇÃO: Voltamos a restringir a largura para forçar a quebra */
-        max-width: 9em !important; 
+        /* ALTERADO: De 9em para 7em para jogar o "with" para baixo */
+        max-width: 7em !important; 
         
         text-wrap: balance;
     }
@@ -957,12 +963,12 @@ body {
 
     /* AJUSTES FINAIS DE TAMANHO */
     .post-title {
-        font-size: 3.2rem; /* Reduzido levemente para quebrar melhor */
+        font-size: 3.2rem;
         line-height: 1.05;
         
         width: 100%;
-        /* 7em força a quebra para "C2 Infra Setup..." */
-        max-width: 7em !important; 
+        /* ALTERADO: Refinado para 6.5em para garantir a quebra "with JWT" */
+        max-width: 6.5em !important; 
         text-wrap: balance;
     }
 
