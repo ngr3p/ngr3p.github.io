@@ -859,26 +859,32 @@ body {
     color: var(--accent-green);
 }
 
-/* --- MEDIA QUERIES (OTIMIZADO PARA JS DINÂMICO) --- */
+/* --- MEDIA QUERIES --- */
 
-/* 1. Telas Extra Grandes */
+/* 1. Telas Extra Grandes (iMac) */
 @media (min-width: 1600px) {
     .container { max-width: 1500px; padding: 0 50px; }
     body { font-size: 18px; }
-    /* Tamanho será controlado pelo JS, aqui definimos apenas o base máximo */
-    .post-title { font-size: 6rem; width: 100%; text-wrap: balance; }
+    
+    /* Home Title: JS controla. CSS apenas permite largura total */
+    .post-title { width: 100%; text-wrap: balance; }
+
+    /* Post Title: CSS controla. Tamanho fixo grande. */
+    .single-post .entry-title { font-size: 4rem; width: 100%; text-wrap: balance; }
 }
 
 /* 2. Desktops Padrão */
 @media (max-width: 1599px) {
     .container { max-width: 1200px; }
-    .post-title { font-size: 5rem; width: 100%; text-wrap: balance; }
+    
+    .post-title { width: 100%; text-wrap: balance; }
+    .single-post .entry-title { font-size: 3.5rem; text-wrap: balance; }
 }
 
 /* 3. Laptops e Tablets Grandes */
 @media (max-width: 1199px) {
     .hero-section { min-height: 100svh; height: auto; }
-    .post-title { font-size: 4rem; width: 100%; text-wrap: balance; }
+    .single-post .entry-title { font-size: 3rem; }
 }
 
 /* 4. Tablets e Netbooks (Abaixo de 991px) */
@@ -886,13 +892,9 @@ body {
     .container { padding: 0 30px; }
     .hero-section { justify-content: center; align-items: center; }
     .hero-section .container { text-align: left; }
-    
-    /* REMOVIDO O MAX-WIDTH RESTRITIVO */
-    .post-title { 
-        font-size: 3.5rem; 
-        width: 100%;
-        text-wrap: balance; /* O navegador equilibra as linhas */
-    }
+
+    .post-title { width: 100%; text-wrap: balance; }
+    .single-post .entry-title { font-size: 2.8rem; }
 
     .description-container {
         display: flex; flex-direction: row; align-items: stretch;
@@ -914,12 +916,8 @@ body {
     .nav-links { gap: 15px; width: auto; }
     .hero-section { padding-top: 80px; background-attachment: scroll; align-items: center; }
 
-    .post-title {
-        font-size: 3rem; /* JS vai ajustar se precisar */
-        line-height: 1.1;
-        width: 100%;
-        text-wrap: balance;
-    }
+    .post-title { width: 100%; text-wrap: balance; line-height: 1.1; }
+    .single-post .entry-title { font-size: 2.5rem; }
 
     .description-text { font-size: 1.25rem; }
     .cta-button { font-size: 1rem; padding: 0.6em 1.5em; }
@@ -929,7 +927,9 @@ body {
 /* 6. Celulares Pequenos (Abaixo de 480px) */
 @media (max-width: 480px) {
     .container { padding: 0 20px; }
-    .post-title { font-size: 2.5rem; }
+    .post-title { font-size: 2.5rem; } /* JS pode ajustar, mas aqui é fallback */
+    .single-post .entry-title { font-size: 2.2rem; }
+    
     .description-text { font-size: 1.15rem; line-height: 1.5; }
     .cta-button { width: 100%; text-align: center; padding: 0.8em 1em; }
     .vertical-bar { margin-right: 0 !important; }
@@ -942,26 +942,15 @@ body {
         align-items: center !important; justify-content: center;
         padding-top: 80px !important; padding-bottom: 20px; background-attachment: scroll;
     }
-    .post-title { 
-        font-size: 2.2rem !important; margin-bottom: 15px; 
-        width: 100%; text-wrap: balance;
-    }
+    .post-title { font-size: 2.2rem !important; margin-bottom: 15px; width: 100%; text-wrap: balance; }
+    .single-post .entry-title { font-size: 2rem; }
     .description-container { align-items: center; }
 }
 
 /* --- SEARCH RESPONSIVENESS (MOBILE) --- */
 @media (max-width: 768px) {
-    .search-overlay {
-        padding-top: 20px; 
-        align-items: flex-start;
-    }
-
-    .search-container {
-        width: 92%; 
-        margin: 0 auto;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-    }
-
+    .search-overlay { padding-top: 20px; align-items: flex-start; }
+    .search-container { width: 92%; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.9); }
     .search-input-wrapper { padding: 15px; }
     .search-icon { font-size: 1rem; margin-right: 10px; }
     #search-input { font-size: 1rem; }
@@ -974,12 +963,7 @@ body {
     .search-results { max-height: 40vh; }
 }
 
-/* --- RESPONSIVIDADE DO FOOTER (IMPORTANTE) --- */
-/* Garante que encaixe em todas as resoluções */
+/* --- FOOTER RESPONSIVIDADE --- */
 @media (max-width: 767px) {
-    .footer-content {
-        flex-direction: column; /* Empilha: Texto em cima, ícones embaixo */
-        gap: 25px;              /* Espaço entre o texto e os ícones */
-        text-align: center;     /* Centraliza tudo */
-    }
+    .footer-content { flex-direction: column; gap: 25px; text-align: center; }
 }

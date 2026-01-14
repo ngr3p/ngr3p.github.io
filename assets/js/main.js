@@ -1,14 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. PRELOADER & SETUP ---
+    // --- 1. PRELOADER ---
     const progressFill = document.getElementById('progress-bar');
     const loaderWrapper = document.getElementById('loader-wrapper');
     let width = 0;
 
     const loadingInterval = setInterval(() => {
-        if (width >= 90) {
-            clearInterval(loadingInterval);
-        } else {
+        if (width >= 90) clearInterval(loadingInterval);
+        else {
             width += Math.random() * 10;
             if (width > 90) width = 90;
             if (progressFill) progressFill.style.width = `${Math.round(width)}%`;
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(() => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
-            // Chama o ajuste inteligente assim que carrega
+            // Só ajusta o título da HOME
             fitTitle();
         }, 600);
     });
@@ -28,13 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. HEADER SCROLL ---
     const header = document.querySelector('.main-header');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('header-scrolled');
-        } else {
-            if (!document.body.classList.contains('single-post')) {
-                header.classList.remove('header-scrolled');
-            }
-        }
+        if (window.scrollY > 50) header.classList.add('header-scrolled');
+        else if (!document.body.classList.contains('single-post')) header.classList.remove('header-scrolled');
     });
 
     // --- 3. REVEAL ANIMATION ---
@@ -68,16 +62,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let displayedCount = 0;
     let userHasInteracted = false; 
 
-    // [FUNÇÃO INTELIGENTE: TITLE AUTO-FIT + LAYOUT CONTROL]
-    // Controla tanto o tamanho da fonte quanto a largura da caixa para evitar órfãos
+    // [FUNÇÃO: HERO TITLE FIT ONLY]
+    // Aplica lógica SOMENTE no título da Home (.post-title)
     function fitTitle() {
-        const title = document.querySelector('.post-title') || document.querySelector('.entry-title');
+        const title = document.querySelector('.post-title');
+        // Se não achar .post-title (ex: estamos na página do post), PARA AQUI.
         if (!title) return;
 
+        // 1. Matador de Órfãos (A Mágica)
+        let text = title.innerHTML; 
+        if (!text.includes('&nbsp;') && title.textContent.trim().split(' ').length > 2) {
+            title.innerHTML = title.textContent.trim().replace(/\s+([^\s]+)$/, '&nbsp;$1');
+        }
+
+        // 2. Ajuste de Tamanho da Fonte (Matemático)
         const textLength = title.textContent.trim().length;
         const screenWidth = window.innerWidth;
         
-        // 1. Cálculo do Tamanho da Fonte (Font Size)
         let maxFontSize, minFontSize;
 
         if (screenWidth >= 1600) {      // iMac
@@ -101,19 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         title.style.fontSize = `${calculatedSize}rem`;
-
-        // 2. Controle de Largura (Anti-Orphan Logic)
-        // Em telas grandes (Desktop/iMac), travamos a largura em 'em'
-        // Isso força o 'text-wrap: balance' a trabalhar dentro de uma caixa mais apertada,
-        // garantindo que palavras de conexão (como 'with') caiam para a segunda linha.
-        if (screenWidth >= 1200) {
-            title.style.width = '100%';
-            title.style.maxWidth = '11em'; // O "ponto doce" para quebra de linha visual
-            title.style.marginLeft = '0';  // Garante alinhamento à esquerda
-        } else {
-            // Em mobile/tablet, deixamos mais solto pois a tela já é estreita
-            title.style.maxWidth = '100%';
-        }
     }
 
     // [GRID LOGIC]
@@ -151,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         <a href="${latest.url}" class="cta-button">Read Analysis</a>
                     </article>
                 `;
-                fitTitle(); // Aplica ajuste imediato
+                fitTitle(); // Aplica ajuste apenas na Home
                 applyReveal(heroContainer.querySelectorAll('.post-card'));
                 postsToRender = data.slice(1);
             
             } else if (isPostPage) {
-                fitTitle(); // Aplica ajuste no post individual
+                // NÃO chamamos fitTitle() aqui. O título do post fica natural.
                 const currentH1 = document.querySelector('.entry-title').textContent.trim().toLowerCase();
                 postsToRender = data.filter(post => {
                     const jsonTitle = post.title.trim().toLowerCase();
@@ -171,9 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderBatch(count) {
         if (count <= 0) return;
-
         const batch = postsToRender.slice(displayedCount, displayedCount + count);
-        
         batch.forEach((post, index) => {
             const card = document.createElement('a');
             card.href = post.url;
@@ -216,20 +202,17 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         
-        // Ajusta título instantaneamente
+        // Ajusta título apenas da HOME
         fitTitle(); 
         
         resizeTimer = setTimeout(() => {
             if (targetGrid) {
                 const cols = getGridColumns();
-                
                 if (!userHasInteracted) {
                     const idealCount = getInitialPostCount();
                     const diff = idealCount - displayedCount;
-
-                    if (diff > 0) {
-                        renderBatch(diff);
-                    } else if (diff < 0) {
+                    if (diff > 0) renderBatch(diff);
+                    else if (diff < 0) {
                         const items = targetGrid.querySelectorAll('.grid-item');
                         for (let i = displayedCount - 1; i >= idealCount; i--) {
                             if (items[i]) items[i].remove();
@@ -241,9 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const remainder = displayedCount % cols;
                     if (remainder !== 0) {
                         const needed = cols - remainder;
-                        if (displayedCount + needed <= postsToRender.length) {
-                            renderBatch(needed);
-                        }
+                        if (displayedCount + needed <= postsToRender.length) renderBatch(needed);
                     }
                 }
             }
@@ -259,13 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeSearchBtn = document.getElementById('close-search');
     let selectedIndex = -1; 
 
-    if (searchTrigger) {
-        searchTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            openSearch();
-        });
-    }
-
+    if (searchTrigger) searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
     function openSearch() {
         searchOverlay.classList.remove('hidden');
         searchInput.value = '';
@@ -273,62 +248,32 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedIndex = -1; 
         setTimeout(() => searchInput.focus(), 100);
     }
-
-    function closeSearch() {
-        searchOverlay.classList.add('hidden');
-        selectedIndex = -1;
-    }
-
+    function closeSearch() { searchOverlay.classList.add('hidden'); selectedIndex = -1; }
     if (closeSearchBtn) closeSearchBtn.addEventListener('click', closeSearch);
-    if (searchOverlay) {
-        searchOverlay.addEventListener('click', (e) => {
-            if (e.target === searchOverlay) closeSearch();
-        });
-    }
+    if (searchOverlay) searchOverlay.addEventListener('click', (e) => { if (e.target === searchOverlay) closeSearch(); });
 
     document.addEventListener('keydown', (e) => {
         if (searchOverlay.classList.contains('hidden')) {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault();
-                openSearch();
-            }
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
             return; 
         }
-
         const results = document.querySelectorAll('.search-item');
-        
-        if (e.key === 'Escape') {
-            closeSearch();
-        } else if (e.key === 'ArrowDown') {
+        if (e.key === 'Escape') closeSearch();
+        else if (e.key === 'ArrowDown') {
             e.preventDefault(); 
-            if (results.length > 0) {
-                selectedIndex++;
-                if (selectedIndex >= results.length) selectedIndex = 0; 
-                updateSelection(results);
-            }
+            if (results.length > 0) { selectedIndex++; if (selectedIndex >= results.length) selectedIndex = 0; updateSelection(results); }
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            if (results.length > 0) {
-                selectedIndex--;
-                if (selectedIndex < 0) selectedIndex = results.length - 1; 
-                updateSelection(results);
-            }
+            if (results.length > 0) { selectedIndex--; if (selectedIndex < 0) selectedIndex = results.length - 1; updateSelection(results); }
         } else if (e.key === 'Enter') {
-            if (selectedIndex > -1 && results[selectedIndex]) {
-                e.preventDefault();
-                results[selectedIndex].click(); 
-            }
+            if (selectedIndex > -1 && results[selectedIndex]) { e.preventDefault(); results[selectedIndex].click(); }
         }
     });
 
     function updateSelection(items) {
         items.forEach((item, index) => {
-            if (index === selectedIndex) {
-                item.classList.add('active');
-                item.scrollIntoView({ block: 'nearest' });
-            } else {
-                item.classList.remove('active');
-            }
+            if (index === selectedIndex) { item.classList.add('active'); item.scrollIntoView({ block: 'nearest' }); }
+            else item.classList.remove('active');
         });
     }
 
@@ -336,39 +281,22 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             selectedIndex = -1; 
-
-            if (term.length < 2) {
-                searchResults.innerHTML = '';
-                return;
-            }
-
-            const filteredPosts = allPosts.filter(post => {
-                return post.title.toLowerCase().includes(term) || 
-                       post.category.toLowerCase().includes(term);
-            });
-
+            if (term.length < 2) { searchResults.innerHTML = ''; return; }
+            const filteredPosts = allPosts.filter(post => post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term));
             if (filteredPosts.length > 0) {
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
                     <a href="${post.url}" class="search-item" data-index="${index}">
-                        <span>${post.category}</span>
-                        <h4>${post.title}</h4>
-                    </a>
-                `).join('');
-            } else {
-                searchResults.innerHTML = `
-                    <div style="padding:20px; text-align:center; color:#666;">
-                        <i class="fa-solid fa-ghost"></i> No intels found.
-                    </div>`;
-            }
+                        <span>${post.category}</span><h4>${post.title}</h4>
+                    </a>`).join('');
+            } else { searchResults.innerHTML = `<div style="padding:20px; text-align:center; color:#666;"><i class="fa-solid fa-ghost"></i> No intels found.</div>`; }
         });
     }
 
-    // --- 6. IMAGE LIGHTBOX (ZOOM) ---
+    // --- 6. IMAGE LIGHTBOX ---
     const imageModal = document.getElementById('image-modal');
     const modalImg = document.getElementById('img-expanded');
     const captionText = document.getElementById('caption-text');
     const closeModalBtn = document.getElementById('close-modal-btn');
-
     const postImages = document.querySelectorAll('.post-body img, .screenshot-container img');
 
     if (postImages.length > 0) {
@@ -377,47 +305,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (imageModal) {
                     imageModal.classList.remove('hidden');
                     modalImg.src = this.src; 
-                    
                     const parentFigcaption = this.parentElement.querySelector('figcaption');
                     const nextFigcaption = this.nextElementSibling;
-                    
-                    if (parentFigcaption) {
-                        captionText.innerHTML = parentFigcaption.innerHTML;
-                    } else if (nextFigcaption && nextFigcaption.tagName === 'FIGCAPTION') {
-                        captionText.innerHTML = nextFigcaption.innerHTML;
-                    } else {
-                        captionText.innerHTML = '';
-                    }
+                    if (parentFigcaption) captionText.innerHTML = parentFigcaption.innerHTML;
+                    else if (nextFigcaption && nextFigcaption.tagName === 'FIGCAPTION') captionText.innerHTML = nextFigcaption.innerHTML;
+                    else captionText.innerHTML = '';
                 }
             });
         });
     }
-
-    function closeImageModal() {
-        if (imageModal) imageModal.classList.add('hidden');
-    }
-
+    function closeImageModal() { if (imageModal) imageModal.classList.add('hidden'); }
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeImageModal);
+    if (imageModal) imageModal.addEventListener('click', (e) => { if (e.target === imageModal || e.target === modalImg) closeImageModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && imageModal && !imageModal.classList.contains('hidden')) closeImageModal(); });
 
-    if (imageModal) {
-        imageModal.addEventListener('click', (e) => {
-            if (e.target === imageModal || e.target === modalImg) {
-                closeImageModal();
-            }
-        });
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && imageModal && !imageModal.classList.contains('hidden')) {
-            closeImageModal();
-        }
-    });
-
-    // --- SYSTEM STATUS ---
-    console.log(
-        "%c ngr3p %c system: online %c",
-        "background:#00FF88; color:#000; font-weight:bold; border-radius:3px 0 0 3px; padding:2px 5px;",
-        "background:#1a1a1a; color:#00FF88; font-weight:bold; border-radius:0 3px 3px 0; padding:2px 5px;",
-        "background:transparent"
-    );
+    console.log("%c ngr3p %c system: online %c", "background:#00FF88; color:#000; font-weight:bold; border-radius:3px 0 0 3px; padding:2px 5px;", "background:#1a1a1a; color:#00FF88; font-weight:bold; border-radius:0 3px 3px 0; padding:2px 5px;", "background:transparent");
 });
