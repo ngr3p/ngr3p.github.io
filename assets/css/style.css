@@ -859,86 +859,49 @@ body {
     color: var(--accent-green);
 }
 
-/* --- MEDIA QUERIES (FULL OPTIMIZED) --- */
+/* --- MEDIA QUERIES (OTIMIZADO PARA JS DINÂMICO) --- */
 
 /* 1. Telas Extra Grandes */
 @media (min-width: 1600px) {
     .container { max-width: 1500px; padding: 0 50px; }
     body { font-size: 18px; }
-    
-    .post-title { 
-        font-size: 6rem;
-        /* Reduzido de 8em para 6.5em. 
-           Isso força a quebra ANTES do "with", agrupando "with JWT". */
-        max-width: 6.5em !important;
-        text-wrap: balance;
-    }
+    /* Tamanho será controlado pelo JS, aqui definimos apenas o base máximo */
+    .post-title { font-size: 6rem; width: 100%; text-wrap: balance; }
 }
 
 /* 2. Desktops Padrão */
 @media (max-width: 1599px) {
     .container { max-width: 1200px; }
+    .post-title { font-size: 5rem; width: 100%; text-wrap: balance; }
 }
 
 /* 3. Laptops e Tablets Grandes */
 @media (max-width: 1199px) {
-    .hero-section {
-        min-height: 100svh;
-        height: auto; 
-    }
-    .post-title {
-        font-size: 4rem;
-        /* ADICIONADO: Força a quebra correta em laptops menores */
-        max-width: 7em !important; 
-        text-wrap: balance;
-    }
+    .hero-section { min-height: 100svh; height: auto; }
+    .post-title { font-size: 4rem; width: 100%; text-wrap: balance; }
 }
 
 /* 4. Tablets e Netbooks (Abaixo de 991px) */
 @media (max-width: 991px) {
     .container { padding: 0 30px; }
-
-    .hero-section {
-        justify-content: center;
-        align-items: center;
+    .hero-section { justify-content: center; align-items: center; }
+    .hero-section .container { text-align: left; }
+    
+    /* REMOVIDO O MAX-WIDTH RESTRITIVO */
+    .post-title { 
+        font-size: 3.5rem; 
+        width: 100%;
+        text-wrap: balance; /* O navegador equilibra as linhas */
     }
 
-    .hero-section .container {
-        text-align: left;
-    }
-
-    .post-title {
-        font-size: 3.5rem;
-        margin-left: 0;
-        margin-right: 0;
-        text-align: left;
-        
-        /* ALTERADO: De 9em para 7em para jogar o "with" para baixo */
-        max-width: 7em !important; 
-        
-        text-wrap: balance;
-    }
-
-    /* Correção do espaçamento da barra verde */
     .description-container {
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        justify-content: flex-start;
-        text-align: left;
-        margin-bottom: 30px;
-        gap: 12px !important; 
+        display: flex; flex-direction: row; align-items: stretch;
+        justify-content: flex-start; text-align: left; margin-bottom: 30px; gap: 12px !important; 
     }
-
     .vertical-bar {
-        width: 4px;
-        height: auto;
-        min-height: 100%;
-        margin-right: 0 !important; 
-        margin-bottom: 0;
-        align-self: stretch;
+        width: 4px; height: auto; min-height: 100%;
+        margin-right: 0 !important; margin-bottom: 0; align-self: stretch;
     }
-
     .description-text { font-size: 1.1rem; }
     .cta-button { width: auto; display: inline-block; }
     .about-content { grid-template-columns: 1fr; gap: 40px; }
@@ -947,94 +910,42 @@ body {
 
 /* 5. Celulares Gerais (Abaixo de 767px) */
 @media (max-width: 767px) {
-    .nav-container {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        padding: 0 25px;
-    }
-
+    .nav-container { flex-direction: row !important; justify-content: space-between !important; padding: 0 25px; }
     .nav-links { gap: 15px; width: auto; }
+    .hero-section { padding-top: 80px; background-attachment: scroll; align-items: center; }
 
-    .hero-section {
-        padding-top: 80px;
-        background-attachment: scroll;
-        align-items: center;
-    }
-
-    /* AJUSTES FINAIS DE TAMANHO */
     .post-title {
-        font-size: 3.2rem;
-        line-height: 1.05;
-        
+        font-size: 3rem; /* JS vai ajustar se precisar */
+        line-height: 1.1;
         width: 100%;
-        /* ALTERADO: Refinado para 6.5em para garantir a quebra "with JWT" */
-        max-width: 6.5em !important; 
         text-wrap: balance;
     }
 
-    .description-text {
-        font-size: 1.25rem;
-    }
-
-    .cta-button {
-        font-size: 1rem; /* Botão mais elegante */
-        padding: 0.6em 1.5em; /* Padding mais compacto */
-    }
-
-    .footer-content {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-    }
+    .description-text { font-size: 1.25rem; }
+    .cta-button { font-size: 1rem; padding: 0.6em 1.5em; }
+    .footer-content { flex-direction: column; gap: 20px; text-align: center; }
 }
 
 /* 6. Celulares Pequenos (Abaixo de 480px) */
 @media (max-width: 480px) {
     .container { padding: 0 20px; }
-    
-    .post-title { 
-        font-size: 3.0rem;
-        max-width: 7em !important; 
-    }
-
-    .description-text { 
-        font-size: 1.15rem;
-        line-height: 1.5;
-    }
-
-    .cta-button {
-        width: 50%;
-        text-align: center;
-        padding: 0.6em 0.8em; /* Padding consistente */
-    }
-
+    .post-title { font-size: 2.5rem; }
+    .description-text { font-size: 1.15rem; line-height: 1.5; }
+    .cta-button { width: 100%; text-align: center; padding: 0.8em 1em; }
     .vertical-bar { margin-right: 0 !important; }
 }
 
-/* 7. Modo Paisagem Mobile (Landscape) */
+/* 7. Modo Paisagem Mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
-        min-height: 100svh;
-        height: auto !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center;
-        padding-top: 80px !important; 
-        padding-bottom: 20px;
-        background-attachment: scroll;
+        min-height: 100svh; height: auto !important; display: flex !important;
+        align-items: center !important; justify-content: center;
+        padding-top: 80px !important; padding-bottom: 20px; background-attachment: scroll;
     }
-    
     .post-title { 
-        font-size: 2.2rem !important; /* Aumentei um pouquinho para leitura */
-        margin-bottom: 15px;
-        
-        /* O CULPADO ESTAVA AQUI: */
-        /* Antes era 100%. Mudamos para 9em para forçar a quebra. */
-        max-width: 9em !important; 
-        
-        text-wrap: balance;
+        font-size: 2.2rem !important; margin-bottom: 15px; 
+        width: 100%; text-wrap: balance;
     }
-    
     .description-container { align-items: center; }
 }
 

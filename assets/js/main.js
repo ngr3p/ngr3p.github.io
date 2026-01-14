@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. PRELOADER ---
+    // --- 1. PRELOADER & SETUP ---
     const progressFill = document.getElementById('progress-bar');
     const loaderWrapper = document.getElementById('loader-wrapper');
     let width = 0;
@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(() => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
+            // Chama o ajuste de título assim que o loader sai
+            fitTitle();
         }, 600);
     });
 
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. SISTEMA DE DADOS INTELIGENTE (JSON) ---
+    // --- 4. SISTEMA DE DADOS (GRID + TITLE FIT) ---
     const heroContainer = document.querySelector('.hero-section .container');
     const targetGrid = document.querySelector('.posts-grid') || document.getElementById('related-posts-grid');
     const loadMoreBtn = document.getElementById('load-more-btn');
@@ -64,35 +66,61 @@ document.addEventListener('DOMContentLoaded', () => {
     let allPosts = [];
     let postsToRender = []; 
     let displayedCount = 0;
-    
-    // Flag: Se o usuário clicou no botão, o resize para de remover posts (comportamento padrão)
-    // Mas ainda vai garantir múltiplos corretos para evitar órfãos.
     let userHasInteracted = false; 
 
-    // [NOVA FUNÇÃO INFALÍVEL] 
-    // Conta as colunas reais desenhadas pelo CSS (auto-fit)
+    // [NOVA FUNÇÃO: TITLE AUTO-FIT]
+    // Ajusta o tamanho da fonte matematicamente para evitar quebras feias
+    function fitTitle() {
+        // Tenta pegar o título principal (seja na home ou no post)
+        const title = document.querySelector('.post-title') || document.querySelector('.entry-title');
+        if (!title) return;
+
+        const textLength = title.textContent.trim().length;
+        const screenWidth = window.innerWidth;
+        
+        // Definição de tamanhos máximos e mínimos por dispositivo (em rem)
+        let maxFontSize, minFontSize;
+
+        if (screenWidth >= 1600) {      // iMac
+            maxFontSize = 6.0; minFontSize = 4.0; 
+        } else if (screenWidth >= 1200) { // Desktop
+            maxFontSize = 5.0; minFontSize = 3.5; 
+        } else if (screenWidth >= 768) {  // Tablet
+            maxFontSize = 4.0; minFontSize = 2.5; 
+        } else {                          // Mobile
+            maxFontSize = 3.0; minFontSize = 2.0; 
+        }
+
+        // LÓGICA:
+        // Títulos curtos (< 15 chars) = MaxFontSize
+        // Títulos longos (> 35 chars) = MinFontSize
+        // O meio termo é calculado proporcionalmente (regra de três)
+        
+        let calculatedSize;
+        if (textLength < 15) {
+            calculatedSize = maxFontSize;
+        } else if (textLength > 35) {
+            calculatedSize = minFontSize;
+        } else {
+            const ratio = (textLength - 15) / (35 - 15); // 0 a 1
+            calculatedSize = maxFontSize - (ratio * (maxFontSize - minFontSize));
+        }
+
+        title.style.fontSize = `${calculatedSize}rem`;
+    }
+
+    // [FUNÇÃO DE GRID ROBUSTA] Lê o CSS real
     function getGridColumns() {
         if (!targetGrid) return 1;
-        
-        // Pega o estilo computado do grid
         const gridStyle = window.getComputedStyle(targetGrid);
-        
-        // Pega a propriedade grid-template-columns (ex: "300px 300px 300px")
         const gridTemplate = gridStyle.getPropertyValue('grid-template-columns');
-
-        // Proteção caso o grid ainda não tenha carregado ou seja "none"
         if (!gridTemplate || gridTemplate === 'none') return 1;
-        
-        // Conta quantos valores existem (ex: 3 valores = 3 colunas)
         const columns = gridTemplate.trim().split(/\s+/).length;
-        
         return columns > 0 ? columns : 1;
     }
 
-    // Calcula quantos posts carregar inicialmente (sempre 2 linhas completas)
     function getInitialPostCount() {
         const cols = getGridColumns();
-        // Se for mobile (1 coluna), carrega 6 para scrollar. Se não, 2 linhas cheias.
         return (cols === 1) ? 6 : (cols * 2);
     }
 
@@ -101,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             allPosts = data; 
 
-            // Lógica Home vs Post
             const isHomePage = !!heroContainer;
             const isPostPage = document.body.classList.contains('single-post');
 
@@ -117,10 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <a href="${latest.url}" class="cta-button">Read Analysis</a>
                     </article>
                 `;
+                // Aplica o ajuste de fonte no novo título inserido
+                fitTitle();
                 applyReveal(heroContainer.querySelectorAll('.post-card'));
                 postsToRender = data.slice(1);
             
             } else if (isPostPage) {
+                // Aplica ajuste de fonte no título do post atual
+                fitTitle();
                 const currentH1 = document.querySelector('.entry-title').textContent.trim().toLowerCase();
                 postsToRender = data.filter(post => {
                     const jsonTitle = post.title.trim().toLowerCase();
@@ -128,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // Renderiza inicial
             if (targetGrid) renderBatch(getInitialPostCount());
         })
         .catch(error => console.error('Error loading posts:', error));
@@ -168,38 +198,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // [LÓGICA "LOAD MORE" SEM ÓRFÃOS]
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', () => {
             userHasInteracted = true;
-            
             const cols = getGridColumns();
-            // Lógica: Sempre carrega o suficiente para preencher 2 linhas novas
-            // Ex: Se tem 3 colunas, carrega 6. Se tem 4, carrega 8.
-            const batchSize = (cols === 1) ? 6 : (cols * 2);
-            
-            renderBatch(batchSize); 
+            renderBatch((cols === 1) ? 6 : (cols * 2)); 
         });
     }
 
-    // [LÓGICA "RESIZE" SEM ÓRFÃOS]
+    // [RESIZE HANDLER COMPLETO]
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
-        // Debounce para performance
+        
+        // 1. Ajusta o título em tempo real (sem delay para ficar fluido)
+        fitTitle(); 
+        
+        // 2. Ajusta o grid (com debounce para performance)
         resizeTimer = setTimeout(() => {
             if (targetGrid) {
                 const cols = getGridColumns();
                 
-                // 1. Se o usuário NÃO interagiu, forçamos o padrão inicial (2 linhas perfeitas)
                 if (!userHasInteracted) {
                     const idealCount = getInitialPostCount();
                     const diff = idealCount - displayedCount;
 
                     if (diff > 0) {
-                        renderBatch(diff); // Adiciona para completar a linha
+                        renderBatch(diff);
                     } else if (diff < 0) {
-                        // Remove posts extras para não sobrar órfão ao diminuir a tela
                         const items = targetGrid.querySelectorAll('.grid-item');
                         for (let i = displayedCount - 1; i >= idealCount; i--) {
                             if (items[i]) items[i].remove();
@@ -207,28 +233,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         displayedCount = idealCount;
                         updateLoadMoreButton();
                     }
-                } 
-                // 2. Se o usuário JÁ interagiu (já carregou mais posts)
-                // Precisamos garantir que o TOTAL exibido seja múltiplo das colunas atuais
-                else {
+                } else {
                     const remainder = displayedCount % cols;
-                    
-                    // Se remainder > 0, significa que tem posts órfãos na última linha
                     if (remainder !== 0) {
-                        // Opção A: Carregar mais posts para fechar a linha
                         const needed = cols - remainder;
-                        
-                        // Verifica se existem posts suficientes no JSON para completar
                         if (displayedCount + needed <= postsToRender.length) {
                             renderBatch(needed);
-                        } else {
-                            // Se não tiver mais posts no banco de dados, paciência (fim da lista)
-                            // Ou poderíamos remover os órfãos, mas melhor deixar visível se for o fim.
                         }
                     }
                 }
             }
-        }, 200);
+        }, 100); 
     });
 
 
