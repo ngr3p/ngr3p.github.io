@@ -867,7 +867,7 @@ body {
     body { font-size: 18px; }
     .post-title { 
         font-size: 6rem;
-        max-width: 7em !important;
+        max-width: 6.5em !important;
     }
 }
 
