@@ -867,7 +867,7 @@ body {
     body { font-size: 18px; }
     .post-title { 
         font-size: 6rem;
-        max-width: 6.5em !important;
+        max-width: 8em !important;
     }
 }
 
@@ -884,6 +884,7 @@ body {
     }
     .post-title {
         font-size: 4rem; /* Tamanho intermediário */
+        max-width: 7em !important;
     }
 }
 
