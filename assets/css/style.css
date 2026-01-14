@@ -941,9 +941,9 @@ body {
     }
 
     .cta-button {
-        width: 100%;
+        width: 50%;
         text-align: center;
-        padding: 0.8em 1em; /* Padding consistente */
+        padding: 0.6em 0.8em; /* Padding consistente */
     }
 
     .vertical-bar { margin-right: 0 !important; }
