@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(() => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
-            // Chama o ajuste de título assim que o loader sai
+            // Chama o ajuste inteligente assim que carrega
             fitTitle();
         }, 600);
     });
@@ -68,17 +68,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let displayedCount = 0;
     let userHasInteracted = false; 
 
-    // [NOVA FUNÇÃO: TITLE AUTO-FIT]
-    // Ajusta o tamanho da fonte matematicamente para evitar quebras feias
+    // [FUNÇÃO INTELIGENTE: TITLE AUTO-FIT + LAYOUT CONTROL]
+    // Controla tanto o tamanho da fonte quanto a largura da caixa para evitar órfãos
     function fitTitle() {
-        // Tenta pegar o título principal (seja na home ou no post)
         const title = document.querySelector('.post-title') || document.querySelector('.entry-title');
         if (!title) return;
 
         const textLength = title.textContent.trim().length;
         const screenWidth = window.innerWidth;
         
-        // Definição de tamanhos máximos e mínimos por dispositivo (em rem)
+        // 1. Cálculo do Tamanho da Fonte (Font Size)
         let maxFontSize, minFontSize;
 
         if (screenWidth >= 1600) {      // iMac
@@ -91,25 +90,33 @@ document.addEventListener('DOMContentLoaded', () => {
             maxFontSize = 3.0; minFontSize = 2.0; 
         }
 
-        // LÓGICA:
-        // Títulos curtos (< 15 chars) = MaxFontSize
-        // Títulos longos (> 35 chars) = MinFontSize
-        // O meio termo é calculado proporcionalmente (regra de três)
-        
         let calculatedSize;
         if (textLength < 15) {
             calculatedSize = maxFontSize;
         } else if (textLength > 35) {
             calculatedSize = minFontSize;
         } else {
-            const ratio = (textLength - 15) / (35 - 15); // 0 a 1
+            const ratio = (textLength - 15) / (35 - 15); 
             calculatedSize = maxFontSize - (ratio * (maxFontSize - minFontSize));
         }
 
         title.style.fontSize = `${calculatedSize}rem`;
+
+        // 2. Controle de Largura (Anti-Orphan Logic)
+        // Em telas grandes (Desktop/iMac), travamos a largura em 'em'
+        // Isso força o 'text-wrap: balance' a trabalhar dentro de uma caixa mais apertada,
+        // garantindo que palavras de conexão (como 'with') caiam para a segunda linha.
+        if (screenWidth >= 1200) {
+            title.style.width = '100%';
+            title.style.maxWidth = '11em'; // O "ponto doce" para quebra de linha visual
+            title.style.marginLeft = '0';  // Garante alinhamento à esquerda
+        } else {
+            // Em mobile/tablet, deixamos mais solto pois a tela já é estreita
+            title.style.maxWidth = '100%';
+        }
     }
 
-    // [FUNÇÃO DE GRID ROBUSTA] Lê o CSS real
+    // [GRID LOGIC]
     function getGridColumns() {
         if (!targetGrid) return 1;
         const gridStyle = window.getComputedStyle(targetGrid);
@@ -144,14 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         <a href="${latest.url}" class="cta-button">Read Analysis</a>
                     </article>
                 `;
-                // Aplica o ajuste de fonte no novo título inserido
-                fitTitle();
+                fitTitle(); // Aplica ajuste imediato
                 applyReveal(heroContainer.querySelectorAll('.post-card'));
                 postsToRender = data.slice(1);
             
             } else if (isPostPage) {
-                // Aplica ajuste de fonte no título do post atual
-                fitTitle();
+                fitTitle(); // Aplica ajuste no post individual
                 const currentH1 = document.querySelector('.entry-title').textContent.trim().toLowerCase();
                 postsToRender = data.filter(post => {
                     const jsonTitle = post.title.trim().toLowerCase();
@@ -206,15 +211,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // [RESIZE HANDLER COMPLETO]
+    // [RESIZE HANDLER]
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         
-        // 1. Ajusta o título em tempo real (sem delay para ficar fluido)
+        // Ajusta título instantaneamente
         fitTitle(); 
         
-        // 2. Ajusta o grid (com debounce para performance)
         resizeTimer = setTimeout(() => {
             if (targetGrid) {
                 const cols = getGridColumns();
