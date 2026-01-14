@@ -3,6 +3,12 @@
     --accent-green: #00FF88;
     --text-white: #ffffff;
     --text-gray: #a0a0a0;
+    
+    /* --- NOVA VARIÁVEL DE BORDA --- */
+    /* Antes era #242424. Agora está #333333 (mais claro).
+       Se quiser mais claro ainda, tente #404040 */
+    --border-color: #333333; 
+
     --font-heading: 'Inter', sans-serif; 
     --font-body: 'Inter', sans-serif;
     --font-code: 'Fira Code', monospace;
@@ -220,7 +226,8 @@ body {
 
 .grid-item {
     padding: 30px;
-    border: 1px solid #242424;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border: 1px solid var(--border-color);
     transition: all 0.4s ease;
     display: flex;
     flex-direction: column;
@@ -311,7 +318,8 @@ body {
 /* --- POST PAGE & ABOUT --- */
 .screenshot-container {
     background: #242424;
-    border: 1px solid #333;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     margin: 40px 0;
     overflow: hidden;
@@ -406,7 +414,8 @@ body {
 
 .single-post .terminal-block {
     background: #000;
-    border: 1px solid #242424;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     margin: 35px 0;
     font-family: var(--font-code);
@@ -446,7 +455,8 @@ body {
 
 .about-section {
     padding: 100px 0;
-    border-top: 1px solid #242424;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border-top: 1px solid var(--border-color);
 }
 
 .about-content {
@@ -480,7 +490,8 @@ body {
 .contact-card {
     background: #0f0f0f;
     padding: 40px;
-    border: 1px solid #242424;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 }
 
@@ -528,7 +539,8 @@ body {
 
 .main-footer {
     padding: 60px 0;
-    border-top: 1px solid #242424;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border-top: 1px solid var(--border-color);
     background-color: var(--bg-color);
     margin-top: 50px;
 }
@@ -696,7 +708,8 @@ body {
 .search-item {
     display: block;
     padding: 15px 20px;
-    border-bottom: 1px solid #242424;
+    /* APLICAÇÃO DA NOVA VARIÁVEL DE BORDA */
+    border-bottom: 1px solid var(--border-color);
     text-decoration: none;
     transition: background 0.2s;
 }
@@ -811,7 +824,7 @@ body {
     .container { max-width: 1200px; }
 }
 
-/* 3. Laptops e Tablets Grandes (ADICIONADO AGORA) */
+/* 3. Laptops e Tablets Grandes */
 @media (max-width: 1199px) {
     .hero-section {
         min-height: 100svh; /* Estabilidade de altura */
