@@ -501,7 +501,7 @@ body {
 
 .contact-card h3 {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* Ajustado para manter a hierarquia com o texto de 1rem */
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -519,14 +519,25 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    
+    /* Reduzi o gap de 20px para 15px para ficar proporcional à fonte menor */
+    gap: 15px; 
+    
     font-family: var(--font-code);
-    font-size: 0.9rem;
+    
+    /* --- TAMANHO SOLICITADO --- */
+    font-size: 1rem; 
 }
 
 .contact-list i {
     color: var(--accent-green);
-    width: 20px;
+    
+    /* Ícone levemente maior que o texto (1.1rem) para equilíbrio */
+    font-size: 1.1rem; 
+    
+    /* Largura fixa ajustada para alinhar perfeitamente */
+    width: 24px; 
+    text-align: center;
 }
 
 .contact-list a {
@@ -541,6 +552,7 @@ body {
     display: inline-block;
 }
 
+/* --- FOOTER (ESTRUTURA GERAL) --- */
 .main-footer {
     padding: 60px 0;
     border-top: 1px solid var(--border-color);
@@ -550,10 +562,16 @@ body {
 
 .footer-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Texto na esquerda, ícones na direita (Desktop) */
     align-items: center;
     color: var(--text-gray);
     font-size: 0.85rem;
+}
+
+/* Classe nova para organizar o texto de duas linhas */
+.footer-text {
+    margin: 0;
+    line-height: 1.8; /* Espaçamento confortável entre as linhas */
 }
 
 .footer-links {
@@ -572,6 +590,40 @@ body {
 
 .footer-links a:hover {
     color: var(--accent-green);
+}
+
+/* --- FOOTER HEART & CREDITS (ELEMENTOS VISUAIS) --- */
+.heart-icon {
+    color: #ff5f56; /* Vermelho vibrante */
+    display: inline-block;
+    animation: heartbeat 1.5s infinite; /* Batimento cardíaco */
+    margin: 0 4px;
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.3); } /* Pum... */
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); } /* ...Pum */
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+/* Estilo do Link da Lander Digital */
+.creator-link {
+    color: var(--text-white); /* Texto branco */
+    font-weight: 700;         /* Negrito */
+    text-decoration: none;    /* Sem sublinhado padrão */
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent; 
+}
+
+.creator-link:hover {
+    color: var(--accent-green); /* Verde Neon no hover */
+    border-bottom: 1px solid var(--accent-green); /* Linha verde embaixo */
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4); /* Brilho sutil */
 }
 
 /* --- LOADER --- */
@@ -999,4 +1051,14 @@ body {
 @media (max-height: 500px) and (orientation: landscape) {
     .search-overlay { padding-top: 10px; }
     .search-results { max-height: 40vh; }
+}
+
+/* --- RESPONSIVIDADE DO FOOTER (IMPORTANTE) --- */
+/* Garante que encaixe em todas as resoluções */
+@media (max-width: 767px) {
+    .footer-content {
+        flex-direction: column; /* Empilha: Texto em cima, ícones embaixo */
+        gap: 25px;              /* Espaço entre o texto e os ícones */
+        text-align: center;     /* Centraliza tudo */
+    }
 }
