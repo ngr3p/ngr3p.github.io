@@ -865,7 +865,10 @@ body {
 @media (min-width: 1600px) {
     .container { max-width: 1500px; padding: 0 50px; }
     body { font-size: 18px; }
-    .post-title { font-size: 6rem; }
+    .post-title { 
+        font-size: 6rem;
+        max-width: 7em !important;
+    }
 }
 
 /* 2. Desktops Padrão */

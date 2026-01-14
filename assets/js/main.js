@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. SISTEMA DE DADOS (JSON) ---
+    // --- 4. SISTEMA DE DADOS INTELIGENTE (JSON) ---
     const heroContainer = document.querySelector('.hero-section .container');
     const targetGrid = document.querySelector('.posts-grid') || document.getElementById('related-posts-grid');
     const loadMoreBtn = document.getElementById('load-more-btn');
@@ -64,6 +64,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let allPosts = [];
     let postsToRender = []; 
     let displayedCount = 0;
+    
+    // Flag: Se o usuário clicou no botão, o resize para de remover posts (comportamento padrão)
+    // Mas ainda vai garantir múltiplos corretos para evitar órfãos.
+    let userHasInteracted = false; 
+
+    // [NOVA FUNÇÃO INFALÍVEL] 
+    // Conta as colunas reais desenhadas pelo CSS (auto-fit)
+    function getGridColumns() {
+        if (!targetGrid) return 1;
+        
+        // Pega o estilo computado do grid
+        const gridStyle = window.getComputedStyle(targetGrid);
+        
+        // Pega a propriedade grid-template-columns (ex: "300px 300px 300px")
+        const gridTemplate = gridStyle.getPropertyValue('grid-template-columns');
+
+        // Proteção caso o grid ainda não tenha carregado ou seja "none"
+        if (!gridTemplate || gridTemplate === 'none') return 1;
+        
+        // Conta quantos valores existem (ex: 3 valores = 3 colunas)
+        const columns = gridTemplate.trim().split(/\s+/).length;
+        
+        return columns > 0 ? columns : 1;
+    }
+
+    // Calcula quantos posts carregar inicialmente (sempre 2 linhas completas)
+    function getInitialPostCount() {
+        const cols = getGridColumns();
+        // Se for mobile (1 coluna), carrega 6 para scrollar. Se não, 2 linhas cheias.
+        return (cols === 1) ? 6 : (cols * 2);
+    }
 
     fetch('assets/data/posts.json')
         .then(response => response.json())
@@ -97,13 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            if (targetGrid) renderBatch(6);
+            // Renderiza inicial
+            if (targetGrid) renderBatch(getInitialPostCount());
         })
         .catch(error => console.error('Error loading posts:', error));
 
 
     function renderBatch(count) {
+        if (count <= 0) return;
+
         const batch = postsToRender.slice(displayedCount, displayedCount + count);
+        
         batch.forEach((post, index) => {
             const card = document.createElement('a');
             card.href = post.url;
@@ -118,31 +153,93 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => applyReveal([card]), index * 100);
         });
         displayedCount += batch.length;
+        updateLoadMoreButton();
+    }
 
+    function updateLoadMoreButton() {
         if (loadMoreBtn) {
             if (displayedCount >= postsToRender.length) {
                 loadMoreBtn.classList.add('hidden');
                 loadMoreBtn.style.display = 'none';
             } else {
+                loadMoreBtn.classList.remove('hidden');
                 loadMoreBtn.style.display = 'inline-block';
             }
         }
     }
 
-    if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => renderBatch(3));
+    // [LÓGICA "LOAD MORE" SEM ÓRFÃOS]
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            userHasInteracted = true;
+            
+            const cols = getGridColumns();
+            // Lógica: Sempre carrega o suficiente para preencher 2 linhas novas
+            // Ex: Se tem 3 colunas, carrega 6. Se tem 4, carrega 8.
+            const batchSize = (cols === 1) ? 6 : (cols * 2);
+            
+            renderBatch(batchSize); 
+        });
+    }
+
+    // [LÓGICA "RESIZE" SEM ÓRFÃOS]
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        // Debounce para performance
+        resizeTimer = setTimeout(() => {
+            if (targetGrid) {
+                const cols = getGridColumns();
+                
+                // 1. Se o usuário NÃO interagiu, forçamos o padrão inicial (2 linhas perfeitas)
+                if (!userHasInteracted) {
+                    const idealCount = getInitialPostCount();
+                    const diff = idealCount - displayedCount;
+
+                    if (diff > 0) {
+                        renderBatch(diff); // Adiciona para completar a linha
+                    } else if (diff < 0) {
+                        // Remove posts extras para não sobrar órfão ao diminuir a tela
+                        const items = targetGrid.querySelectorAll('.grid-item');
+                        for (let i = displayedCount - 1; i >= idealCount; i--) {
+                            if (items[i]) items[i].remove();
+                        }
+                        displayedCount = idealCount;
+                        updateLoadMoreButton();
+                    }
+                } 
+                // 2. Se o usuário JÁ interagiu (já carregou mais posts)
+                // Precisamos garantir que o TOTAL exibido seja múltiplo das colunas atuais
+                else {
+                    const remainder = displayedCount % cols;
+                    
+                    // Se remainder > 0, significa que tem posts órfãos na última linha
+                    if (remainder !== 0) {
+                        // Opção A: Carregar mais posts para fechar a linha
+                        const needed = cols - remainder;
+                        
+                        // Verifica se existem posts suficientes no JSON para completar
+                        if (displayedCount + needed <= postsToRender.length) {
+                            renderBatch(needed);
+                        } else {
+                            // Se não tiver mais posts no banco de dados, paciência (fim da lista)
+                            // Ou poderíamos remover os órfãos, mas melhor deixar visível se for o fim.
+                        }
+                    }
+                }
+            }
+        }, 200);
+    });
 
 
-    // --- 5. SEARCH MODULE (COM NAVEGAÇÃO POR TECLADO) ---
+    // --- 5. SEARCH MODULE ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results-container');
     const closeSearchBtn = document.getElementById('close-search');
-    
-    // Variável para controlar a navegação
     let selectedIndex = -1; 
 
-    // Abrir Busca
     if (searchTrigger) {
         searchTrigger.addEventListener('click', (e) => {
             e.preventDefault();
@@ -154,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchOverlay.classList.remove('hidden');
         searchInput.value = '';
         searchResults.innerHTML = '';
-        selectedIndex = -1; // Reseta seleção
+        selectedIndex = -1; 
         setTimeout(() => searchInput.focus(), 100);
     }
 
@@ -170,48 +267,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- LISTENER GLOBAL DE TECLADO (NAVEGAÇÃO) ---
     document.addEventListener('keydown', (e) => {
-        // Se a busca estiver FECHADA
         if (searchOverlay.classList.contains('hidden')) {
-            // Abre com CTRL+K ou CMD+K
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
                 openSearch();
             }
-            // (Nota: O ESC do Lightbox é tratado separadamente abaixo)
             return; 
         }
 
-        // Se a busca estiver ABERTA
         const results = document.querySelectorAll('.search-item');
         
         if (e.key === 'Escape') {
             closeSearch();
         } else if (e.key === 'ArrowDown') {
-            e.preventDefault(); // Impede cursor de andar no input
+            e.preventDefault(); 
             if (results.length > 0) {
                 selectedIndex++;
-                if (selectedIndex >= results.length) selectedIndex = 0; // Loop pro topo
+                if (selectedIndex >= results.length) selectedIndex = 0; 
                 updateSelection(results);
             }
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             if (results.length > 0) {
                 selectedIndex--;
-                if (selectedIndex < 0) selectedIndex = results.length - 1; // Loop pro final
+                if (selectedIndex < 0) selectedIndex = results.length - 1; 
                 updateSelection(results);
             }
         } else if (e.key === 'Enter') {
-            // Se tiver algo selecionado, navega
             if (selectedIndex > -1 && results[selectedIndex]) {
                 e.preventDefault();
-                results[selectedIndex].click(); // Simula clique no link
+                results[selectedIndex].click(); 
             }
         }
     });
 
-    // Função Visual de Seleção
     function updateSelection(items) {
         items.forEach((item, index) => {
             if (index === selectedIndex) {
@@ -223,11 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Input Search (Filtragem)
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
-            selectedIndex = -1; // Reseta seleção ao digitar
+            selectedIndex = -1; 
 
             if (term.length < 2) {
                 searchResults.innerHTML = '';
@@ -261,7 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const captionText = document.getElementById('caption-text');
     const closeModalBtn = document.getElementById('close-modal-btn');
 
-    // Seleciona todas as imagens dentro do corpo do post
     const postImages = document.querySelectorAll('.post-body img, .screenshot-container img');
 
     if (postImages.length > 0) {
@@ -269,9 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
             img.addEventListener('click', function() {
                 if (imageModal) {
                     imageModal.classList.remove('hidden');
-                    modalImg.src = this.src; // Pega URL da imagem clicada
+                    modalImg.src = this.src; 
                     
-                    // Tenta pegar a legenda (figcaption)
                     const parentFigcaption = this.parentElement.querySelector('figcaption');
                     const nextFigcaption = this.nextElementSibling;
                     
@@ -287,14 +374,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Função para fechar o Modal de Imagem
     function closeImageModal() {
         if (imageModal) imageModal.classList.add('hidden');
     }
 
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeImageModal);
 
-    // Fecha ao clicar fora da imagem
     if (imageModal) {
         imageModal.addEventListener('click', (e) => {
             if (e.target === imageModal || e.target === modalImg) {
@@ -303,7 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Listener específico para fechar o Modal de Imagem com ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && imageModal && !imageModal.classList.contains('hidden')) {
             closeImageModal();
