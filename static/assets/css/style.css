@@ -134,7 +134,7 @@ body {
     font-family: var(--font-heading);
     color: var(--accent-green);
     
-    /* Hero Title da Home continua fluido com Clamp (Regra anterior) */
+    /* Hero Title da Home continua fluido com Clamp */
     font-size: clamp(2.5rem, 8vw, 5.5rem); 
     line-height: 1.1;
     margin-bottom: 40px;
@@ -865,10 +865,20 @@ body {
         gap: 15px;
     }
 
-    /* Hero: Garante alinhamento à esquerda mesmo no mobile */
+    /* Hero: CORREÇÃO DO "PULO" DO ADDRESS BAR */
+    .hero-section {
+        background-attachment: scroll !important; /* Desliga o efeito fixo */
+        height: 100svh !important; /* Usa altura 'small' da viewport */
+        min-height: 100svh;
+        padding-top: 80px; 
+        align-items: center;
+    }
+
+    /* Hero Container: Garante alinhamento à esquerda */
     .hero-section .container {
         text-align: left;
     }
+    
     .description-container {
         justify-content: flex-start;
         text-align: left;
