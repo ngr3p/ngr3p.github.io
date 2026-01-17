@@ -19,8 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(() => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
-            // Só ajusta o título da HOME
-            fitTitle();
+            
+            // INICIALIZAÇÕES VISUAIS
+            fitTitle();      // Ajusta texto do Hero
+            initReveal();    // Animações de entrada
+            initSmartGrid(); // Lógica de Quantidade de Posts (NOVO)
         }, 600);
     });
 
@@ -31,17 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (!document.body.classList.contains('single-post')) header.classList.remove('header-scrolled');
     });
 
-    // --- 3. REVEAL ANIMATION ---
+    // --- 3. REVEAL ANIMATION (SCROLL) ---
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+                revealObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
 
-    function applyReveal(elements) {
+    function initReveal() {
+        // Pega elementos visuais estáticos (Header, Hero)
+        const elements = document.querySelectorAll('.post-card.featured, .hero-content');
         elements.forEach(el => {
             Object.assign(el.style, {
                 opacity: '0',
@@ -52,195 +58,145 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. SISTEMA DE DADOS (GRID + TITLE FIT) ---
-    const heroContainer = document.querySelector('.hero-section .container');
-    const targetGrid = document.querySelector('.posts-grid') || document.getElementById('related-posts-grid');
+    // --- 4. SMART GRID LOGIC (RESPONSIVO) ---
+    // Essa lógica controla os posts gerados pelo Python com a classe .js-control
     const loadMoreBtn = document.getElementById('load-more-btn');
+    const gridContainer = document.querySelector('.posts-grid');
     
-    let allPosts = [];
-    let postsToRender = []; 
+    // Pega todos os posts invisíveis gerados pelo Python
+    let allGridItems = Array.from(document.querySelectorAll('.js-control'));
     let displayedCount = 0;
-    let userHasInteracted = false; 
 
-    // [FUNÇÃO: HERO TITLE FIT ONLY]
-    // Aplica lógica SOMENTE no título da Home (.post-title)
+    // Descobre quantas colunas o CSS está mostrando na tela atual
+    function getGridColumns() {
+        if (!gridContainer) return 1;
+        const style = window.getComputedStyle(gridContainer);
+        const template = style.getPropertyValue('grid-template-columns');
+        // Conta os espaços definidos no grid (ex: "1fr 1fr" = 2)
+        return template.split(' ').length || 1;
+    }
+
+    // Define quantos posts mostrar por vez (Lote)
+    function getBatchSize() {
+        const cols = getGridColumns();
+        // Se 1 coluna (mobile) -> Mostra 6
+        // Se 2, 3 ou 4 colunas -> Mostra (Colunas * 2). Ex: 4 cols = 8 posts.
+        return (cols === 1) ? 6 : (cols * 2);
+    }
+
+    function showNextBatch() {
+        const batchSize = getBatchSize();
+        const total = allGridItems.length;
+        
+        let nextLimit = displayedCount + batchSize;
+        if (nextLimit > total) nextLimit = total;
+
+        // Loop para revelar os itens
+        for (let i = displayedCount; i < nextLimit; i++) {
+            if (allGridItems[i]) {
+                allGridItems[i].classList.remove('hidden');
+                
+                // Aplica animação suave
+                allGridItems[i].style.opacity = '0';
+                allGridItems[i].style.transform = 'translateY(20px)';
+                allGridItems[i].style.transition = 'all 0.6s ease-out';
+                
+                // Pequeno delay para efeito cascata
+                setTimeout(() => {
+                    allGridItems[i].style.opacity = '1';
+                    allGridItems[i].style.transform = 'translateY(0)';
+                }, (i - displayedCount) * 100);
+            }
+        }
+        displayedCount = nextLimit;
+
+        // Controle do Botão
+        if (loadMoreBtn) {
+            if (displayedCount >= total) {
+                loadMoreBtn.style.display = 'none'; // Acabaram os posts
+            } else {
+                loadMoreBtn.style.display = 'inline-block'; // Ainda tem posts
+            }
+        }
+    }
+
+    function initSmartGrid() {
+        if (allGridItems.length > 0) {
+            // Mostra o primeiro lote imediatamente
+            showNextBatch();
+            
+            // Ativa o clique do botão
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Impede o link de pular para o topo
+                    showNextBatch();
+                });
+            }
+        } else {
+            // Se não tem posts, esconde o botão
+            if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+        }
+    }
+
+
+    // --- 5. HERO TITLE FIT (TIPOGRAFIA) ---
     function fitTitle() {
-        const title = document.querySelector('.post-title');
-        // Se não achar .post-title (ex: estamos na página do post), PARA AQUI.
+        const title = document.querySelector('.hero-title') || document.querySelector('.entry-title');
         if (!title) return;
 
-        // 1. Matador de Órfãos (A Mágica)
         let text = title.innerHTML; 
         if (!text.includes('&nbsp;') && title.textContent.trim().split(' ').length > 2) {
             title.innerHTML = title.textContent.trim().replace(/\s+([^\s]+)$/, '&nbsp;$1');
         }
 
-        // 2. Ajuste de Tamanho da Fonte (Matemático)
         const textLength = title.textContent.trim().length;
         const screenWidth = window.innerWidth;
         
         let maxFontSize, minFontSize;
 
-        if (screenWidth >= 1600) {      // iMac
-            maxFontSize = 6.0; minFontSize = 4.0; 
-        } else if (screenWidth >= 1200) { // Desktop
-            maxFontSize = 5.0; minFontSize = 3.5; 
-        } else if (screenWidth >= 768) {  // Tablet
-            maxFontSize = 4.0; minFontSize = 2.5; 
-        } else {                          // Mobile
-            maxFontSize = 3.0; minFontSize = 2.0; 
-        }
+        if (screenWidth >= 1600) { maxFontSize = 6.0; minFontSize = 4.0; } 
+        else if (screenWidth >= 1200) { maxFontSize = 5.0; minFontSize = 3.5; } 
+        else if (screenWidth >= 768) { maxFontSize = 4.0; minFontSize = 2.5; } 
+        else { maxFontSize = 2.5; minFontSize = 1.8; }
 
         let calculatedSize;
-        if (textLength < 15) {
-            calculatedSize = maxFontSize;
-        } else if (textLength > 35) {
-            calculatedSize = minFontSize;
-        } else {
-            const ratio = (textLength - 15) / (35 - 15); 
+        if (textLength < 15) calculatedSize = maxFontSize;
+        else if (textLength > 40) calculatedSize = minFontSize;
+        else {
+            const ratio = (textLength - 15) / (40 - 15); 
             calculatedSize = maxFontSize - (ratio * (maxFontSize - minFontSize));
         }
 
         title.style.fontSize = `${calculatedSize}rem`;
     }
 
-    // [GRID LOGIC]
-    function getGridColumns() {
-        if (!targetGrid) return 1;
-        const gridStyle = window.getComputedStyle(targetGrid);
-        const gridTemplate = gridStyle.getPropertyValue('grid-template-columns');
-        if (!gridTemplate || gridTemplate === 'none') return 1;
-        const columns = gridTemplate.trim().split(/\s+/).length;
-        return columns > 0 ? columns : 1;
-    }
-
-    function getInitialPostCount() {
-        const cols = getGridColumns();
-        return (cols === 1) ? 6 : (cols * 2);
-    }
-
-    fetch('/assets/data/posts.json')
-        .then(response => response.json())
-        .then(data => {
-            allPosts = data; 
-
-            const isHomePage = !!heroContainer;
-            const isPostPage = document.body.classList.contains('single-post');
-
-            if (isHomePage) {
-                const latest = data[0];
-                heroContainer.innerHTML = `
-                    <article class="post-card featured">
-                        <h1 class="post-title">${latest.title}</h1>
-                        <div class="description-container">
-                            <div class="vertical-bar"></div>
-                            <p class="description-text">${latest.description}</p>
-                        </div>
-                        <a href="${latest.url}" class="cta-button">Read Analysis</a>
-                    </article>
-                `;
-                fitTitle(); // Aplica ajuste apenas na Home
-                applyReveal(heroContainer.querySelectorAll('.post-card'));
-                postsToRender = data.slice(1);
-            
-            } else if (isPostPage) {
-                // NÃO chamamos fitTitle() aqui. O título do post fica natural.
-                const currentH1 = document.querySelector('.entry-title').textContent.trim().toLowerCase();
-                postsToRender = data.filter(post => {
-                    const jsonTitle = post.title.trim().toLowerCase();
-                    return !currentH1.includes(jsonTitle);
-                });
-            }
-
-            if (targetGrid) renderBatch(getInitialPostCount());
-        })
-        .catch(error => console.error('Error loading posts:', error));
-
-
-    function renderBatch(count) {
-        if (count <= 0) return;
-        const batch = postsToRender.slice(displayedCount, displayedCount + count);
-        batch.forEach((post, index) => {
-            const card = document.createElement('a');
-            card.href = post.url;
-            card.className = 'grid-item';
-            card.innerHTML = `
-                <span class="post-cat">${post.category}</span>
-                <h3>${post.title}</h3>
-                <p>${post.short_desc}</p>
-                <span class="read-link">Read Analysis_</span>
-            `;
-            targetGrid.appendChild(card);
-            setTimeout(() => applyReveal([card]), index * 100);
-        });
-        displayedCount += batch.length;
-        updateLoadMoreButton();
-    }
-
-    function updateLoadMoreButton() {
-        if (loadMoreBtn) {
-            if (displayedCount >= postsToRender.length) {
-                loadMoreBtn.classList.add('hidden');
-                loadMoreBtn.style.display = 'none';
-            } else {
-                loadMoreBtn.classList.remove('hidden');
-                loadMoreBtn.style.display = 'inline-block';
-            }
-        }
-    }
-
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', () => {
-            userHasInteracted = true;
-            const cols = getGridColumns();
-            renderBatch((cols === 1) ? 6 : (cols * 2)); 
-        });
-    }
-
-    // [RESIZE HANDLER]
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
-        
-        // Ajusta título apenas da HOME
-        fitTitle(); 
-        
         resizeTimer = setTimeout(() => {
-            if (targetGrid) {
-                const cols = getGridColumns();
-                if (!userHasInteracted) {
-                    const idealCount = getInitialPostCount();
-                    const diff = idealCount - displayedCount;
-                    if (diff > 0) renderBatch(diff);
-                    else if (diff < 0) {
-                        const items = targetGrid.querySelectorAll('.grid-item');
-                        for (let i = displayedCount - 1; i >= idealCount; i--) {
-                            if (items[i]) items[i].remove();
-                        }
-                        displayedCount = idealCount;
-                        updateLoadMoreButton();
-                    }
-                } else {
-                    const remainder = displayedCount % cols;
-                    if (remainder !== 0) {
-                        const needed = cols - remainder;
-                        if (displayedCount + needed <= postsToRender.length) renderBatch(needed);
-                    }
-                }
-            }
+            fitTitle();
         }, 100); 
     });
 
 
-    // --- 5. SEARCH MODULE ---
+    // --- 6. SEARCH MODULE ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results-container');
     const closeSearchBtn = document.getElementById('close-search');
+    
+    let allPosts = []; 
     let selectedIndex = -1; 
 
+    // Busca silenciosa dos dados
+    fetch('assets/data/posts.json')
+        .then(response => response.json())
+        .then(data => { allPosts = data; })
+        .catch(err => console.error("Search system offline (local check):", err));
+
     if (searchTrigger) searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+
     function openSearch() {
         searchOverlay.classList.remove('hidden');
         searchInput.value = '';
@@ -248,7 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedIndex = -1; 
         setTimeout(() => searchInput.focus(), 100);
     }
+    
     function closeSearch() { searchOverlay.classList.add('hidden'); selectedIndex = -1; }
+    
     if (closeSearchBtn) closeSearchBtn.addEventListener('click', closeSearch);
     if (searchOverlay) searchOverlay.addEventListener('click', (e) => { if (e.target === searchOverlay) closeSearch(); });
 
@@ -282,17 +240,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const term = e.target.value.toLowerCase();
             selectedIndex = -1; 
             if (term.length < 2) { searchResults.innerHTML = ''; return; }
+            
             const filteredPosts = allPosts.filter(post => post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term));
+            
             if (filteredPosts.length > 0) {
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
                     <a href="${post.url}" class="search-item" data-index="${index}">
                         <span>${post.category}</span><h4>${post.title}</h4>
                     </a>`).join('');
-            } else { searchResults.innerHTML = `<div style="padding:20px; text-align:center; color:#666;"><i class="fa-solid fa-ghost"></i> No intels found.</div>`; }
+            } else { 
+                searchResults.innerHTML = `<div style="padding:20px; text-align:center; color:#666;"><i class="fa-solid fa-ghost"></i> No intels found.</div>`; 
+            }
         });
     }
 
-    // --- 6. IMAGE LIGHTBOX ---
+    // --- 7. IMAGE LIGHTBOX ---
     const imageModal = document.getElementById('image-modal');
     const modalImg = document.getElementById('img-expanded');
     const captionText = document.getElementById('caption-text');
@@ -314,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
     function closeImageModal() { if (imageModal) imageModal.classList.add('hidden'); }
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeImageModal);
     if (imageModal) imageModal.addEventListener('click', (e) => { if (e.target === imageModal || e.target === modalImg) closeImageModal(); });

@@ -37,14 +37,128 @@
 
     <section class="hero-section">
         <div class="container"> 
+            
+            <article class="post-card featured">
+                <h1 class="post-title hero-title">NTLM Relay Attacks in 2026</h1>
+                
+                <div class="description-container">
+                    <div class="vertical-bar"></div>
+                    <p class="description-text">Post-exploitation starts with privilege escalation.<br>Gain root. Control everything.</p>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="ntlm-relay-attacks-in-2026/" class="cta-button">Read Analysis</a>
+                </div>
+            </article>
+            
         </div>
     </section>
 
     <main class="container">
         <section class="latest-posts" id="blog">
-            <h2 class="section-label">Latest Researches<span>_</span></h2>
+            <h2 class="section-label">Latest <span>Researches_</span></h2>
             
-            <div class="posts-grid">
+            <div class="posts-grid" id="related-posts-grid">
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#MalwareDev</span>
+                    <h3>Process Injection Techniques</h3>
+                    <p>Exploring modern ways to hide malicious code inside legitimate system processes.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#WebHacking</span>
+                    <h3>Bypassing WAF with JWT</h3>
+                    <p>How broken identity implementations can lead to full administrative access.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#WindowsInternals</span>
+                    <h3>EDR Evasion via Syscalls</h3>
+                    <p>Direct system calls to bypass user-mode hooks in modern security solutions.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#CloudSecurity</span>
+                    <h3>AWS IAM Misconfigurations</h3>
+                    <p>Escalating privileges through overly permissive Identity and Access Management roles.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#Cryptography</span>
+                    <h3>Cracking Kerberos Tickets</h3>
+                    <p>Advanced Kerberoasting techniques and hash cracking at scale for domain takeover.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#Phishing</span>
+                    <h3>Adversary-in-the-Middle</h3>
+                    <p>Bypassing Multi-Factor Authentication (MFA) using sophisticated proxy tools.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#ReverseEngineering</span>
+                    <h3>Analyzing Kernel Drivers</h3>
+                    <p>Finding vulnerabilities in third-party drivers to execute code at Ring 0.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#RedTeam</span>
+                    <h3>C2 Infrastructure Setup</h3>
+                    <p>Building resilient Command and Control channels using domain fronting and CDNs.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#PostExploitation</span>
+                    <h3>Linux Persistence Mechanisms</h3>
+                    <p>From systemd services to hidden cronjobs: how to stay inside the box.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#ExploitDev</span>
+                    <h3>Heap Overflow Analysis</h3>
+                    <p>Understanding memory corruption bugs to build reliable exploits for Linux binaries.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
+                
+                <a href="#" class="grid-item js-control hidden">
+                    <span class="post-cat">#OPSEC</span>
+                    <h3>Obfuscating PowerShell</h3>
+                    <p>Techniques to avoid AMSI detection and logging while executing offensive scripts.</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                
             </div>
 
             <div class="load-more-container">
@@ -57,11 +171,8 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>I'm Leo, aka <strong>ngr3p</strong> — this blog is a personal initiative to explore offensive security with intention, focus, and consistency.</p>
-
                     <p>I’m driven by curiosity. I explore systems to understand how they work, where security flaws exist, and how they can be corrected and improved to become more resilient.</p>
-
                     <p>Everything you see here is part of my learning process — documenting, practicing, reflecting, repeating. This blog is my personal repository. Sharing what I learn is part of my mission. If it helps someone else along the way, then it’s already worth it.</p>
-
                     <p class="highlight-text">If you're on this journey too — welcome. Stay focused. Stay sharp. Keep breaking things, and document everything.</p>
                 </div>
 
@@ -98,6 +209,7 @@
             </div>
         </div>
     </footer>
+    
     <div id="search-overlay" class="search-overlay hidden">
         <div class="search-container">
             <div class="search-input-wrapper">

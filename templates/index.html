@@ -37,14 +37,38 @@
 
     <section class="hero-section">
         <div class="container"> 
+            {% if posts %}
+            <article class="post-card featured">
+                <h1 class="post-title hero-title">{{ posts[0].title }}</h1>
+                
+                <div class="description-container">
+                    <div class="vertical-bar"></div>
+                    <p class="description-text">{{ posts[0].description }}</p>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="{{ posts[0].url }}" class="cta-button">Read Analysis</a>
+                </div>
+            </article>
+            {% endif %}
         </div>
     </section>
 
     <main class="container">
         <section class="latest-posts" id="blog">
-            <h2 class="section-label">Latest Researches<span>_</span></h2>
+            <h2 class="section-label">Latest <span>Researches_</span></h2>
             
-            <div class="posts-grid">
+            <div class="posts-grid" id="related-posts-grid">
+                {% for post in posts[1:] %}
+                
+                <a href="{{ post.url }}" class="grid-item js-control hidden">
+                    <span class="post-cat">{{ post.category }}</span>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.short_desc }}</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                {% endfor %}
             </div>
 
             <div class="load-more-container">
@@ -57,11 +81,8 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>I'm Leo, aka <strong>ngr3p</strong> — this blog is a personal initiative to explore offensive security with intention, focus, and consistency.</p>
-
                     <p>I’m driven by curiosity. I explore systems to understand how they work, where security flaws exist, and how they can be corrected and improved to become more resilient.</p>
-
                     <p>Everything you see here is part of my learning process — documenting, practicing, reflecting, repeating. This blog is my personal repository. Sharing what I learn is part of my mission. If it helps someone else along the way, then it’s already worth it.</p>
-
                     <p class="highlight-text">If you're on this journey too — welcome. Stay focused. Stay sharp. Keep breaking things, and document everything.</p>
                 </div>
 
@@ -98,6 +119,7 @@
             </div>
         </div>
     </footer>
+    
     <div id="search-overlay" class="search-overlay hidden">
         <div class="search-container">
             <div class="search-input-wrapper">

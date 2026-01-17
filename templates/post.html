@@ -38,9 +38,7 @@
         <article class="full-post">
             <header class="post-header">
                 <span class="post-cat">{{ post.category }}</span>
-                
                 <h1 class="entry-title">{{ post.title }}</h1>
-                
                 <div class="post-meta">{{ post.date }} • 15 min read</div>
             </header>
 
@@ -52,13 +50,25 @@
 
     <section class="latest-posts" style="background-color: var(--bg-color); border-top: 1px solid #242424;">
         <div class="container">
-            <div class="section-label">Latest <span>Researches_</span></div>
+            <h2 class="section-label">Latest <span>Researches_</span></h2>
             
             <div class="posts-grid" id="related-posts-grid">
-                </div>
+                {% for p in posts %}
+                    {% if p.id != post.id %}
+                    
+                    <a href="../{{ p.url }}" class="grid-item js-control hidden">
+                        <span class="post-cat">{{ p.category }}</span>
+                        <h3>{{ p.title }}</h3>
+                        <p>{{ p.short_desc }}</p>
+                        <span class="read-link">Read Analysis_</span>
+                    </a>
+                    
+                    {% endif %}
+                {% endfor %}
+            </div>
 
             <div class="load-more-container">
-                <button id="load-more-btn">./ACCESS_MORE_FILES</button>
+                <a href="/#blog" id="load-more-btn" style="text-decoration:none;">./ACCESS_MORE_FILES</a>
             </div>
         </div>
     </section>
@@ -92,7 +102,7 @@
                 <button id="close-search">ESC</button>
             </div>
             <div id="search-results-container" class="search-results">
-                </div>
+            </div>
         </div>
     </div>
 

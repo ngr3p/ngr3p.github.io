@@ -183,8 +183,8 @@ body {
     font-family: var(--font-heading);
     
     /* --- ESTADO INICIAL (PREENCHIDO) --- */
-    background: var(--accent-green);      /* Fundo Verde */
-    color: var(--bg-color);               /* Letra Escura (para contraste) */
+    background: var(--accent-green);       /* Fundo Verde */
+    color: var(--bg-color);                /* Letra Escura (para contraste) */
     border: 1px solid var(--accent-green);
     
     text-decoration: none;
@@ -970,4 +970,13 @@ body {
 /* --- FOOTER RESPONSIVIDADE --- */
 @media (max-width: 767px) {
     .footer-content { flex-direction: column; gap: 25px; text-align: center; }
+}
+
+/* --- UTILITARIOS JS (IMPORTANTE: MANTENHA NO FINAL) --- */
+.hidden {
+    display: none !important;
+}
+
+.js-control {
+    /* Marcador logico, nao precisa de estilo */
 }

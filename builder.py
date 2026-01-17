@@ -1,68 +1,86 @@
 import os
 import json
 import shutil
+import sys
 from jinja2 import Environment, FileSystemLoader
 
-# --- CONFIGURAÇÕES DA ARQUITETURA ---
+# --- CONFIGURACOES DA ARQUITETURA ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CONTENT_DIR = os.path.join(BASE_DIR, 'content')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-OUTPUT_DIR = os.path.join(BASE_DIR, 'dist') # Pasta final do site
+OUTPUT_DIR = os.path.join(BASE_DIR, 'dist')
 
 def clean_build_dir():
     """Limpa a pasta de destino para garantir um build fresco."""
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
     os.makedirs(OUTPUT_DIR)
-    print(f"✅ Pasta '{OUTPUT_DIR}' limpa e recriada.")
+    print(f"[OK] Cleaned build directory: {OUTPUT_DIR}")
 
 def copy_assets():
-    """Copia a pasta static inteira para dentro do dist."""
-    # Como você tem static/assets, ao copiar static para dist, 
-    # teremos dist/assets. Perfeito.
-    shutil.copytree(STATIC_DIR, OUTPUT_DIR, dirs_exist_ok=True)
+    """Copia a pasta static de forma inteligente e posiciona o JSON."""
     
-    # Truque do Arquiteto: O JS busca o JSON em /assets/data/posts.json
-    # Vamos garantir que o arquivo JSON vá para lá também.
-    json_dest = os.path.join(OUTPUT_DIR, 'assets', 'data')
-    os.makedirs(json_dest, exist_ok=True)
-    shutil.copy(os.path.join(CONTENT_DIR, 'posts.json'), os.path.join(json_dest, 'posts.json'))
-    print("✅ Assets e Dados copiados.")
+    # 1. LOGICA ANTI-DUPLICIDADE
+    # Verifica se dentro de 'static' JÁ EXISTE uma pasta 'assets'
+    if os.path.exists(os.path.join(STATIC_DIR, 'assets')):
+        # Se ja tem 'assets' na origem (static/assets/css), copiamos para a raiz da dist
+        # Resultado final: dist/assets/css
+        shutil.copytree(STATIC_DIR, OUTPUT_DIR, dirs_exist_ok=True)
+    else:
+        # Se os arquivos estao soltos (static/css), criamos a pasta assets na dist
+        # Resultado final: dist/assets/css
+        shutil.copytree(STATIC_DIR, os.path.join(OUTPUT_DIR, 'assets'), dirs_exist_ok=True)
+    
+    # 2. POSICIONAMENTO DO JSON (CRITICO PARA O JS)
+    # O arquivo precisa estar em: dist/assets/data/posts.json
+    final_data_path = os.path.join(OUTPUT_DIR, 'assets', 'data')
+    os.makedirs(final_data_path, exist_ok=True)
+    
+    shutil.copy(os.path.join(CONTENT_DIR, 'posts.json'), os.path.join(final_data_path, 'posts.json'))
+    
+    # 3. LIMPEZA DEFENSIVA
+    # Se por acaso uma pasta 'data' foi copiada para a raiz errada, removemos
+    wrong_data_path = os.path.join(OUTPUT_DIR, 'data')
+    if os.path.exists(wrong_data_path):
+        shutil.rmtree(wrong_data_path)
+    
+    print("[OK] Assets fixed & JSON placed at 'dist/assets/data'.")
 
 def build_site():
-    print("🚀 Iniciando Protocolo de Construção ngr3p...")
+    print("[>] Starting ngr3p Build System...")
     
-    # 1. Preparar Jinja2 (Engine de Templates)
+    # 1. Preparar Jinja2
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     
     # 2. Carregar Dados
-    with open(os.path.join(CONTENT_DIR, 'posts.json'), 'r', encoding='utf-8') as f:
-        posts = json.load(f)
+    try:
+        with open(os.path.join(CONTENT_DIR, 'posts.json'), 'r', encoding='utf-8') as f:
+            posts = json.load(f)
+    except FileNotFoundError:
+        print("[!] Error: posts.json not found.")
+        return
 
     # 3. CONSTRUIR HOME (index.html)
     template_index = env.get_template('index.html')
-    # Na home, os assets estão na mesma pasta, então o caminho é 'assets'
+    # Na home, asset_path eh simples
     html_home = template_index.render(posts=posts, asset_path="assets")
     
     with open(os.path.join(OUTPUT_DIR, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(html_home)
-    print("✅ Home Page gerada.")
+    print("[OK] Home Page generated.")
 
-    # 4. CONSTRUIR POSTS (Páginas Internas)
+    # 4. CONSTRUIR POSTS (Paginas Internas)
     template_post = env.get_template('post.html')
     
+    count = 0
     for post in posts:
-        # Só gera página se tiver slug (se for status 'hero' ou 'post')
         slug = post.get('slug')
-        if not slug:
-            continue
+        if not slug: continue
 
-        # Caminho: dist/nome-do-post/
         post_folder = os.path.join(OUTPUT_DIR, slug)
         os.makedirs(post_folder, exist_ok=True)
 
-        # Ler o conteúdo HTML do arquivo separado
         content_file = post.get('content_file')
         body_content = ""
         
@@ -72,30 +90,38 @@ def build_site():
                 with open(path_to_article, 'r', encoding='utf-8') as f:
                     body_content = f.read()
             else:
-                body_content = "<p>[Sistema] Erro: Arquivo de conteúdo não encontrado.</p>"
+                body_content = "<p>[System] Error: Content file not found.</p>"
         
-        # --- PATCH DE CORREÇÃO AUTOMÁTICA DE CAMINHOS ---
-        # Troca 'assets/' por '../assets/' para funcionar na subpasta
+        # Patch de caminhos para subpasta (assets/ -> ../assets/)
         if body_content:
             body_content = body_content.replace('src="assets/', 'src="../assets/')
             body_content = body_content.replace('href="assets/', 'href="../assets/')
         
-        # Renderizar
-        # TRUQUE: asset_path="../assets" porque descemos um nível na pasta
+        # Renderiza injetando a lista completa de posts (para o grid do rodape)
         html_post = template_post.render(
             post=post, 
+            posts=posts, 
             body_content=body_content, 
-            asset_path="../assets"
+            asset_path="../assets" # Caminho relativo para voltar um nivel
         )
 
         with open(os.path.join(post_folder, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(html_post)
-        print(f"   └── Post gerado: {slug}")
+        
+        print(f"   [+] Generated: {slug}")
+        count += 1
 
-    print("\n🎉 Build concluído com sucesso!")
-    print(f"👉 Site pronto em: {OUTPUT_DIR}")
+    print(f"\n[DONE] Build finished. {count} posts generated.")
+    print(f"      Target: {OUTPUT_DIR}")
 
 if __name__ == "__main__":
-    clean_build_dir()
-    copy_assets()
-    build_site()
+    try:
+        clean_build_dir()
+        copy_assets()
+        build_site()
+    except KeyboardInterrupt:
+        print("\n[!] Build aborted by user.")
+        sys.exit(0)
+    except Exception as e:
+        print(f"\n[!] Critical Error: {e}")
+        sys.exit(1)

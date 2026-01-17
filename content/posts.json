@@ -1,25 +1,16 @@
 [
     {
-        "id": 13,
-        "title": "Bypassing WAF with JWT",
-        "category": "#CloudSecurity",
-        "description": "Building resilient C2 channels.<br>Use domain fronting and CDNs.",
-        "short_desc": "Building resilient Command and Control channels using domain fronting and CDNs.",
-        "url": "#",
-        "date": "2026-01-01",
-        "status": "hero"
-    },
-    {
         "id": 12,
         "title": "NTLM Relay Attacks in 2026",
-        "slug": "ntlm-relay-attacks",
-        "content_file": "post-exemplo.html",
+        "date": "2026-01-17",
         "category": "#ActiveDirectory",
         "description": "Post-exploitation starts with privilege escalation.<br>Gain root. Control everything.",
         "short_desc": "Moving laterally across the domain by exploiting legacy protocols and misconfigurations.",
-        "url": "post.html",
-        "date": "2026-01-09",
-        "status": "post"
+        "image": "assets/images/posts/hero.png",
+        "status": "post",
+        "content_file": "ntlm-relay-attacks-in-2026.html",
+        "slug": "ntlm-relay-attacks-in-2026",
+        "url": "ntlm-relay-attacks-in-2026/"
     },
     {
         "id": 11,
