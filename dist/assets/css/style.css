@@ -3,19 +3,18 @@
     --accent-green: #00FF88;
     --text-white: #ffffff;
     --text-gray: #a0a0a0;
-    
-    /* --- VARIÁVEL DE BORDA --- */
-    /* #333333 para bordas sutis mas visíveis */
-    --border-color: #333333; 
 
-    --font-heading: 'Inter', sans-serif; 
+    /* --- VARIÁVEL DE BORDA --- */
+    --border-color: #333333;
+
+    --font-heading: 'Inter', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-code: 'Fira Code', monospace;
 }
 
 * {
     margin: 0;
-    padding: 0; 
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -63,6 +62,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* Garante que o menu NUNCA empilhe, mesmo no mobile */
+    flex-direction: row; 
 }
 
 .brand-logo {
@@ -98,19 +99,16 @@ body {
     text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
 }
 
-/* --- HERO (TELA CHEIA E CENTRALIZADO) --- */
+/* --- HERO (TELA CHEIA E ALINHADO A ESQUERDA) --- */
 .hero-section {
     width: 100%;
-    /* Define altura como 100% da viewport (janela visível) */
-    height: 100vh; /* Fallback */
-    height: 100svh; /* Small Viewport Height - Trava a altura ignorando a barra */
+    height: 100vh;
+    height: 100svh;
     
-    /* Configuração do Flexbox para alinhamento */
     display: flex;
-    align-items: center; /* Centraliza o conteúdo VERTICALMENTE */
-    justify-content: center; /* Centraliza o container horizontalmente na tela */
-    
-    /* Mantém o background fixo e visual */
+    align-items: center; 
+    justify-content: center; 
+
     position: relative;
     overflow: hidden;
     background-image: url('../images/posts/hero.png');
@@ -124,7 +122,8 @@ body {
     position: relative;
     z-index: 2;
     width: 100%;
-    text-align: left;
+    /* Garante alinhamento a esquerda SEMPRE */
+    text-align: left; 
 }
 
 .post-card.featured {
@@ -135,21 +134,16 @@ body {
     font-family: var(--font-heading);
     color: var(--accent-green);
     
-    /* Tamanho responsivo fluido */
+    /* Hero Title da Home continua fluido com Clamp (Regra anterior) */
     font-size: clamp(2.5rem, 8vw, 5.5rem); 
     line-height: 1.1;
     margin-bottom: 40px;
     font-weight: 700;
     letter-spacing: -2px;
-    
-    /* Sombra escura para contraste */
     text-shadow: 4px 4px 8px #0a0a0a;
     
-    /* --- O TRUQUE PARA FORÇAR 2 LINHAS (DESKTOP) --- */
     width: 100%;
     max-width: 10em; 
-    
-    /* Garante que palavras longas não vazem a tela no mobile */
     text-wrap: balance;
     overflow-wrap: break-word; 
 }
@@ -157,7 +151,8 @@ body {
 .description-container {
     display: flex;
     gap: 20px;
-    align-items: flex-start;
+    align-items: flex-start; 
+    justify-content: flex-start;
     max-width: 580px;
     margin-bottom: 45px;
 }
@@ -174,19 +169,16 @@ body {
     color: var(--text-white);
     line-height: 1.4;
     align-self: center;
-    /* Sombra expandida para leitura */
     text-shadow: 4px 4px 10px #0a0a0a;
+    text-align: left; 
 }
 
 .cta-button {
     display: inline-block;
     font-family: var(--font-heading);
-    
-    /* --- ESTADO INICIAL (PREENCHIDO) --- */
-    background: var(--accent-green);       /* Fundo Verde */
-    color: var(--bg-color);                /* Letra Escura (para contraste) */
+    background: var(--accent-green);
+    color: var(--bg-color);
     border: 1px solid var(--accent-green);
-    
     text-decoration: none;
     font-size: clamp(0.85rem, 1.1vw, 1rem);
     padding: 0.5em 1.5em;
@@ -195,8 +187,6 @@ body {
     letter-spacing: 1px;
     white-space: nowrap;
     font-weight: 700;
-    
-    /* Sombra leve no texto para garantir leitura se o verde for muito neon */
     text-shadow: none; 
 }
 
@@ -229,6 +219,7 @@ body {
 
 .posts-grid {
     display: grid;
+    /* Auto-fit cuida das colunas sozinho */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
@@ -363,11 +354,13 @@ body {
 .single-post .entry-title {
     font-family: var(--font-heading);
     color: #e0e0e0;
-    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
     line-height: 1.1;
     margin-bottom: 25px;
-    font-weight: 700;
     letter-spacing: -1px;
+    
+    /* --- FIXO PARA DESKTOP (NAO ELASTICO) --- */
+    font-size: 3.5rem; 
 }
 
 .single-post .post-body {
@@ -501,7 +494,7 @@ body {
 
 .contact-card h3 {
     font-family: var(--font-heading);
-    font-size: 1.5rem; /* Ajustado para manter a hierarquia com o texto de 1rem */
+    font-size: 1.5rem;
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -519,24 +512,15 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    
-    /* Reduzi o gap de 20px para 15px para ficar proporcional à fonte menor */
-    gap: 15px; 
-    
+    gap: 15px;
     font-family: var(--font-code);
-    
-    /* --- TAMANHO SOLICITADO --- */
-    font-size: 1rem; 
+    font-size: 1rem;
 }
 
 .contact-list i {
     color: var(--accent-green);
-    
-    /* Ícone levemente maior que o texto (1.1rem) para equilíbrio */
-    font-size: 1.1rem; 
-    
-    /* Largura fixa ajustada para alinhar perfeitamente */
-    width: 24px; 
+    font-size: 1.1rem;
+    width: 24px;
     text-align: center;
 }
 
@@ -562,16 +546,15 @@ body {
 
 .footer-content {
     display: flex;
-    justify-content: space-between; /* Texto na esquerda, ícones na direita (Desktop) */
+    justify-content: space-between;
     align-items: center;
     color: var(--text-gray);
     font-size: 0.85rem;
 }
 
-/* Classe nova para organizar o texto de duas linhas */
 .footer-text {
     margin: 0;
-    line-height: 1.8; /* Espaçamento confortável entre as linhas */
+    line-height: 1.8;
 }
 
 .footer-links {
@@ -592,11 +575,10 @@ body {
     color: var(--accent-green);
 }
 
-/* --- FOOTER HEART & CREDITS (ELEMENTOS VISUAIS) --- */
 .heart-icon {
-    color: #ff5f56; /* Vermelho vibrante */
+    color: #ff5f56;
     display: inline-block;
-    animation: heartbeat 1.5s infinite; /* Batimento cardíaco */
+    animation: heartbeat 1.5s infinite;
     margin: 0 4px;
     font-size: 1.1rem;
     vertical-align: middle;
@@ -604,26 +586,25 @@ body {
 
 @keyframes heartbeat {
     0% { transform: scale(1); }
-    15% { transform: scale(1.3); } /* Pum... */
+    15% { transform: scale(1.3); }
     30% { transform: scale(1); }
-    45% { transform: scale(1.15); } /* ...Pum */
+    45% { transform: scale(1.15); }
     60% { transform: scale(1); }
     100% { transform: scale(1); }
 }
 
-/* Estilo do Link da Lander Digital */
 .creator-link {
-    color: var(--text-white); /* Texto branco */
-    font-weight: 700;         /* Negrito */
-    text-decoration: none;    /* Sem sublinhado padrão */
+    color: var(--text-white);
+    font-weight: 700;
+    text-decoration: none;
     transition: all 0.3s ease;
-    border-bottom: 1px solid transparent; 
+    border-bottom: 1px solid transparent;
 }
 
 .creator-link:hover {
-    color: var(--accent-green); /* Verde Neon no hover */
-    border-bottom: 1px solid var(--accent-green); /* Linha verde embaixo */
-    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4); /* Brilho sutil */
+    color: var(--accent-green);
+    border-bottom: 1px solid var(--accent-green);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
 }
 
 /* --- LOADER --- */
@@ -635,7 +616,7 @@ body {
     height: 100%;
     background: #0a0a0a;
     z-index: 9999;
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
     transition: opacity 0.8s ease, visibility 0.8s;
@@ -659,11 +640,11 @@ body {
 }
 
 .progress-fill {
-    width: 0%; 
+    width: 0%;
     height: 100%;
     background: var(--accent-green);
     box-shadow: 0 0 15px var(--accent-green);
-    transition: width 0.4s ease; 
+    transition: width 0.4s ease;
 }
 
 #loader-percentage {
@@ -678,7 +659,7 @@ body {
     visibility: hidden;
 }
 
-/* --- SEARCH OVERLAY (macOS Spotlight Style) --- */
+/* --- SEARCH OVERLAY --- */
 .search-overlay {
     position: fixed;
     top: 0;
@@ -859,124 +840,85 @@ body {
     color: var(--accent-green);
 }
 
-/* --- MEDIA QUERIES --- */
+/* ========================================================
+   MEDIA QUERIES OTIMIZADAS & SIMPLIFICADAS
+   ======================================================== */
 
-/* 1. Telas Extra Grandes (iMac) */
-@media (min-width: 1600px) {
-    .container { max-width: 1500px; padding: 0 50px; }
-    body { font-size: 18px; }
-
-    .single-post .post-content-area {
-        max-width: 1100px; 
-    }
-    
-    /* Home Title: JS controla. CSS apenas permite largura total */
-    .post-title { width: 100%; text-wrap: balance; }
-
-    /* Post Title: CSS controla. Tamanho fixo grande. */
-    .single-post .entry-title { font-size: 4rem; width: 100%; text-wrap: balance; }
-}
-
-/* 2. Desktops Padrão */
-@media (max-width: 1599px) {
-    .container { max-width: 1200px; }
-    
-    .post-title { width: 100%; text-wrap: balance; }
-    .single-post .entry-title { font-size: 3.5rem; text-wrap: balance; }
-}
-
-/* 3. Laptops e Tablets Grandes */
-@media (max-width: 1199px) {
-    .hero-section { min-height: 100svh; height: auto; }
-    .single-post .entry-title { font-size: 3rem; }
-}
-
-/* 4. Tablets e Netbooks (Abaixo de 991px) */
+/* ÚNICO Breakpoint Principal para Layout (Tablets e Menores) */
 @media (max-width: 991px) {
-    .container { padding: 0 30px; }
-    .hero-section { justify-content: center; align-items: center; }
-    .hero-section .container { text-align: left; }
+    /* Ajustes Gerais */
+    .container {
+        padding: 0 25px;
+    }
 
-    .post-title { width: 100%; text-wrap: balance; }
-    .single-post .entry-title { font-size: 2.8rem; }
+    /* About Section vira 1 coluna */
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
 
+/* Ajustes Específicos para Mobile (< 768px) */
+@media (max-width: 768px) {
+    /* Header: Mantém linha, reduz espaçamento */
+    .nav-links {
+        gap: 15px;
+    }
+
+    /* Hero: Garante alinhamento à esquerda mesmo no mobile */
+    .hero-section .container {
+        text-align: left;
+    }
     .description-container {
-        display: flex; flex-direction: row; align-items: stretch;
-        justify-content: flex-start; text-align: left; margin-bottom: 30px; gap: 12px !important; 
+        justify-content: flex-start;
+        text-align: left;
     }
-    .vertical-bar {
-        width: 4px; height: auto; min-height: 100%;
-        margin-right: 0 !important; margin-bottom: 0; align-self: stretch;
+    .description-text {
+        text-align: left;
     }
-    .description-text { font-size: 1.1rem; }
-    .cta-button { width: auto; display: inline-block; }
-    .about-content { grid-template-columns: 1fr; gap: 40px; }
-    .contact-card { max-width: 100%; }
-}
-
-/* 5. Celulares Gerais (Abaixo de 767px) */
-@media (max-width: 767px) {
-    .nav-container { flex-direction: row !important; justify-content: space-between !important; padding: 0 25px; }
-    .nav-links { gap: 15px; width: auto; }
-    .hero-section { padding-top: 80px; background-attachment: scroll; align-items: center; }
-
-    .post-title { width: 100%; text-wrap: balance; line-height: 1.1; }
-    .single-post .entry-title { font-size: 2.5rem; }
-
-    .description-text { font-size: 1.25rem; }
-    .cta-button { font-size: 1rem; padding: 0.6em 1.5em; }
-    .footer-content { flex-direction: column; gap: 20px; text-align: center; }
-}
-
-/* 6. Celulares Pequenos (Abaixo de 480px) */
-@media (max-width: 480px) {
-    .container { padding: 0 20px; }
-    .post-title { font-size: 2.5rem; } /* JS pode ajustar, mas aqui é fallback */
-    .single-post .entry-title { font-size: 2.2rem; }
     
-    .description-text { font-size: 1.15rem; line-height: 1.5; }
-    .cta-button { width: 50%; text-align: center; padding: 0.6em 0.8em; }
-    .vertical-bar { margin-right: 0 !important; }
+    /* TITULO DO POST NO MOBILE (FIXO) */
+    .single-post .entry-title {
+        font-size: 3rem;
+    }
+
+    /* Footer: Empilha conteúdo */
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    /* Search Overlay */
+    .search-overlay {
+        padding-top: 20px;
+    }
+    .search-container {
+        width: 95%;
+    }
+    #close-search {
+        display: none;
+    }
 }
 
-/* 7. Modo Paisagem Mobile */
+/* Ajustes para Telas Muito Pequenas ou Paisagem Mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
-        min-height: 100svh; height: auto !important; display: flex !important;
-        align-items: center !important; justify-content: center;
-        padding-top: 80px !important; padding-bottom: 20px; background-attachment: scroll;
+        height: auto;
+        min-height: 100vh;
+        padding-top: 80px;
+        padding-bottom: 40px;
     }
-    .post-title { font-size: 2.2rem !important; margin-bottom: 15px; width: 100%; text-wrap: balance; }
-    .single-post .entry-title { font-size: 2rem; }
-    .description-container { align-items: center; }
+    .search-results {
+        max-height: 40vh;
+    }
 }
 
-/* --- SEARCH RESPONSIVENESS (MOBILE) --- */
-@media (max-width: 768px) {
-    .search-overlay { padding-top: 20px; align-items: flex-start; }
-    .search-container { width: 92%; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.9); }
-    .search-input-wrapper { padding: 15px; }
-    .search-icon { font-size: 1rem; margin-right: 10px; }
-    #search-input { font-size: 1rem; }
-    #close-search { display: none; }
-    .search-results { max-height: 60vh; }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-    .search-overlay { padding-top: 10px; }
-    .search-results { max-height: 40vh; }
-}
-
-/* --- FOOTER RESPONSIVIDADE --- */
-@media (max-width: 767px) {
-    .footer-content { flex-direction: column; gap: 25px; text-align: center; }
-}
-
-/* --- UTILITARIOS JS (IMPORTANTE: MANTENHA NO FINAL) --- */
+/* --- UTILITARIOS JS --- */
 .hidden {
     display: none !important;
 }
 
 .js-control {
-    /* Marcador logico, nao precisa de estilo */
+    /* Marcador logico */
 }

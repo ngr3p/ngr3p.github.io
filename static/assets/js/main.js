@@ -19,11 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(() => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
-            
-            // INICIALIZAÇÕES VISUAIS
-            fitTitle();      // Ajusta texto do Hero
             initReveal();    // Animações de entrada
-            initSmartGrid(); // Lógica de Quantidade de Posts (NOVO)
+            initSmartGrid(); // Lógica de Quantidade de Posts
         }, 600);
     });
 
@@ -46,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1 });
 
     function initReveal() {
-        // Pega elementos visuais estáticos (Header, Hero)
         const elements = document.querySelectorAll('.post-card.featured, .hero-content');
         elements.forEach(el => {
             Object.assign(el.style, {
@@ -59,28 +55,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 4. SMART GRID LOGIC (RESPONSIVO) ---
-    // Essa lógica controla os posts gerados pelo Python com a classe .js-control
     const loadMoreBtn = document.getElementById('load-more-btn');
     const gridContainer = document.querySelector('.posts-grid');
     
-    // Pega todos os posts invisíveis gerados pelo Python
     let allGridItems = Array.from(document.querySelectorAll('.js-control'));
     let displayedCount = 0;
 
-    // Descobre quantas colunas o CSS está mostrando na tela atual
     function getGridColumns() {
         if (!gridContainer) return 1;
         const style = window.getComputedStyle(gridContainer);
         const template = style.getPropertyValue('grid-template-columns');
-        // Conta os espaços definidos no grid (ex: "1fr 1fr" = 2)
         return template.split(' ').length || 1;
     }
 
-    // Define quantos posts mostrar por vez (Lote)
     function getBatchSize() {
         const cols = getGridColumns();
-        // Se 1 coluna (mobile) -> Mostra 6
-        // Se 2, 3 ou 4 colunas -> Mostra (Colunas * 2). Ex: 4 cols = 8 posts.
         return (cols === 1) ? 6 : (cols * 2);
     }
 
@@ -91,17 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let nextLimit = displayedCount + batchSize;
         if (nextLimit > total) nextLimit = total;
 
-        // Loop para revelar os itens
         for (let i = displayedCount; i < nextLimit; i++) {
             if (allGridItems[i]) {
                 allGridItems[i].classList.remove('hidden');
                 
-                // Aplica animação suave
                 allGridItems[i].style.opacity = '0';
                 allGridItems[i].style.transform = 'translateY(20px)';
                 allGridItems[i].style.transition = 'all 0.6s ease-out';
                 
-                // Pequeno delay para efeito cascata
                 setTimeout(() => {
                     allGridItems[i].style.opacity = '1';
                     allGridItems[i].style.transform = 'translateY(0)';
@@ -110,76 +96,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         displayedCount = nextLimit;
 
-        // Controle do Botão
         if (loadMoreBtn) {
             if (displayedCount >= total) {
-                loadMoreBtn.style.display = 'none'; // Acabaram os posts
+                loadMoreBtn.style.display = 'none';
             } else {
-                loadMoreBtn.style.display = 'inline-block'; // Ainda tem posts
+                loadMoreBtn.style.display = 'inline-block';
             }
         }
     }
 
     function initSmartGrid() {
         if (allGridItems.length > 0) {
-            // Mostra o primeiro lote imediatamente
             showNextBatch();
-            
-            // Ativa o clique do botão
             if (loadMoreBtn) {
                 loadMoreBtn.addEventListener('click', (e) => {
-                    e.preventDefault(); // Impede o link de pular para o topo
+                    e.preventDefault();
                     showNextBatch();
                 });
             }
         } else {
-            // Se não tem posts, esconde o botão
             if (loadMoreBtn) loadMoreBtn.style.display = 'none';
         }
     }
 
-
-    // --- 5. HERO TITLE FIT (TIPOGRAFIA) ---
-    function fitTitle() {
-        const title = document.querySelector('.hero-title') || document.querySelector('.entry-title');
-        if (!title) return;
-
-        let text = title.innerHTML; 
-        if (!text.includes('&nbsp;') && title.textContent.trim().split(' ').length > 2) {
-            title.innerHTML = title.textContent.trim().replace(/\s+([^\s]+)$/, '&nbsp;$1');
-        }
-
-        const textLength = title.textContent.trim().length;
-        const screenWidth = window.innerWidth;
-        
-        let maxFontSize, minFontSize;
-
-        if (screenWidth >= 1600) { maxFontSize = 6.0; minFontSize = 4.0; } 
-        else if (screenWidth >= 1200) { maxFontSize = 5.0; minFontSize = 3.5; } 
-        else if (screenWidth >= 768) { maxFontSize = 4.0; minFontSize = 2.5; } 
-        else { maxFontSize = 2.5; minFontSize = 1.8; }
-
-        let calculatedSize;
-        if (textLength < 15) calculatedSize = maxFontSize;
-        else if (textLength > 40) calculatedSize = minFontSize;
-        else {
-            const ratio = (textLength - 15) / (40 - 15); 
-            calculatedSize = maxFontSize - (ratio * (maxFontSize - minFontSize));
-        }
-
-        title.style.fontSize = `${calculatedSize}rem`;
-    }
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            fitTitle();
-        }, 100); 
-    });
-
-
-    // --- 6. SEARCH MODULE ---
+    // --- 5. SEARCH MODULE (CORRIGIDO: CAMINHOS ABSOLUTOS) ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
@@ -189,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let allPosts = []; 
     let selectedIndex = -1; 
 
-    // Busca silenciosa dos dados
-    fetch('assets/data/posts.json')
+    // FIX 1: Adicionada a barra '/' no inicio para buscar sempre da raiz do site
+    fetch('/assets/data/posts.json')
         .then(response => response.json())
         .then(data => { allPosts = data; })
         .catch(err => console.error("Search system offline (local check):", err));
@@ -244,8 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const filteredPosts = allPosts.filter(post => post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term));
             
             if (filteredPosts.length > 0) {
+                // FIX 2: Adicionada barra '/' no href para o link funcionar de dentro das subpastas
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
-                    <a href="${post.url}" class="search-item" data-index="${index}">
+                    <a href="/${post.url}" class="search-item" data-index="${index}">
                         <span>${post.category}</span><h4>${post.title}</h4>
                     </a>`).join('');
             } else { 
@@ -254,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 7. IMAGE LIGHTBOX ---
+    // --- 6. IMAGE LIGHTBOX ---
     const imageModal = document.getElementById('image-modal');
     const modalImg = document.getElementById('img-expanded');
     const captionText = document.getElementById('caption-text');
