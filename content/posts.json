@@ -12,6 +12,8 @@
   {
     "id": 12,
     "title": "NTLM Relay Attacks in 2026",
+    "slug": "ntlm-relay-attacks",
+    "content_file": "post-exemplo.html",
     "category": "#ActiveDirectory",
     "description": "Post-exploitation starts with privilege escalation.<br>Gain root. Control everything.",
     "short_desc": "Moving laterally across the domain by exploiting legacy protocols and misconfigurations.",

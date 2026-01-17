@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }} // ngr3p</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ asset_path }}/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="single-post">
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="main-header header-scrolled">
+        <nav class="nav-container container">
+            <a href="/" class="brand-logo">
+                <img src="{{ asset_path }}/images/ui/logo.png" alt="ngr3p">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/#blog">Blog</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="#" id="search-trigger" title="Search (Ctrl+K or Cmd+K)"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-content-area container">
+        <article class="full-post">
+            <header class="post-header">
+                <span class="post-cat">{{ post.category }}</span>
+                
+                <h1 class="entry-title">{{ post.title }}</h1>
+                
+                <div class="post-meta">{{ post.date }} • 15 min read</div>
+            </header>
+
+            <section class="post-body">
+                {{ body_content | safe }}
+            </section>
+        </article>
+    </main>
+
+    <section class="latest-posts" style="background-color: var(--bg-color); border-top: 1px solid #242424;">
+        <div class="container">
+            <div class="section-label">Latest <span>Researches_</span></div>
+            
+            <div class="posts-grid" id="related-posts-grid">
+                </div>
+
+            <div class="load-more-container">
+                <button id="load-more-btn">./ACCESS_MORE_FILES</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p class="footer-text">
+                &copy; 2026 ngr3p // Offense informs Defense<br>
+                Made with <span class="heart-icon">❤</span> by <a href="https://landerdigital.com" target="_blank" rel="noopener noreferrer" class="creator-link">Lander Digital</a>
+            </p>
+
+            <div class="footer-links">
+                <a href="https://github.com/ngr3p" target="_blank" title="Source Code & Tools">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://x.com/ngr3p" target="_blank" title="Infosec News & Threads">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a href="https://instagram.com/ngr3p" target="_blank" title="Technical Carousels">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-terminal search-icon"></i>
+                <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
+                <button id="close-search">ESC</button>
+            </div>
+            <div id="search-results-container" class="search-results">
+                </div>
+        </div>
+    </div>
+
+    <div id="image-modal" class="image-modal hidden">
+        <span id="close-modal-btn">&times;</span>
+        <img class="modal-content" id="img-expanded">
+        <div id="caption-text"></div>
+    </div>
+
+    <script src="{{ asset_path }}/js/main.js"></script>
+</body>
+</html>

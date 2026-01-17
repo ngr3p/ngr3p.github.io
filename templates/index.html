@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ngr3p - Offensive Security & Red Team Research">
+    <title>ngr3p // Red Team Blog</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ asset_path }}/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="main-header">
+        <nav class="nav-container container">
+            <a href="index.html" class="brand-logo">
+                <img src="{{ asset_path }}/images/ui/logo.png" alt="ngr3p">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#" id="search-trigger" title="Search (Ctrl+K or Cmd+K)"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="container"> 
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="latest-posts" id="blog">
+            <h2 class="section-label">Latest Researches<span>_</span></h2>
+            
+            <div class="posts-grid">
+            </div>
+
+            <div class="load-more-container">
+                <button id="load-more-btn">./ACCESS_MORE_FILES</button>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <h2 class="section-label">About<span>_</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I'm Leo, aka <strong>ngr3p</strong> — this blog is a personal initiative to explore offensive security with intention, focus, and consistency.</p>
+
+                    <p>I’m driven by curiosity. I explore systems to understand how they work, where security flaws exist, and how they can be corrected and improved to become more resilient.</p>
+
+                    <p>Everything you see here is part of my learning process — documenting, practicing, reflecting, repeating. This blog is my personal repository. Sharing what I learn is part of my mission. If it helps someone else along the way, then it’s already worth it.</p>
+
+                    <p class="highlight-text">If you're on this journey too — welcome. Stay focused. Stay sharp. Keep breaking things, and document everything.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Contact<span>_</span></h3>
+                    <ul class="contact-list">
+                        <li><i class="fa-regular fa-envelope"></i> <a href="mailto:ngr3p@disroot.org">ngr3p@disroot.org</a></li>
+                        <li><i class="fa-brands fa-github"></i> <a href="https://github.com/ngr3p" target="_blank">github.com/ngr3p</a></li>
+                        <li><i class="fa-brands fa-x-twitter"></i> <a href="https://x.com/ngr3p" target="_blank">@ngr3p</a></li>
+                        <li><i class="fa-brands fa-instagram"></i> <a href="https://instagram.com/ngr3p" target="_blank">@ngr3p</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p class="footer-text">
+                &copy; 2026 ngr3p // Offense informs Defense<br>
+                Made with <span class="heart-icon">❤</span> by <a href="https://landerdigital.com" target="_blank" rel="noopener noreferrer" class="creator-link">Lander Digital</a>
+            </p>
+
+            <div class="footer-links">
+                <a href="https://github.com/ngr3p" target="_blank" title="Source Code & Tools">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://x.com/ngr3p" target="_blank" title="Infosec News & Threads">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a href="https://instagram.com/ngr3p" target="_blank" title="Technical Carousels">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-terminal search-icon"></i>
+                <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
+                <button id="close-search">ESC</button>
+            </div>
+            <div id="search-results-container" class="search-results">
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset_path }}/js/main.js"></script>
+</body>
+</html>

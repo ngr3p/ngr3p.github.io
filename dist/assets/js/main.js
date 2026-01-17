@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return (cols === 1) ? 6 : (cols * 2);
     }
 
-    fetch('assets/data/posts.json')
+    fetch('/assets/data/posts.json')
         .then(response => response.json())
         .then(data => {
             allPosts = data; 
