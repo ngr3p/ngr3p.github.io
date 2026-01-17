@@ -119,21 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. SEARCH MODULE (CORRIGIDO: CAMINHOS ABSOLUTOS) ---
+    // --- 5. SEARCH MODULE (CAMINHOS RELATIVOS DINÂMICOS) ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results-container');
     const closeSearchBtn = document.getElementById('close-search');
     
+    // DETECÇÃO AUTOMÁTICA DE LOCAL
+    // Se tiver a classe 'single-post', estamos numa pasta interna (/dist/post/), então voltamos um nível (../)
+    // Se não, estamos na raiz (/dist/), então usamos o nível atual (./)
+    const isSinglePost = document.body.classList.contains('single-post');
+    const pathPrefix = isSinglePost ? '../' : './';
+
     let allPosts = []; 
     let selectedIndex = -1; 
 
-    // FIX 1: Adicionada a barra '/' no inicio para buscar sempre da raiz do site
-    fetch('/assets/data/posts.json')
+    // FIX: Usa o prefixo para achar o arquivo JSON corretamente em qualquer ambiente (/dist, local, raiz)
+    fetch(pathPrefix + 'assets/data/posts.json')
         .then(response => response.json())
         .then(data => { allPosts = data; })
-        .catch(err => console.error("Search system offline (local check):", err));
+        .catch(err => console.error("Search system offline:", err));
 
     if (searchTrigger) searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
 
@@ -184,9 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const filteredPosts = allPosts.filter(post => post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term));
             
             if (filteredPosts.length > 0) {
-                // FIX 2: Adicionada barra '/' no href para o link funcionar de dentro das subpastas
+                // FIX: Usa o prefixo também nos links para navegar corretamente dentro do /dist/
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
-                    <a href="/${post.url}" class="search-item" data-index="${index}">
+                    <a href="${pathPrefix}${post.url}" class="search-item" data-index="${index}">
                         <span>${post.category}</span><h4>${post.title}</h4>
                     </a>`).join('');
             } else { 
