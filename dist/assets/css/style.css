@@ -219,7 +219,7 @@ body {
 
 .posts-grid {
     display: grid;
-    /* Auto-fit cuida das colunas sozinho */
+    /* Auto-fit cuida da responsividade das colunas sozinho */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
@@ -914,9 +914,15 @@ body {
 /* Ajustes para Telas Muito Pequenas ou Paisagem Mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-section {
-        height: auto;
-        min-height: 100vh;
-        padding-top: 80px;
+        /* REPLICAÇÃO DA CORREÇÃO PARA O MODO HORIZONTAL */
+        background-attachment: scroll !important;
+        height: 100svh !important;
+        min-height: 100svh;
+        
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center;
+        padding-top: 80px !important;
         padding-bottom: 40px;
     }
     .search-results {
