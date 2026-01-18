@@ -54,16 +54,16 @@
             
             <div class="posts-grid" id="related-posts-grid">
                 {% for p in posts %}
-                    {% if p.id != post.id %}
-                    
-                    <a href="../{{ p.url }}" class="grid-item js-control hidden">
-                        <span class="post-cat">{{ p.category }}</span>
-                        <h3>{{ p.title }}</h3>
-                        <p>{{ p.short_desc }}</p>
-                        <span class="read-link">Read Analysis_</span>
-                    </a>
-                    
-                    {% endif %}
+                {% if p.id != post.id %}
+                
+                <a href="../{{ p.url }}" class="grid-item js-control hidden">
+                    <span class="post-cat">{{ p.category }}</span>
+                    <h3>{{ p.title }}</h3>
+                    <p>{{ p.short_desc }}</p>
+                    <span class="read-link">Read Analysis_</span>
+                </a>
+                
+                {% endif %}
                 {% endfor %}
             </div>
 
@@ -76,8 +76,7 @@
     <footer class="main-footer">
         <div class="container footer-content">
             <p class="footer-text">
-                &copy; 2026 ngr3p // Offense informs Defense<br>
-                Made with <span class="heart-icon">❤</span> by <a href="https://landerdigital.com" target="_blank" rel="noopener noreferrer" class="creator-link">Lander Digital</a>
+                &copy; 2026 ngr3p // Offense informs Defense
             </p>
 
             <div class="footer-links">
