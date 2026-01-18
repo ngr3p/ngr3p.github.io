@@ -360,9 +360,7 @@ body {
     line-height: 1.1;
     margin-bottom: 25px;
     letter-spacing: -1px;
-    
-    /* --- FIXO PARA DESKTOP (NAO ELASTICO) --- */
-    font-size: 3.5rem; 
+    font-size: clamp(2.8rem, 5vw, 3.5rem);
 }
 
 .single-post .post-body {
@@ -855,11 +853,6 @@ body {
         text-align: left;
     }
     
-    /* TITULO DO POST NO MOBILE (FIXO) */
-    .single-post .entry-title {
-        font-size: 2.8rem;
-    }
-
     /* Footer: Empilha conteúdo */
     .footer-content {
         flex-direction: column;
