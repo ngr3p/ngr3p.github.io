@@ -58,15 +58,87 @@ def create_post():
     filename = f"{slug}.html"
     filepath = os.path.join(ARTICLES_DIR, filename)
 
-    html_template = f"""<h2>Introduction</h2>
-<p>Write introduction...</p>
+    # --- TEMPLATE RICO (LOREM IPSUM + ESTRUTURA) ---
+    html_template = """<h2>0x00 - Executive Summary</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <strong>Impact analysis</strong> suggests critical vulnerability in the core system logic.</p>
 
-<h3>Phase 1: Recon</h3>
-<p>Technical details...</p>
+<h2>0x01 - Prerequisites & Tooling</h2>
+<p>To follow this guide, ensure your lab meets the following requirements:</p>
+<ul>
+    <li><strong>Attacker Machine:</strong> Kali Linux (Updated) or Commando VM.</li>
+    <li><strong>Target Environment:</strong> Windows Server 2019 / Active Directory Forest.</li>
+    <li><strong>Tools:</strong>
+        <ul>
+            <li><a href="#" target="_blank">LoremTool v2.1</a>: Framework standard for network analysis.</li>
+            <li><a href="#" target="_blank">IpsumScript</a>: Automation tool for payload delivery.</li>
+            <li><a href="#" target="_blank">DolorSploit</a>: The main exploitation engine used in this demo.</li>
+        </ul>
+    </li>
+</ul>
+
+<h2>0x02 - The Theory</h2>
+<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+
+<h2>0x03 - Step-by-Step Execution</h2>
+
+<h3>Step 1: Initial Reconnaissance</h3>
+<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+<div class="terminal-block">
+    <div class="terminal-header">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="file-name">kali@ngr3p: ~</span>
+    </div>
+    <pre><code>sudo lorem-scan -target 192.168.1.100 --verbose</code></pre>
+</div>
+
+<h3>Step 2: Exploitation & Payload Delivery</h3>
+<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+
+<div class="screenshot-container">
+    <div class="terminal-header">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+    </div>
+    <img src="assets/images/posts/hero.png" alt="Screenshot placeholder showing exploit execution">
+    <figcaption class="post-image figcaption">
+        Figure 1.0: Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus.
+    </figcaption>
+</div>
 
 <div class="terminal-block">
-    <pre><code>command here</code></pre>
+    <div class="terminal-header">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="file-name">bash — exploit.py</span>
+    </div>
+    <pre><code>python3 ipsum_exploit.py --payload reverse_tcp --lhost 10.10.10.5</code></pre>
 </div>
+
+<h3>Step 3: Post-Exploitation</h3>
+<p>Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+
+<h2>0x04 - Proof of Concept (PoC)</h2>
+<p>Once the execution is complete, the system returns the following hash dump:</p>
+
+<div class="terminal-block">
+    <div class="terminal-header">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="file-name">output — result</span>
+    </div>
+    <pre><code>[+] Exploit completed successfully.
+[+] Session 1 opened (10.10.10.5:4444 -> 192.168.1.100:59832)
+
+uid=0(root) gid=0(root) groups=0(root)
+DONE.</code></pre>
+</div>
+
+<h2>0x05 - Offense informs Defense</h2>
+<p>To mitigate these vectors, consider the following hardening steps:</p>
+<ul>
+    <li><strong>Lorem Configuration:</strong> Ensure <code>disable_root_login</code> is set to true.</li>
+    <li><strong>Ipsum Patching:</strong> Apply security update KB-123456 immediately.</li>
+    <li><strong>Network Segmentation:</strong> Isolate critical assets using VLANs and firewalls.</li>
+</ul>
 """
     
     if not os.path.exists(ARTICLES_DIR): os.makedirs(ARTICLES_DIR)

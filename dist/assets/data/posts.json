@@ -1,5 +1,18 @@
 [
     {
+        "id": 13,
+        "title": "Post-Exploitation Networking",
+        "date": "2026-01-19",
+        "category": "#Infrastructure",
+        "description": "Identifying pivot points.<br>Understanding the target's network.",
+        "short_desc": "Post-exploitation success hinges on internal reconnaissance.",
+        "image": "assets/images/posts/hero.png",
+        "status": "post",
+        "content_file": "post-exploitation-networking.html",
+        "slug": "post-exploitation-networking",
+        "url": "post-exploitation-networking/"
+    },
+    {
         "id": 12,
         "title": "NTLM Relay Attacks in 2026",
         "date": "2026-01-17",
