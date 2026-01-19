@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
             initReveal();    // Animações de entrada
             initSmartGrid(); // Lógica de Quantidade de Posts
+            checkHashPosition(); // Garante o scroll para #about ao carregar a index
         }, 600);
     });
 
@@ -119,23 +120,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. SEARCH MODULE (CAMINHOS RELATIVOS DINÂMICOS) ---
+    // --- 5. SEARCH MODULE ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results-container');
     const closeSearchBtn = document.getElementById('close-search');
     
-    // DETECÇÃO AUTOMÁTICA DE LOCAL
-    // Se tiver a classe 'single-post', estamos numa pasta interna (/dist/post/), então voltamos um nível (../)
-    // Se não, estamos na raiz (/dist/), então usamos o nível atual (./)
     const isSinglePost = document.body.classList.contains('single-post');
     const pathPrefix = isSinglePost ? '../' : './';
 
     let allPosts = []; 
     let selectedIndex = -1; 
 
-    // FIX: Usa o prefixo para achar o arquivo JSON corretamente em qualquer ambiente (/dist, local, raiz)
     fetch(pathPrefix + 'assets/data/posts.json')
         .then(response => response.json())
         .then(data => { allPosts = data; })
@@ -190,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const filteredPosts = allPosts.filter(post => post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term));
             
             if (filteredPosts.length > 0) {
-                // FIX: Usa o prefixo também nos links para navegar corretamente dentro do /dist/
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
                     <a href="${pathPrefix}${post.url}" class="search-item" data-index="${index}">
                         <span>${post.category}</span><h4>${post.title}</h4>
@@ -234,19 +230,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentUrl = encodeURIComponent(window.location.href);
         const pageTitle = encodeURIComponent(document.title);
         
-        // Elementos
         const btnX = document.getElementById('share-x');
         const btnTele = document.getElementById('share-telegram');
         const btnLinked = document.getElementById('share-linkedin');
         const btnCopy = document.getElementById('share-copy');
         const feedback = document.getElementById('copy-feedback');
 
-        // Configurar Links
         if(btnX) btnX.href = `https://twitter.com/intent/tweet?text=${pageTitle}&url=${currentUrl}`;
         if(btnTele) btnTele.href = `https://t.me/share/url?url=${currentUrl}&text=${pageTitle}`;
         if(btnLinked) btnLinked.href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
 
-        // Lógica de Copiar
         if (btnCopy) {
             btnCopy.addEventListener('click', () => {
                 navigator.clipboard.writeText(window.location.href).then(() => {
@@ -262,6 +255,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initShareSystem();
+
+    // --- 8. HASH POSITION CHECK (SIMPLE) ---
+    // Apenas verifica se a página carregou com um #link (ex: #about) e rola até lá
+    function checkHashPosition() {
+        if (window.location.hash) {
+            const targetElement = document.querySelector(window.location.hash);
+            if (targetElement) {
+                // Pequeno delay para garantir que o layout renderizou após o preloader
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    }
 
     console.log("%c ngr3p %c system: online %c", "background:#00FF88; color:#000; font-weight:bold; border-radius:3px 0 0 3px; padding:2px 5px;", "background:#1a1a1a; color:#00FF88; font-weight:bold; border-radius:0 3px 3px 0; padding:2px 5px;", "background:transparent");
 });
