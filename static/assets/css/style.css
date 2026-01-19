@@ -344,7 +344,7 @@ body {
 
 .single-post .post-content-area {
     padding-top: 140px;
-    padding-bottom: 80px;
+    padding-bottom: 30px;
     max-width: 900px;
     margin: 0 auto;
 }
@@ -805,6 +805,87 @@ body {
 
 #close-modal-btn:hover {
     color: var(--accent-green);
+}
+
+/* --- SHARE SECTION --- */
+.share-section {
+    margin-top: 60px;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.share-label {
+    font-family: var(--font-code);
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    color: var(--text-white);
+    text-decoration: none;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.share-btn i {
+    color: var(--text-gray);
+    transition: color 0.3s;
+}
+
+/* Efeito Hover Neon */
+.share-btn:hover {
+    border-color: var(--accent-green);
+    background: rgba(0, 255, 136, 0.05);
+    transform: translateY(-2px);
+    color: var(--accent-green);
+}
+
+.share-btn:hover i {
+    color: var(--accent-green);
+}
+
+/* Feedback de Cópia */
+#copy-feedback {
+    font-family: var(--font-code);
+    color: var(--accent-green);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Responsivo para mobile */
+@media (max-width: 600px) {
+    .share-buttons {
+        flex-direction: column; /* Botões empilhados no mobile */
+    }
+    .share-btn {
+        justify-content: center;
+        width: 100%;
+    }
 }
 
 /* ========================================================

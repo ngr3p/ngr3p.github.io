@@ -229,5 +229,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (imageModal) imageModal.addEventListener('click', (e) => { if (e.target === imageModal || e.target === modalImg) closeImageModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && imageModal && !imageModal.classList.contains('hidden')) closeImageModal(); });
 
+    // --- 7. SHARE SYSTEM ---
+    function initShareSystem() {
+        const currentUrl = encodeURIComponent(window.location.href);
+        const pageTitle = encodeURIComponent(document.title);
+        
+        // Elementos
+        const btnX = document.getElementById('share-x');
+        const btnTele = document.getElementById('share-telegram');
+        const btnLinked = document.getElementById('share-linkedin');
+        const btnCopy = document.getElementById('share-copy');
+        const feedback = document.getElementById('copy-feedback');
+
+        // Configurar Links
+        if(btnX) btnX.href = `https://twitter.com/intent/tweet?text=${pageTitle}&url=${currentUrl}`;
+        if(btnTele) btnTele.href = `https://t.me/share/url?url=${currentUrl}&text=${pageTitle}`;
+        if(btnLinked) btnLinked.href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
+
+        // Lógica de Copiar
+        if (btnCopy) {
+            btnCopy.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    if (feedback) {
+                        feedback.classList.remove('hidden');
+                        setTimeout(() => feedback.classList.add('hidden'), 3000);
+                    }
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            });
+        }
+    }
+
+    initShareSystem();
+
     console.log("%c ngr3p %c system: online %c", "background:#00FF88; color:#000; font-weight:bold; border-radius:3px 0 0 3px; padding:2px 5px;", "background:#1a1a1a; color:#00FF88; font-weight:bold; border-radius:0 3px 3px 0; padding:2px 5px;", "background:transparent");
 });

@@ -125,184 +125,211 @@ Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
     <li><strong>EPA:</strong> Enable Extended Protection for Authentication on sensitive services.</li>
 </ul>
             </section>
+            <div class="share-section">
+                <span class="share-label">Share_Protocol:</span>
+                <div class="share-buttons">
+                    <button class="share-btn copy-btn" id="share-copy" title="Copy Link to Clipboard">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
+
+                    <a href="#" class="share-btn" id="share-x" target="_blank" title="Share on X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                        <span>X_Plat</span>
+                    </a>
+
+                    <a href="#" class="share-btn" id="share-telegram" target="_blank" title="Send via Telegram">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+
+                    <a href="#" class="share-btn" id="share-linkedin" target="_blank" title="Share on LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+                <div id="copy-feedback" class="hidden">>> Link copied to clipboard_</div>
+            </div>
         </article>
     </main>
+</article>
+</main>
 
-    <section class="latest-posts" style="background-color: var(--bg-color); border-top: 1px solid #242424;">
-        <div class="container">
-            <h2 class="section-label">Latest <span>Researches_</span></h2>
+<section class="latest-posts">
+    <div class="container" style="border-top: 1px solid #242424; padding-top: 100px;">
+        <h2 class="section-label">Latest <span>Researches_</span></h2>
+
+        <div class="posts-grid" id="related-posts-grid">
             
-            <div class="posts-grid" id="related-posts-grid">
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#MalwareDev</span>
-                    <h3>Process Injection Techniques</h3>
-                    <p>Exploring modern ways to hide malicious code inside legitimate system processes.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#WebHacking</span>
-                    <h3>Bypassing WAF with JWT</h3>
-                    <p>How broken identity implementations can lead to full administrative access.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#WindowsInternals</span>
-                    <h3>EDR Evasion via Syscalls</h3>
-                    <p>Direct system calls to bypass user-mode hooks in modern security solutions.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#CloudSecurity</span>
-                    <h3>AWS IAM Misconfigurations</h3>
-                    <p>Escalating privileges through overly permissive Identity and Access Management roles.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#Cryptography</span>
-                    <h3>Cracking Kerberos Tickets</h3>
-                    <p>Advanced Kerberoasting techniques and hash cracking at scale for domain takeover.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#Phishing</span>
-                    <h3>Adversary-in-the-Middle</h3>
-                    <p>Bypassing Multi-Factor Authentication (MFA) using sophisticated proxy tools.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#ReverseEngineering</span>
-                    <h3>Analyzing Kernel Drivers</h3>
-                    <p>Finding vulnerabilities in third-party drivers to execute code at Ring 0.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#RedTeam</span>
-                    <h3>C2 Infrastructure Setup</h3>
-                    <p>Building resilient Command and Control channels using domain fronting and CDNs.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#PostExploitation</span>
-                    <h3>Linux Persistence Mechanisms</h3>
-                    <p>From systemd services to hidden cronjobs: how to stay inside the box.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#ExploitDev</span>
-                    <h3>Heap Overflow Analysis</h3>
-                    <p>Understanding memory corruption bugs to build reliable exploits for Linux binaries.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-                
-                
-                <a href="../#" class="grid-item js-control hidden">
-                    <span class="post-cat">#OPSEC</span>
-                    <h3>Obfuscating PowerShell</h3>
-                    <p>Techniques to avoid AMSI detection and logging while executing offensive scripts.</p>
-                    <span class="read-link">Read Analysis_</span>
-                </a>
-                
-                
-                
-            </div>
+            
+            
+            
 
-            <div class="load-more-container">
-                <a href="/#blog" id="load-more-btn" style="text-decoration:none;">./ACCESS_MORE_FILES</a>
-            </div>
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#MalwareDev</span>
+                <h3>Process Injection Techniques</h3>
+                <p>Exploring modern ways to hide malicious code inside legitimate system processes.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#WebHacking</span>
+                <h3>Bypassing WAF with JWT</h3>
+                <p>How broken identity implementations can lead to full administrative access.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#WindowsInternals</span>
+                <h3>EDR Evasion via Syscalls</h3>
+                <p>Direct system calls to bypass user-mode hooks in modern security solutions.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#CloudSecurity</span>
+                <h3>AWS IAM Misconfigurations</h3>
+                <p>Escalating privileges through overly permissive Identity and Access Management roles.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#Cryptography</span>
+                <h3>Cracking Kerberos Tickets</h3>
+                <p>Advanced Kerberoasting techniques and hash cracking at scale for domain takeover.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#Phishing</span>
+                <h3>Adversary-in-the-Middle</h3>
+                <p>Bypassing Multi-Factor Authentication (MFA) using sophisticated proxy tools.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#ReverseEngineering</span>
+                <h3>Analyzing Kernel Drivers</h3>
+                <p>Finding vulnerabilities in third-party drivers to execute code at Ring 0.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#RedTeam</span>
+                <h3>C2 Infrastructure Setup</h3>
+                <p>Building resilient Command and Control channels using domain fronting and CDNs.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#PostExploitation</span>
+                <h3>Linux Persistence Mechanisms</h3>
+                <p>From systemd services to hidden cronjobs: how to stay inside the box.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#ExploitDev</span>
+                <h3>Heap Overflow Analysis</h3>
+                <p>Understanding memory corruption bugs to build reliable exploits for Linux binaries.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
+            
+
+            <a href="../#" class="grid-item js-control hidden">
+                <span class="post-cat">#OPSEC</span>
+                <h3>Obfuscating PowerShell</h3>
+                <p>Techniques to avoid AMSI detection and logging while executing offensive scripts.</p>
+                <span class="read-link">Read Analysis_</span>
+            </a>
+
+            
+            
         </div>
-    </section>
 
-    <footer class="main-footer">
-        <div class="container footer-content">
-            <p class="footer-text">
-                &copy; 2026 ngr3p // Offense informs Defense
-            </p>
-
-            <div class="footer-links">
-                <a href="https://github.com/ngr3p" target="_blank" title="Source Code & Tools">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-                <a href="https://x.com/ngr3p" target="_blank" title="Infosec News & Threads">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="https://instagram.com/ngr3p" target="_blank" title="Technical Carousels">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <div id="search-overlay" class="search-overlay hidden">
-        <div class="search-container">
-            <div class="search-input-wrapper">
-                <i class="fa-solid fa-terminal search-icon"></i>
-                <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
-                <button id="close-search">ESC</button>
-            </div>
-            <div id="search-results-container" class="search-results">
-            </div>
+        <div class="load-more-container">
+            <a href="/#blog" id="load-more-btn" style="text-decoration:none;">./ACCESS_MORE_FILES</a>
         </div>
     </div>
+</section>
 
-    <div id="image-modal" class="image-modal hidden">
-        <span id="close-modal-btn">&times;</span>
-        <img class="modal-content" id="img-expanded">
-        <div id="caption-text"></div>
+<footer class="main-footer">
+    <div class="container footer-content">
+        <p class="footer-text">
+            &copy; 2026 ngr3p // Offense informs Defense
+        </p>
+
+        <div class="footer-links">
+            <a href="https://github.com/ngr3p" target="_blank" title="Source Code & Tools">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://x.com/ngr3p" target="_blank" title="Infosec News & Threads">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a href="https://instagram.com/ngr3p" target="_blank" title="Technical Carousels">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
     </div>
+</footer>
 
-    <script src="../assets/js/main.js"></script>
+<div id="search-overlay" class="search-overlay hidden">
+    <div class="search-container">
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-terminal search-icon"></i>
+            <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
+            <button id="close-search">ESC</button>
+        </div>
+        <div id="search-results-container" class="search-results">
+        </div>
+    </div>
+</div>
+
+<div id="image-modal" class="image-modal hidden">
+    <span id="close-modal-btn">&times;</span>
+    <img class="modal-content" id="img-expanded">
+    <div id="caption-text"></div>
+</div>
+
+<script src="../assets/js/main.js"></script>
 </body>
 </html>
