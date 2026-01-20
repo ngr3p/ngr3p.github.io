@@ -136,7 +136,7 @@ body {
     font-family: var(--font-heading);
     color: var(--accent-green);
     
-    /* Hero Title da Home continua fluido com Clamp */
+    /* Hero Title da Home continua fluido com Clamp (Já estava ok) */
     font-size: clamp(2.4rem, 6vw, 4.2rem);
     line-height: 1.1;
     margin-bottom: 40px;
@@ -167,6 +167,7 @@ body {
 }
 
 .description-text {
+    /* Já estava com clamp, mantido */
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     color: var(--text-white);
     line-height: 1.4;
@@ -182,6 +183,7 @@ body {
     color: var(--bg-color);
     border: 1px solid var(--accent-green);
     text-decoration: none;
+    /* Já estava com clamp, mantido */
     font-size: clamp(0.85rem, 1.1vw, 1rem);
     padding: 0.5em 1.5em;
     transition: all 0.3s ease;
@@ -208,7 +210,8 @@ body {
 .section-label {
     font-family: var(--font-heading);
     color: var(--text-white);
-    font-size: 1.5rem;
+    /* CLAMP ADICIONADO: 1.3rem no mobile -> 1.5rem no desktop */
+    font-size: clamp(1.3rem, 4vw, 1.5rem);
     margin-bottom: 50px;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -245,7 +248,8 @@ body {
 
 .grid-item h3 {
     font-family: var(--font-heading);
-    font-size: 1.8rem;
+    /* CLAMP ADICIONADO: 1.45rem no mobile -> 1.8rem no desktop */
+    font-size: clamp(1.45rem, 3vw, 1.8rem);
     color: var(--text-white);
     margin-bottom: 15px;
     line-height: 1.1;
@@ -360,6 +364,7 @@ body {
     line-height: 1.1;
     margin-bottom: 25px;
     letter-spacing: -1px;
+    /* Já estava com clamp, mantido */
     font-size: clamp(2.6rem, 5vw, 3.5rem);
 }
 
@@ -370,7 +375,8 @@ body {
 
 .single-post .post-body p {
     margin-bottom: 30px;
-    font-size: 1.2rem;
+    /* CLAMP ADICIONADO: 1.05rem (mobile confortável) -> 1.2rem (desktop) */
+    font-size: clamp(1.05rem, 2.5vw, 1.2rem);
     line-height: 1.8;
     color: #e0e0e0;
 }
@@ -380,7 +386,8 @@ body {
     color: var(--accent-green);
     line-height: 1.1;
     margin: 60px 0 20px;
-    font-size: 2rem;
+    /* CLAMP ADICIONADO: 1.7rem -> 2.2rem */
+    font-size: clamp(1.7rem, 4vw, 2.2rem);
     font-weight: 700;
 }
 
@@ -398,7 +405,8 @@ body {
 .single-post .post-body ul li {
     margin-bottom: 15px;
     color: #e0e0e0;
-    font-size: 1.2rem;
+    /* CLAMP ADICIONADO: Acompanha o parágrafo */
+    font-size: clamp(1.05rem, 2.5vw, 1.2rem);
 }
 
 .single-post .post-body a {
@@ -466,7 +474,8 @@ body {
 
 .about-text p {
     color: var(--text-gray);
-    font-size: 1.1rem;
+    /* CLAMP ADICIONADO: 1rem -> 1.15rem */
+    font-size: clamp(1rem, 2vw, 1.15rem);
     line-height: 1.8;
     margin-bottom: 25px;
 }
@@ -479,7 +488,8 @@ body {
 .about-text .highlight-text {
     color: var(--text-white);
     font-family: var(--font-heading);
-    font-size: 1.2rem;
+    /* CLAMP ADICIONADO: Levemente maior que o texto comum */
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
     margin-top: 40px;
     border-left: 3px solid var(--accent-green);
     padding-left: 20px;
@@ -494,7 +504,8 @@ body {
 
 .contact-card h3 {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    /* CLAMP ADICIONADO: 1.3rem -> 1.5rem */
+    font-size: clamp(1.3rem, 4vw, 1.5rem);
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 1px;
