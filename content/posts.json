@@ -1,5 +1,18 @@
 [
     {
+        "id": 14,
+        "title": "Identity Management Exploitation",
+        "date": "2026-01-20",
+        "category": "#PrivEsc",
+        "description": "Root identity via UID 0.<br>Service accounts vs humans.",
+        "short_desc": "System identity manipulation and privilege escalation through Linux account management.",
+        "image": "assets/images/posts/hero.png",
+        "status": "post",
+        "content_file": "identity-management-exploitation.html",
+        "slug": "identity-management-exploitation",
+        "url": "identity-management-exploitation/"
+    },
+    {
         "id": 13,
         "title": "Post-Exploitation Networking",
         "date": "2026-01-19",

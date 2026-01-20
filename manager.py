@@ -53,6 +53,9 @@ def create_post():
     category = input("Category (ex: #RedTeam): ").strip() or "#General"
     short_desc = input("Short Desc (Card): ").strip()
     description = input("Hero Description: ").strip()
+    
+    # --- NOVO CAMPO: TEMPO DE LEITURA ---
+    reading_time = input("Reading Time (ex: 15 min read): ").strip() or "5 min read"
 
     slug = slugify(title)
     filename = f"{slug}.html"
@@ -161,6 +164,7 @@ DONE.</code></pre>
         "category": category,
         "description": description,
         "short_desc": short_desc,
+        "reading_time": reading_time, # Salva o tempo no JSON
         "image": "assets/images/posts/hero.png",
         "status": "post",
         "content_file": filename,
@@ -222,6 +226,11 @@ def manage_posts():
         target['category'] = input(f"Category [{target['category']}]: ").strip() or target['category']
         target['short_desc'] = input(f"Short Desc [{target['short_desc']}]: ").strip() or target['short_desc']
         target['description'] = input(f"Hero Desc [{target['description']}]: ").strip() or target['description']
+        
+        # --- EDICAO DO TEMPO DE LEITURA ---
+        current_rt = target.get('reading_time', '5 min read')
+        target['reading_time'] = input(f"Reading Time [{current_rt}]: ").strip() or current_rt
+
         target['date'] = input(f"Date [{target['date']}]: ").strip() or target['date']
         
         new_slug = input(f"Slug [{target['slug']}]: ").strip()
