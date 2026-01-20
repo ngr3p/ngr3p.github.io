@@ -799,6 +799,21 @@ body {
     font-family: var(--font-code);
 }
 
+/* Estilo para a descrição curta na busca */
+.search-item p {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    margin-top: 4px;
+    font-family: var(--font-body);
+    line-height: 1.4;
+    
+    /* Garante que não fique gigante se a descrição for longa */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 /* --- LIGHTBOX --- */
 .screenshot-container img,
 .post-body img {

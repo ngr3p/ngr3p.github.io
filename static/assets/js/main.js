@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. SEARCH MODULE ---
+    // --- 5. SEARCH MODULE (SMART TOKEN SEARCH & DISPLAY) ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
@@ -132,6 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allPosts = []; 
     let selectedIndex = -1; 
+
+    // Função de limpeza: Remove acentos e troca simbolos por espaço
+    function normalizeText(text) {
+        if (!text) return "";
+        return text.toString()
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
+            .replace(/[^\w\s]/g, " "); 
+    }
 
     fetch(pathPrefix + 'assets/data/posts.json')
         .then(response => response.json())
@@ -180,16 +189,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            selectedIndex = -1; 
-            if (term.length < 2) { searchResults.innerHTML = ''; return; }
+            const rawTerm = e.target.value;
+            // Quebra o termo digitado em palavras (tokens)
+            const searchTokens = normalizeText(rawTerm).split(' ').filter(token => token.length > 0);
             
-            const filteredPosts = allPosts.filter(post => post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term));
+            selectedIndex = -1; 
+            
+            if (searchTokens.length === 0) { searchResults.innerHTML = ''; return; }
+            
+            const filteredPosts = allPosts.filter(post => {
+                // Cria uma "string gigante" com todo o conteúdo pesquisável do post
+                const fullContent = normalizeText(
+                    `${post.title} ${post.category} ${post.short_desc} ${post.description} ${post.date}`
+                );
+
+                // Verifica se TODOS os tokens digitados existem dentro do conteúdo do post
+                return searchTokens.every(token => fullContent.includes(token));
+            });
             
             if (filteredPosts.length > 0) {
+                // AGORA EXIBINDO O SHORT_DESC
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
                     <a href="${pathPrefix}${post.url}" class="search-item" data-index="${index}">
-                        <span>${post.category}</span><h4>${post.title}</h4>
+                        <span>${post.category} | ${post.date}</span>
+                        <h4>${post.title}</h4>
+                        <p>${post.short_desc}</p>
                     </a>`).join('');
             } else { 
                 searchResults.innerHTML = `<div style="padding:20px; text-align:center; color:#666;"><i class="fa-solid fa-ghost"></i> No intels found.</div>`; 
@@ -257,12 +281,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initShareSystem();
 
     // --- 8. HASH POSITION CHECK (SIMPLE) ---
-    // Apenas verifica se a página carregou com um #link (ex: #about) e rola até lá
     function checkHashPosition() {
         if (window.location.hash) {
             const targetElement = document.querySelector(window.location.hash);
             if (targetElement) {
-                // Pequeno delay para garantir que o layout renderizou após o preloader
                 setTimeout(() => {
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
