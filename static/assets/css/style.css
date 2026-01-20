@@ -347,7 +347,7 @@ body {
 .single-post .post-content-area {
     padding-top: 140px;
     padding-bottom: 30px;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -374,7 +374,7 @@ body {
 .single-post .post-body p {
     margin-bottom: 30px;
     /* CLAMP: Responsividade da fonte */
-    font-size: clamp(1.05rem, 2vw, 1.125rem);
+    font-size: clamp(1.1rem, 2vw, 1.125rem);
     
     /* 1. ALTURA DA LINHA */
     line-height: 1.8;
@@ -383,10 +383,11 @@ body {
     color: #e0e0e0;
 
     /* 3. LARGURA DE LEITURA IDEAL */
-    max-width: 68ch; 
+    max-width: 75ch; 
     
     /* 4. REQUINTE TIPOGRÁFICO */
     letter-spacing: -0.01em;
+    text-align: left;
     
     /* 5. RENDERIZAÇÃO MELHORADA */
     text-rendering: optimizeLegibility;
@@ -430,7 +431,7 @@ body {
     color: #e0e0e0;
     
     /* Mesmo tamanho exato do parágrafo */
-    font-size: clamp(1.05rem, 2vw, 1.125rem);
+    font-size: clamp(1.1rem, 2vw, 1.125rem);
     
     line-height: 1.8;
     max-width: 68ch;
@@ -525,7 +526,7 @@ body {
 .about-text p {
     color: var(--text-gray);
     /* CLAMP: 1rem -> 1.15rem */
-    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-size: clamp(1.1rem, 2vw, 1.125rem);
     line-height: 1.8;
     margin-bottom: 25px;
 }
