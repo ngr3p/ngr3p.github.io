@@ -136,7 +136,7 @@ body {
     font-family: var(--font-heading);
     color: var(--accent-green);
     
-    /* Hero Title da Home continua fluido com Clamp (Já estava ok) */
+    /* Hero Title da Home continua fluido com Clamp */
     font-size: clamp(2.4rem, 6vw, 4.2rem);
     line-height: 1.1;
     margin-bottom: 40px;
@@ -167,7 +167,6 @@ body {
 }
 
 .description-text {
-    /* Já estava com clamp, mantido */
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     color: var(--text-white);
     line-height: 1.4;
@@ -183,7 +182,6 @@ body {
     color: var(--bg-color);
     border: 1px solid var(--accent-green);
     text-decoration: none;
-    /* Já estava com clamp, mantido */
     font-size: clamp(0.85rem, 1.1vw, 1rem);
     padding: 0.5em 1.5em;
     transition: all 0.3s ease;
@@ -210,7 +208,7 @@ body {
 .section-label {
     font-family: var(--font-heading);
     color: var(--text-white);
-    /* CLAMP ADICIONADO: 1.3rem no mobile -> 1.5rem no desktop */
+    /* CLAMP: 1.3rem no mobile -> 1.5rem no desktop */
     font-size: clamp(1.3rem, 4vw, 1.5rem);
     margin-bottom: 50px;
     text-transform: uppercase;
@@ -248,7 +246,7 @@ body {
 
 .grid-item h3 {
     font-family: var(--font-heading);
-    /* CLAMP ADICIONADO: 1.45rem no mobile -> 1.8rem no desktop */
+    /* CLAMP: 1.45rem no mobile -> 1.8rem no desktop */
     font-size: clamp(1.45rem, 3vw, 1.8rem);
     color: var(--text-white);
     margin-bottom: 15px;
@@ -364,7 +362,6 @@ body {
     line-height: 1.1;
     margin-bottom: 25px;
     letter-spacing: -1px;
-    /* Já estava com clamp, mantido */
     font-size: clamp(2.6rem, 5vw, 3.5rem);
 }
 
@@ -373,12 +370,27 @@ body {
     margin: 40px 0;
 }
 
+/* --- ALTERAÇÕES DE LEITURA (READABILITY) --- */
 .single-post .post-body p {
     margin-bottom: 30px;
-    /* CLAMP ADICIONADO: 1.05rem (mobile confortável) -> 1.2rem (desktop) */
-    font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+    /* CLAMP: Responsividade da fonte */
+    font-size: clamp(1.05rem, 2vw, 1.125rem);
+    
+    /* 1. ALTURA DA LINHA */
     line-height: 1.8;
+    
+    /* 2. COR MAIS SUAVE */
     color: #e0e0e0;
+
+    /* 3. LARGURA DE LEITURA IDEAL */
+    max-width: 68ch; 
+    
+    /* 4. REQUINTE TIPOGRÁFICO */
+    letter-spacing: -0.01em;
+    
+    /* 5. RENDERIZAÇÃO MELHORADA */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 }
 
 .single-post .post-body h2 {
@@ -386,7 +398,7 @@ body {
     color: var(--accent-green);
     line-height: 1.1;
     margin: 60px 0 20px;
-    /* CLAMP ADICIONADO: 1.7rem -> 2.2rem */
+    /* CLAMP: 1.7rem -> 2.2rem */
     font-size: clamp(1.7rem, 4vw, 2.2rem);
     font-weight: 700;
 }
@@ -396,17 +408,35 @@ body {
     font-weight: 700;
 }
 
-.single-post .post-body ul {
-    list-style: disc;
+/* --- LISTAS DO POST (UL e OL unificados) --- */
+.single-post .post-body ul,
+.single-post .post-body ol {
     padding-left: 30px;
     margin-bottom: 30px;
 }
 
-.single-post .post-body ul li {
-    margin-bottom: 15px;
+.single-post .post-body ul {
+    list-style: disc;
+}
+
+.single-post .post-body ol {
+    list-style: decimal;
+}
+
+/* 2. Os Itens da lista */
+.single-post .post-body ul li,
+.single-post .post-body ol li {
+    margin-bottom: 10px; 
     color: #e0e0e0;
-    /* CLAMP ADICIONADO: Acompanha o parágrafo */
-    font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+    
+    /* Mesmo tamanho exato do parágrafo */
+    font-size: clamp(1.05rem, 2vw, 1.125rem);
+    
+    line-height: 1.8;
+    max-width: 68ch;
+    letter-spacing: -0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 }
 
 .single-post .post-body a {
@@ -418,6 +448,26 @@ body {
 .single-post .post-body a:hover {
     text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
     color: var(--text-white);
+}
+
+/* --- INLINE CODE HIGHLIGHTER (NOVO: GLOBAL) --- */
+/* Estiliza todo <code> dentro do post, EXCETO os blocos de terminal (<pre>) */
+.single-post .post-body code:not(pre code) {
+    background-color: #1e1e1e;
+    color: #00FF88; /* Verde Neon */
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-code);
+    font-size: 0.9em;
+    border: 1px solid #333;
+    white-space: nowrap; /* Evita quebra de linha em comandos */
+}
+
+/* Ajuste específico para quando o code está dentro de links */
+.single-post .post-body a code {
+    color: inherit;
+    border-color: var(--accent-green);
+    cursor: pointer;
 }
 
 .single-post .terminal-block {
@@ -474,7 +524,7 @@ body {
 
 .about-text p {
     color: var(--text-gray);
-    /* CLAMP ADICIONADO: 1rem -> 1.15rem */
+    /* CLAMP: 1rem -> 1.15rem */
     font-size: clamp(1rem, 2vw, 1.15rem);
     line-height: 1.8;
     margin-bottom: 25px;
@@ -488,7 +538,7 @@ body {
 .about-text .highlight-text {
     color: var(--text-white);
     font-family: var(--font-heading);
-    /* CLAMP ADICIONADO: Levemente maior que o texto comum */
+    /* CLAMP: Levemente maior que o texto comum */
     font-size: clamp(1.1rem, 2.5vw, 1.25rem);
     margin-top: 40px;
     border-left: 3px solid var(--accent-green);
@@ -504,7 +554,7 @@ body {
 
 .contact-card h3 {
     font-family: var(--font-heading);
-    /* CLAMP ADICIONADO: 1.3rem -> 1.5rem */
+    /* CLAMP: 1.3rem -> 1.5rem */
     font-size: clamp(1.3rem, 4vw, 1.5rem);
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -977,6 +1027,58 @@ body {
         max-height: 40vh;
     }
 }
+
+/* --- TABELAS RESPONSIVAS (POSTS) --- */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 30px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #1a1a1a;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-green) #1a1a1a;
+}
+
+.table-wrapper::-webkit-scrollbar { height: 6px; }
+.table-wrapper::-webkit-scrollbar-track { background: #1a1a1a; }
+.table-wrapper::-webkit-scrollbar-thumb { background-color: var(--accent-green); border-radius: 3px; }
+
+/* 2. Estilo da Tabela */
+.post-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    min-width: 600px;
+}
+
+.post-table thead tr {
+    background-color: #242424;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.post-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-white);
+    border-right: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+.post-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.post-table tbody tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+.post-table tbody tr:hover { background-color: rgba(0, 255, 136, 0.05); }
 
 /* --- UTILITARIOS JS --- */
 .hidden {

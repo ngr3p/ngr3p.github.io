@@ -47,6 +47,8 @@ def run_build():
 
 def create_post():
     print("\n--- NEW POST ---")
+    
+    # 1. PERGUNTA APENAS O QUE VOCÊ PRECISA DIGITAR
     title = input("Title: ").strip()
     if not title: return
 
@@ -54,14 +56,16 @@ def create_post():
     short_desc = input("Short Desc (Card): ").strip()
     description = input("Hero Description: ").strip()
     
-    # --- NOVO CAMPO: TEMPO DE LEITURA ---
+    # AQUI ESTÁ O CAMPO QUE VOCÊ PEDIU
     reading_time = input("Reading Time (ex: 15 min read): ").strip() or "5 min read"
 
+    # 2. GERA O RESTO AUTOMATICAMENTE (Slug, Arquivo, Data)
     slug = slugify(title)
     filename = f"{slug}.html"
     filepath = os.path.join(ARTICLES_DIR, filename)
 
-    # --- TEMPLATE RICO (LOREM IPSUM + ESTRUTURA) ---
+    # 3. CRIA O ARQUIVO HTML COM O TEMPLATE RICO (LOREM IPSUM + ESTRUTURA)
+    # Já vem com o HTML limpo (sem styles inline) pronto para o seu CSS.
     html_template = """<h2>0x00 - Executive Summary</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
 <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <strong>Impact analysis</strong> suggests critical vulnerability in the core system logic.</p>
@@ -157,6 +161,7 @@ DONE.</code></pre>
     new_id = 1
     if posts: new_id = max(p.get('id', 0) for p in posts) + 1
 
+    # 4. SALVA OS DADOS NO JSON (Incluindo o reading_time)
     new_post = {
         "id": new_id,
         "title": title,
@@ -164,7 +169,7 @@ DONE.</code></pre>
         "category": category,
         "description": description,
         "short_desc": short_desc,
-        "reading_time": reading_time, # Salva o tempo no JSON
+        "reading_time": reading_time, # <--- AQUI
         "image": "assets/images/posts/hero.png",
         "status": "post",
         "content_file": filename,
@@ -184,7 +189,7 @@ def manage_posts():
         print("\n[!] No posts found.")
         return
 
-    # 1. LISTAGEM COMPACTA (Somente ID e Titulo)
+    # 1. LISTAGEM COMPACTA
     print("\n" + "="*60)
     print(f"{'ID':<4} | {'DATE':<12} | {'TITLE'}")
     print("-" * 60)
@@ -213,7 +218,7 @@ def manage_posts():
         print("[!] ID not found.")
         return
 
-    # 3. SELECAO DA ACAO (EDITAR OU DELETAR)
+    # 3. SELECAO DA ACAO
     print(f"\n[Selected]: {target['title']}")
     action = input("Action? (e)dit / (d)elete / (c)ancel: ").lower().strip()
 
@@ -227,7 +232,7 @@ def manage_posts():
         target['short_desc'] = input(f"Short Desc [{target['short_desc']}]: ").strip() or target['short_desc']
         target['description'] = input(f"Hero Desc [{target['description']}]: ").strip() or target['description']
         
-        # --- EDICAO DO TEMPO DE LEITURA ---
+        # PERMITE EDITAR O TEMPO DE LEITURA DEPOIS
         current_rt = target.get('reading_time', '5 min read')
         target['reading_time'] = input(f"Reading Time [{current_rt}]: ").strip() or current_rt
 
