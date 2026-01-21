@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 // Not Found</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ asset_path }}/css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="single-post">
+
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="main-header header-scrolled">
+        <nav class="nav-container container">
+            <a href="/" class="brand-logo">
+                <img src="{{ asset_path }}/images/ui/logo.png" alt="ngr3p">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/#blog">Blog</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="#" id="search-trigger"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-content-area container" style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+        <article class="full-post" style="text-align: center; max-width: 600px; border: 1px solid #333; padding: 40px; border-radius: 4px; color: #ff4444;">
+
+            <header class="post-header" style="margin-bottom: 20px;">
+                <span class="post-cat" style="color: #ff4444;">[SYSTEM_ERROR]</span>
+                <h1 class="entry-title" style="font-size: 4rem; margin: 10px 0; color: #ff4444;">404</h1>
+                <div class="post-meta">
+                    Target Resource Not Found
+                </div>
+            </header>
+
+            <section class="post-body">
+                <p style="font-family: var(--font-code); color: var(--text-gray);">
+                    Path resolution failed. <br>
+                    Resource moved or classified.
+                </p>
+
+                <div style="background: #111; padding: 15px; text-align: left; font-family: var(--font-code); font-size: 0.8rem; margin: 20px 0; border-left: 2px solid #ff4444;">
+                    > error_code: 0x194<br>
+                    > status: link_broken<br>
+                    > action: return_root
+                </div>
+            </section>
+
+            <div class="share-section" style="justify-content: center; margin-top: 30px; border: none;">
+                <a href="/" class="read-link" style="font-size: 1rem; text-decoration: none; border: 1px solid var(--accent-green); padding: 10px 20px;">
+                    cd / <span style="opacity:0.5; font-size: 0.8rem;">Return Home</span>
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p class="footer-text">
+                &copy; 2026 ngr3p // Offense informs Defense // 
+                <a href="/privacy.html" style="text-decoration:none; color:inherit; opacity: 0.5;">privacy.md</a>
+            </p>
+            <div class="footer-links">
+                <a href="https://github.com/ngr3p" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://x.com/ngr3p" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-terminal search-icon"></i>
+                <input type="text" id="search-input" placeholder="sudo search..." autocomplete="off">
+                <button id="close-search">ESC</button>
+            </div>
+            <div id="search-results-container" class="search-results"></div>
+        </div>
+    </div>
+
+    <script src="{{ asset_path }}/js/main.js"></script>
+</body>
+</html>
