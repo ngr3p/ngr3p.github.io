@@ -70,6 +70,21 @@ def build_site():
         f.write(html_home)
     print("[OK] Home Page generated.")
 
+    # --- 3.1 CONSTRUIR PRIVACY PAGE (privacy.html) ---
+    # Adicionado para gerar a pagina estatica na raiz
+    try:
+        print("[>] Generating Privacy Page...")
+        template_privacy = env.get_template('privacy.html')
+        
+        # Como o arquivo fica na raiz (dist/privacy.html), o path eh "assets"
+        html_privacy = template_privacy.render(asset_path="assets")
+        
+        with open(os.path.join(OUTPUT_DIR, 'privacy.html'), 'w', encoding='utf-8') as f:
+            f.write(html_privacy)
+        print("[OK] Privacy Page generated at root.")
+    except Exception as e:
+        print(f"[!] Warning: Could not generate privacy.html. Check if template exists. Error: {e}")
+
     # 4. CONSTRUIR POSTS (Paginas Internas)
     template_post = env.get_template('post.html')
     

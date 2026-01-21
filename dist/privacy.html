@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRIVACY_POLICY.md // ngr3p</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="single-post">
+    
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="main-header header-scrolled">
+        <nav class="nav-container container">
+            <a href="/" class="brand-logo">
+                <img src="assets/images/ui/logo.png" alt="ngr3p">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/#blog">Blog</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="#" id="search-trigger" title="Search (Ctrl+K)"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-content-area container">
+        <article class="full-post">
+            
+            <header class="post-header">
+                <span class="post-cat">#SystemDocs</span>
+                <h1 class="entry-title">PRIVACY_POLICY.md</h1>
+                <div class="post-meta">
+                    Last Update: 2026-01-21
+                </div>
+            </header>
+
+            <section class="post-body">
+                
+                <p>
+                    On this platform, privacy is not merely a legal term; it is a technical specification. 
+                    We operate under the <strong>Principle of Least Privilege (PoLP)</strong>, collecting only the necessary data 
+                    to ensure infrastructure security and integrity.
+                </p>
+
+                <h3>0x01. Telemetry Collection</h3>
+                <p>
+                    We do not utilize third-party commercial tracking pixels or cookies. Our intelligence is 
+                    collected via <strong>Cloudflare Edge Workers</strong> and stored in a private database (<strong>D1</strong>). 
+                    The processed data includes:
+                </p>
+                <ul>
+                    <li><strong>Network Metadata:</strong> IP Address (anonymized), ISP, and Geolocation (Country/Region).</li>
+                    <li><strong>Client Specs:</strong> User-Agent, Screen Resolution, and System Language.</li>
+                    <li><strong>Navigation Logs:</strong> Referer (request origin) and timestamps.</li>
+                </ul>
+
+                <h3>0x02. Data Purpose</h3>
+                <p>The processing of this information occurs exclusively for:</p>
+                <ol>
+                    <li><strong>Traffic Intelligence:</strong> Understanding the geographic reach of research and articles.</li>
+                    <li><strong>Active Defense:</strong> Identifying and mitigating Brute Force attempts, Scrapers, and DoS attacks at the edge (Cloudflare WAF).</li>
+                    <li><strong>Performance Optimization:</strong> Adjusting asset loading strategies based on device usage metrics.</li>
+                </ol>
+
+                <h3>0x03. Retention and Disposal</h3>
+                <p>
+                    We do not sell, trade, or share data with external entities. Logs are retained solely for the period 
+                    necessary for statistical analysis and security auditing, being periodically expunged from our D1 instance.
+                </p>
+
+                <h3>0x04. Cookies & LocalStorage</h3>
+                <p>
+                    This site is predominantly <em>stateless</em>. Eventually, <code>localStorage</code> 
+                    may be utilized to persist interface preferences (e.g., Dark Mode) without identity tracking.
+                </p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p class="footer-text">
+                &copy; 2026 ngr3p // Offense informs Defense // 
+                <a href="/privacy.html" style="text-decoration:none; color:inherit; opacity: 0.5;">privacy.md</a>
+            </p>
+
+            <div class="footer-links">
+                <a href="https://github.com/ngr3p" target="_blank" title="Source Code"><i class="fa-brands fa-github"></i></a>
+                <a href="https://x.com/ngr3p" target="_blank" title="Threads"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://instagram.com/ngr3p" target="_blank" title="Visuals"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-terminal search-icon"></i>
+                <input type="text" id="search-input" placeholder="sudo search_knowledge_base..." autocomplete="off">
+                <button id="close-search">ESC</button>
+            </div>
+            <div id="search-results-container" class="search-results"></div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
