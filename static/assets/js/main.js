@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(() => {
             if (loaderWrapper) loaderWrapper.classList.add('loader-hidden');
-            initReveal();    // Animações de entrada
-            initSmartGrid(); // Lógica de Quantidade de Posts
-            checkHashPosition(); // Garante o scroll para #about ao carregar a index
+            initReveal();    
+            initSmartGrid(); 
+            checkHashPosition(); 
         }, 600);
     });
 
@@ -55,10 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. SMART GRID LOGIC (RESPONSIVO) ---
+    // --- 4. SMART GRID LOGIC ---
     const loadMoreBtn = document.getElementById('load-more-btn');
     const gridContainer = document.querySelector('.posts-grid');
-    
     let allGridItems = Array.from(document.querySelectorAll('.js-control'));
     let displayedCount = 0;
 
@@ -77,18 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function showNextBatch() {
         const batchSize = getBatchSize();
         const total = allGridItems.length;
-        
         let nextLimit = displayedCount + batchSize;
         if (nextLimit > total) nextLimit = total;
 
         for (let i = displayedCount; i < nextLimit; i++) {
             if (allGridItems[i]) {
                 allGridItems[i].classList.remove('hidden');
-                
                 allGridItems[i].style.opacity = '0';
                 allGridItems[i].style.transform = 'translateY(20px)';
                 allGridItems[i].style.transition = 'all 0.6s ease-out';
-                
                 setTimeout(() => {
                     allGridItems[i].style.opacity = '1';
                     allGridItems[i].style.transform = 'translateY(0)';
@@ -96,13 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         displayedCount = nextLimit;
-
         if (loadMoreBtn) {
-            if (displayedCount >= total) {
-                loadMoreBtn.style.display = 'none';
-            } else {
-                loadMoreBtn.style.display = 'inline-block';
-            }
+            if (displayedCount >= total) loadMoreBtn.style.display = 'none';
+            else loadMoreBtn.style.display = 'inline-block';
         }
     }
 
@@ -120,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. SEARCH MODULE (SMART TOKEN SEARCH & DISPLAY) ---
+    // --- 5. SEARCH MODULE ---
     const searchTrigger = document.getElementById('search-trigger');
     const searchOverlay = document.getElementById('search-overlay');
     const searchInput = document.getElementById('search-input');
@@ -133,13 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let allPosts = []; 
     let selectedIndex = -1; 
 
-    // Função de limpeza: Remove acentos e troca simbolos por espaço
     function normalizeText(text) {
         if (!text) return "";
-        return text.toString()
-            .toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
-            .replace(/[^\w\s]/g, " "); 
+        return text.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/g, " "); 
     }
 
     fetch(pathPrefix + 'assets/data/posts.json')
@@ -190,25 +178,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const rawTerm = e.target.value;
-            // Quebra o termo digitado em palavras (tokens)
             const searchTokens = normalizeText(rawTerm).split(' ').filter(token => token.length > 0);
-            
             selectedIndex = -1; 
-            
             if (searchTokens.length === 0) { searchResults.innerHTML = ''; return; }
             
             const filteredPosts = allPosts.filter(post => {
-                // Cria uma "string gigante" com todo o conteúdo pesquisável do post
-                const fullContent = normalizeText(
-                    `${post.title} ${post.category} ${post.short_desc} ${post.description} ${post.date}`
-                );
-
-                // Verifica se TODOS os tokens digitados existem dentro do conteúdo do post
+                const fullContent = normalizeText(`${post.title} ${post.category} ${post.short_desc} ${post.description} ${post.date}`);
                 return searchTokens.every(token => fullContent.includes(token));
             });
             
             if (filteredPosts.length > 0) {
-                // AGORA EXIBINDO O SHORT_DESC
                 searchResults.innerHTML = filteredPosts.map((post, index) => `
                     <a href="${pathPrefix}${post.url}" class="search-item" data-index="${index}">
                         <span>${post.category} | ${post.date}</span>
@@ -280,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initShareSystem();
 
-    // --- 8. HASH POSITION CHECK (SIMPLE) ---
+    // --- 8. HASH POSITION CHECK ---
     function checkHashPosition() {
         if (window.location.hash) {
             const targetElement = document.querySelector(window.location.hash);
@@ -289,6 +268,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
             }
+        }
+    }
+
+    // --- 9. HERO IMAGE RANDOMIZER (LÓGICA ANTI-COLISÃO) ---
+    // Garante que a imagem nunca se repita duas vezes seguidas
+    const heroBg = document.getElementById('hero-dynamic-bg');
+    if (heroBg) {
+        // 1. Recupera a última imagem usada da memória da sessão
+        const lastIndex = sessionStorage.getItem('ngr3p_last_hero');
+        let randomNum;
+
+        // 2. Loop de verificação: Se o número sorteado for IGUAL ao anterior, sorteia de novo
+        // Isso impede matematicamente que a mesma imagem apareça 2x seguidas
+        do {
+            randomNum = Math.floor(Math.random() * 10) + 1;
+        } while (randomNum == lastIndex);
+
+        // 3. Salva o novo número para a próxima verificação
+        sessionStorage.setItem('ngr3p_last_hero', randomNum);
+
+        const index = randomNum.toString().padStart(2, '0'); // ex: "03"
+        
+        // Pega o SRC atual que veio do HTML
+        const currentSrc = heroBg.getAttribute('src');
+        
+        if (currentSrc) {
+            // Substitui apenas o nome do arquivo (.jpg)
+            const newSrc = currentSrc.replace(/hero_\d+\.jpg/, `hero_${index}.jpg`);
+            heroBg.src = newSrc;
         }
     }
 

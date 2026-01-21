@@ -32,6 +32,12 @@ def copy_assets():
         # Resultado final: dist/assets/css
         shutil.copytree(STATIC_DIR, os.path.join(OUTPUT_DIR, 'assets'), dirs_exist_ok=True)
     
+    # Check visual para confirmar se as imagens do Hero foram copiadas
+    hero_path = os.path.join(OUTPUT_DIR, 'assets', 'images', 'hero')
+    if os.path.exists(hero_path):
+        count = len(os.listdir(hero_path))
+        print(f"[OK] Hero images detected: {count} files copied.")
+
     # 2. POSICIONAMENTO DO JSON (CRITICO PARA O JS)
     # O arquivo precisa estar em: dist/assets/data/posts.json
     final_data_path = os.path.join(OUTPUT_DIR, 'assets', 'data')
@@ -63,7 +69,7 @@ def build_site():
 
     # 3. CONSTRUIR HOME (index.html)
     template_index = env.get_template('index.html')
-    # Na home, asset_path eh simples
+    # Na home, asset_path eh simples ("assets")
     html_home = template_index.render(posts=posts, asset_path="assets")
     
     with open(os.path.join(OUTPUT_DIR, 'index.html'), 'w', encoding='utf-8') as f:

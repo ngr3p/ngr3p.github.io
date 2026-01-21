@@ -99,7 +99,7 @@ body {
     text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
 }
 
-/* --- HERO (TELA CHEIA E ALINHADO A ESQUERDA - SEM PARALLAX) --- */
+/* --- HERO (TELA CHEIA E DINÂMICO) --- */
 .hero-section {
     width: 100%;
     height: 100vh;
@@ -109,24 +109,33 @@ body {
     align-items: center; 
     justify-content: center; 
 
-    position: relative;
+    position: relative; /* Necessário para posicionar a img absoluta */
     overflow: hidden;
-    background-image: url('../images/posts/hero.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* REMOVIDO PARALLAX: background-attachment agora é scroll para estabilidade total */
-    background-attachment: scroll;
+    background-color: var(--bg-color); /* Fundo base preto */
 }
 
-.hero-section .container {
-    position: relative;
-    z-index: 2;
+/* A Imagem Dinâmica de Fundo */
+#hero-dynamic-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    /* Garante alinhamento a esquerda SEMPRE */
+    height: 100%;
+    object-fit: cover; /* Cobre todo o container mantendo proporção */
+    opacity: 0.2;      /* AQUI ESTÁ: 20% de opacidade */
+    z-index: 0;        /* Fica atrás do conteúdo */
+    pointer-events: none; /* Não interfere no clique */
+}
+
+/* O Conteúdo do Hero (Texto/Botões) */
+.hero-content-wrapper {
+    position: relative;
+    z-index: 2; /* Garante que fique SOBRE a imagem */
+    width: 100%;
     text-align: left; 
 }
+
+/* REMOVI O ESTILO ANTIGO DE .hero-section .container POIS CRIEI O WRAPPER */
 
 .post-card.featured {
     width: 100%;
@@ -999,7 +1008,7 @@ body {
     }
 
     /* Hero Container: Garante alinhamento à esquerda */
-    .hero-section .container {
+    .hero-content-wrapper {
         text-align: left;
     }
     

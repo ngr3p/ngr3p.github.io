@@ -36,7 +36,9 @@
     </header>
 
     <section class="hero-section">
-        <div class="container"> 
+        <img src="{{ asset_path }}/images/posts/hero_01.jpg" id="hero-dynamic-bg" alt="Hero Background" aria-hidden="true">
+
+        <div class="container hero-content-wrapper"> 
             {% if posts %}
             <article class="post-card featured">
                 <h1 class="post-title hero-title">{{ posts[0].title }}</h1>
@@ -131,6 +133,7 @@
             </div>
         </div>
     </div>
+    
     <script src="{{ asset_path }}/js/main.js"></script>
 </body>
 </html>
