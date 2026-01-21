@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="{{ asset_path }}/css/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="single-post">
+
+<body class="single-post" style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
 
     <div id="loader-wrapper">
         <div class="loader-content">
@@ -35,33 +36,31 @@
         </nav>
     </header>
 
-    <main class="post-content-area container" style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
-        <article class="full-post" style="text-align: center; max-width: 600px; border: 1px solid #333; padding: 40px; border-radius: 4px; color: #ff4444;">
+    <main class="post-content-area container" style="flex: 1; display: flex; align-items: center; justify-content: center; width: 100%;">
+
+        <article class="full-post" style="text-align: center; width: 100%; max-width: 500px; border: 1px solid #333; padding: 40px; border-radius: 4px; box-shadow: 0 0 15px rgba(255, 68, 68, 0.05); background-color: #0a0a0a;">
 
             <header class="post-header" style="margin-bottom: 20px;">
-                <span class="post-cat" style="color: #ff4444;">[SYSTEM_ERROR]</span>
-                <h1 class="entry-title" style="font-size: 4rem; margin: 10px 0; color: #ff4444;">404</h1>
-                <div class="post-meta">
-                    Target Resource Not Found
+                <span class="post-cat" style="color: #ff4444; font-family: var(--font-code); font-size: 0.9rem;">[SYSTEM_ERROR]</span>
+                <h1 class="entry-title" style="font-size: 5rem; margin: 10px 0; color: #ff4444; line-height: 1;">404</h1>
+                <div class="post-meta" style="color: #fff; font-size: 1.1rem;">
+                    Resource Not Found
                 </div>
             </header>
 
             <section class="post-body">
-                <p style="font-family: var(--font-code); color: var(--text-gray);">
-                    Path resolution failed. <br>
-                    Resource moved or classified.
+                <p style="font-family: var(--font-code); color: var(--text-gray); margin-bottom: 30px; font-size: 1rem;">
+                    Path resolution failed.
                 </p>
 
-                <div style="background: #111; padding: 15px; text-align: left; font-family: var(--font-code); font-size: 0.8rem; margin: 20px 0; border-left: 2px solid #ff4444;">
-                    > error_code: 0x194<br>
-                    > status: link_broken<br>
-                    > action: return_root
+                <div style="background: #111; padding: 20px; text-align: left; font-family: var(--font-code); font-size: 0.85rem; margin: 20px 0; border-left: 3px solid #ff4444; color: #e0e0e0;">
+                    > error_code: 0x194
                 </div>
             </section>
 
-            <div class="share-section" style="justify-content: center; margin-top: 30px; border: none;">
-                <a href="/" class="read-link" style="font-size: 1rem; text-decoration: none; border: 1px solid var(--accent-green); padding: 10px 20px;">
-                    cd / <span style="opacity:0.5; font-size: 0.8rem;">Return Home</span>
+            <div class="share-section" style="justify-content: center; margin-top: 40px; border: none;">
+                <a href="/" class="read-link" style="display: inline-block; font-size: 0.9rem; text-decoration: none; border: 1px solid #ff4444; color: #ff4444; padding: 12px 30px; transition: all 0.3s ease; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">
+                    CD <span style="color: #666;">/</span> RETURN HOME
                 </a>
             </div>
 
