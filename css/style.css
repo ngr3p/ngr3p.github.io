@@ -15,14 +15,74 @@ body {
   min-height: 100dvh;
   font-family: "IBM Plex Mono", monospace;
   color: #ffffff;
+  background: #000000;
+  overflow: hidden;
+}
+
+.background,
+.pulse,
+.rack-lights,
+.scanline {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.background {
+  z-index: -4;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)),
     url("../assets/cover.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #000000;
-  overflow: hidden;
+  transform: scale(1.002);
+  transition: transform 80ms linear, filter 80ms linear;
+}
+
+.background.glitch {
+  transform: scale(1.006) translate(var(--glitch-x), var(--glitch-y));
+  filter: contrast(1.12) brightness(1.08);
+}
+
+.pulse {
+  z-index: -3;
+  background: radial-gradient(
+    circle at 50% 34%,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.05) 10%,
+    rgba(255, 255, 255, 0) 30%
+  );
+  opacity: 0.35;
+  animation: pulse 7s ease-in-out infinite;
+}
+
+.rack-lights {
+  z-index: -2;
+  background-image:
+    radial-gradient(circle at 17% 49%, rgba(255, 255, 255, 0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 28% 58%, rgba(255, 255, 255, 0.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 39% 52%, rgba(255, 255, 255, 0.5) 0 1px, transparent 2px),
+    radial-gradient(circle at 50% 53%, rgba(255, 255, 255, 0.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 61% 50%, rgba(255, 255, 255, 0.5) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 57%, rgba(255, 255, 255, 0.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 83% 48%, rgba(255, 255, 255, 0.7) 0 1px, transparent 2px);
+  opacity: 0.18;
+  animation: rackFlicker 3.8s steps(1, end) infinite;
+}
+
+.scanline {
+  z-index: -1;
+  height: 12vh;
+  top: -12vh;
+  bottom: auto;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.025),
+    rgba(255, 255, 255, 0)
+  );
+  animation: scan 11s linear infinite;
 }
 
 .hero {
@@ -78,6 +138,47 @@ p span {
   letter-spacing: 0.12em;
 }
 
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(0.98);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes rackFlicker {
+  0%,
+  14%,
+  38%,
+  58%,
+  82%,
+  100% {
+    opacity: 0.12;
+  }
+
+  15%,
+  39%,
+  59%,
+  83% {
+    opacity: 0.32;
+  }
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(124vh);
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     padding: 25px 20px;
@@ -104,5 +205,22 @@ p span {
 
   .footer p {
     font-size: 0.55rem;
+  }
+
+  .pulse {
+    background: radial-gradient(
+      circle at 50% 32%,
+      rgba(255, 255, 255, 0.09) 0%,
+      rgba(255, 255, 255, 0.03) 13%,
+      rgba(255, 255, 255, 0) 34%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .rack-lights,
+  .scanline {
+    animation: none;
   }
 }
