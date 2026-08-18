@@ -26,8 +26,7 @@ body {
 .core-glow,
 .rack-glow,
 .server-lights,
-.floor-reflection,
-.scanline {
+.floor-reflection {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -65,13 +64,13 @@ body {
   z-index: 2;
   background: radial-gradient(
     circle at 50% 36%,
-    rgba(255, 255, 255, 0.50) 0%,
-    rgba(255, 255, 255, 0.18) 8%,
-    rgba(255, 255, 255, 0.07) 17%,
-    transparent 30%
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.52) 9%,
+    rgba(0, 0, 0, 0.20) 18%,
+    transparent 31%
   );
-  mix-blend-mode: screen;
-  animation: corePulse 3.4s ease-in-out infinite;
+  mix-blend-mode: multiply;
+  animation: coreDim 4.2s ease-in-out infinite;
 }
 
 .rack-glow {
@@ -125,21 +124,6 @@ body {
     radial-gradient(ellipse at 80% 100%, rgba(255, 255, 255, 0.06), transparent 17%);
   mix-blend-mode: screen;
   animation: floorPulse 5.4s ease-in-out infinite alternate;
-}
-
-.scanline {
-  z-index: 4;
-  height: 8vh;
-  top: -8vh;
-  bottom: auto;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.035),
-    rgba(255, 255, 255, 0)
-  );
-  mix-blend-mode: screen;
-  animation: scan 11s linear infinite;
 }
 
 .hero {
@@ -218,21 +202,18 @@ p span {
   }
 }
 
-@keyframes corePulse {
+@keyframes coreDim {
   0%,
   100% {
-    opacity: 0.22;
-    transform: scale(0.98);
+    opacity: 0;
   }
 
-  48% {
-    opacity: 0.75;
-    transform: scale(1.04);
+  45% {
+    opacity: 0.54;
   }
 
   58% {
-    opacity: 0.50;
-    transform: scale(1.02);
+    opacity: 0.38;
   }
 }
 
@@ -297,16 +278,6 @@ p span {
   }
 }
 
-@keyframes scan {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(118vh);
-  }
-}
-
 @media (max-width: 600px) {
   .hero {
     padding: 25px 20px;
@@ -336,7 +307,13 @@ p span {
   }
 
   .core-glow {
-    background: radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.15) 12%, rgba(255, 255, 255, 0.05) 22%, transparent 36%);
+    background: radial-gradient(
+      circle at 50% 34%,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.46) 12%,
+      rgba(0, 0, 0, 0.16) 22%,
+      transparent 36%
+    );
   }
 }
 
@@ -346,8 +323,7 @@ p span {
   .core-glow,
   .rack-glow,
   .server-light,
-  .floor-reflection,
-  .scanline {
+  .floor-reflection {
     animation: none;
   }
 }
