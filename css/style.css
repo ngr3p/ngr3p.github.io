@@ -22,9 +22,11 @@ body {
 }
 
 .background,
-.pulse,
-.rack-lights,
-.scanline {
+.ambient-light,
+.core-glow,
+.rack-glow,
+.server-lights,
+.floor-reflection {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -38,54 +40,83 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: filter 90ms linear;
+  animation: roomBreath 8s ease-in-out infinite;
 }
 
-.background.glitch {
-  filter: contrast(1.2) brightness(1.18);
-}
-
-.pulse {
+.ambient-light {
   z-index: 1;
-  background: radial-gradient(
-    circle at 50% 34%,
-    rgba(255, 255, 255, 0.24) 0%,
-    rgba(255, 255, 255, 0.10) 10%,
-    rgba(255, 255, 255, 0.03) 20%,
-    rgba(255, 255, 255, 0) 34%
-  );
+  background:
+    radial-gradient(circle at 24% 48%, rgba(255, 255, 255, 0.08), transparent 20%),
+    radial-gradient(circle at 76% 48%, rgba(255, 255, 255, 0.08), transparent 20%),
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.12), transparent 24%);
   mix-blend-mode: screen;
-  animation: pulse 6s ease-in-out infinite;
+  animation: ambientShift 6s ease-in-out infinite alternate;
 }
 
-.rack-lights {
+.core-glow {
   z-index: 2;
-  background-image:
-    radial-gradient(circle at 17% 49%, rgba(255, 255, 255, 0.95) 0 1px, transparent 2px),
-    radial-gradient(circle at 28% 58%, rgba(255, 255, 255, 0.85) 0 1px, transparent 2px),
-    radial-gradient(circle at 39% 52%, rgba(255, 255, 255, 0.8) 0 1px, transparent 2px),
-    radial-gradient(circle at 50% 53%, rgba(255, 255, 255, 1) 0 1px, transparent 2px),
-    radial-gradient(circle at 61% 50%, rgba(255, 255, 255, 0.8) 0 1px, transparent 2px),
-    radial-gradient(circle at 72% 57%, rgba(255, 255, 255, 0.85) 0 1px, transparent 2px),
-    radial-gradient(circle at 83% 48%, rgba(255, 255, 255, 0.95) 0 1px, transparent 2px);
-  opacity: 0.22;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.16) 9%, rgba(255, 255, 255, 0.06) 18%, transparent 32%);
   mix-blend-mode: screen;
-  animation: rackFlicker 3.2s steps(1, end) infinite;
+  animation: corePulse 3.2s ease-in-out infinite;
 }
 
-.scanline {
-  z-index: 3;
-  height: 10vh;
-  top: -10vh;
-  bottom: auto;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.07),
-    rgba(255, 255, 255, 0)
-  );
+.rack-glow {
+  z-index: 2;
   mix-blend-mode: screen;
-  animation: scan 9s linear infinite;
+  opacity: 0.24;
+}
+
+.rack-glow--left {
+  background:
+    radial-gradient(ellipse at 29% 51%, rgba(255, 255, 255, 0.18), transparent 18%),
+    radial-gradient(ellipse at 17% 52%, rgba(255, 255, 255, 0.13), transparent 16%);
+  animation: rackPulseLeft 4.2s ease-in-out infinite;
+}
+
+.rack-glow--right {
+  background:
+    radial-gradient(ellipse at 71% 51%, rgba(255, 255, 255, 0.18), transparent 18%),
+    radial-gradient(ellipse at 83% 52%, rgba(255, 255, 255, 0.13), transparent 16%);
+  animation: rackPulseRight 4.8s ease-in-out infinite;
+}
+
+.server-lights {
+  z-index: 3;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.server-light {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255, 255, 255, 0.45);
+  opacity: 0.08;
+  animation: ledFlicker var(--duration) steps(1, end) infinite;
+  animation-delay: var(--delay);
+}
+
+.server-light:nth-child(3n) {
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 7px rgba(255, 255, 255, 0.35);
+}
+
+.server-light:nth-child(5n) {
+  animation-name: ledPulse;
+  animation-timing-function: ease-in-out;
+}
+
+.floor-reflection {
+  z-index: 2;
+  background:
+    linear-gradient(to top, rgba(255, 255, 255, 0.06), transparent 28%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.16), transparent 28%),
+    radial-gradient(ellipse at 28% 100%, rgba(255, 255, 255, 0.08), transparent 22%),
+    radial-gradient(ellipse at 72% 100%, rgba(255, 255, 255, 0.08), transparent 22%);
+  mix-blend-mode: screen;
+  animation: floorPulse 5s ease-in-out infinite alternate;
 }
 
 .hero {
@@ -143,44 +174,120 @@ p span {
   letter-spacing: 0.12em;
 }
 
-@keyframes pulse {
+@keyframes roomBreath {
   0%,
   100% {
-    opacity: 0.12;
-    transform: scale(0.96);
+    filter: brightness(0.96) contrast(1.02);
   }
 
   50% {
-    opacity: 0.48;
-    transform: scale(1.06);
+    filter: brightness(1.08) contrast(1.08);
   }
 }
 
-@keyframes rackFlicker {
-  0%,
-  14%,
-  38%,
-  58%,
-  82%,
+@keyframes ambientShift {
+  0% {
+    opacity: 0.18;
+    transform: scale(0.99);
+  }
+
   100% {
-    opacity: 0.12;
-  }
-
-  15%,
-  39%,
-  59%,
-  83% {
-    opacity: 0.6;
+    opacity: 0.55;
+    transform: scale(1.02);
   }
 }
 
-@keyframes scan {
-  from {
-    transform: translateY(0);
+@keyframes corePulse {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: scale(0.97);
   }
 
-  to {
-    transform: translateY(120vh);
+  45% {
+    opacity: 0.66;
+    transform: scale(1.04);
+  }
+
+  55% {
+    opacity: 0.5;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes rackPulseLeft {
+  0%,
+  100% {
+    opacity: 0.14;
+  }
+
+  35% {
+    opacity: 0.5;
+  }
+
+  70% {
+    opacity: 0.24;
+  }
+}
+
+@keyframes rackPulseRight {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+
+  30% {
+    opacity: 0.26;
+  }
+
+  65% {
+    opacity: 0.52;
+  }
+}
+
+@keyframes ledFlicker {
+  0%,
+  18%,
+  36%,
+  58%,
+  78%,
+  100% {
+    opacity: 0.06;
+  }
+
+  19%,
+  37%,
+  59%,
+  79% {
+    opacity: 0.95;
+  }
+
+  24%,
+  64% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes ledPulse {
+  0%,
+  100% {
+    opacity: 0.08;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 0.95;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes floorPulse {
+  0% {
+    opacity: 0.18;
+  }
+
+  100% {
+    opacity: 0.5;
   }
 }
 
@@ -212,20 +319,18 @@ p span {
     font-size: 0.55rem;
   }
 
-  .pulse {
-    background: radial-gradient(
-      circle at 50% 32%,
-      rgba(255, 255, 255, 0.18) 0%,
-      rgba(255, 255, 255, 0.08) 12%,
-      rgba(255, 255, 255, 0) 34%
-    );
+  .core-glow {
+    background: radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.13) 12%, rgba(255, 255, 255, 0.04) 22%, transparent 38%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pulse,
-  .rack-lights,
-  .scanline {
+  .background,
+  .ambient-light,
+  .core-glow,
+  .rack-glow,
+  .server-light,
+  .floor-reflection {
     animation: none;
   }
 }
