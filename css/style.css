@@ -11,7 +11,7 @@ body {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   color: #ffffff;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
@@ -40,7 +40,6 @@ body {
 
 h1 {
   margin: 0;
-  font-family: "Space Mono", monospace;
   font-size: 2rem;
   font-weight: 700;
   line-height: 1;
@@ -61,6 +60,20 @@ p span {
   margin: 0 0.35em;
 }
 
+.footer {
+  position: fixed;
+  left: 40px;
+  bottom: 40px;
+  background: #000000;
+  padding: 10px 14px;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
 @media (max-width: 600px) {
   .hero {
     padding: 25px 20px;
@@ -77,5 +90,15 @@ p span {
   p {
     font-size: 0.6rem;
     letter-spacing: 0.1em;
+  }
+
+  .footer {
+    left: 20px;
+    bottom: 25px;
+    padding: 8px 12px;
+  }
+
+  .footer p {
+    font-size: 0.55rem;
   }
 }
