@@ -21,14 +21,17 @@
 
     <audio class="background-audio" src="assets/music.m4a" loop preload="auto"></audio>
 
-    <button class="audio-toggle" type="button" aria-label="Ativar áudio" aria-pressed="false">
-      <svg class="audio-toggle__icon audio-toggle__icon--on" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.2-3.9v7.8a4.5 4.5 0 0 0 2.2-3.9zm0-8.2v2.1a7 7 0 0 1 0 12.2v2.1a9 9 0 0 0 0-16.4z" />
-      </svg>
-      <svg class="audio-toggle__icon audio-toggle__icon--off" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 9v6h4l5 4V5L8 9H4zm12.6 3 2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4-2.7-2.7z" />
-      </svg>
-    </button>
+    <div class="audio-control">
+      <span class="audio-status">MUSIC OFF</span>
+      <button class="audio-toggle" type="button" aria-label="Ativar áudio" aria-pressed="false">
+        <svg class="audio-toggle__icon audio-toggle__icon--on" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.2-3.9v7.8a4.5 4.5 0 0 0 2.2-3.9zm0-8.2v2.1a7 7 0 0 1 0 12.2v2.1a9 9 0 0 0 0-16.4z" />
+        </svg>
+        <svg class="audio-toggle__icon audio-toggle__icon--off" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4zm12.6 3 2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4-2.7-2.7z" />
+        </svg>
+      </button>
+    </div>
 
     <div class="background" aria-hidden="true"></div>
     <div class="ambient-light" aria-hidden="true"></div>
