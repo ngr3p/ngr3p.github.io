@@ -26,7 +26,8 @@ body {
 .core-glow,
 .rack-glow,
 .server-lights,
-.floor-reflection {
+.floor-reflection,
+.vignette {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -111,6 +112,16 @@ body {
   animation: floorPulse 5.4s ease-in-out infinite alternate;
 }
 
+.vignette {
+  z-index: 4;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 38%,
+    rgba(0, 0, 0, 0.16) 62%,
+    rgba(0, 0, 0, 0.52) 100%
+  );
+}
+
 .hero {
   position: relative;
   z-index: 10;
@@ -164,6 +175,7 @@ p span {
   margin: 0;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
+  text-transform: none;
 }
 
 @keyframes ambientShift {
