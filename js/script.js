@@ -51,8 +51,12 @@ audioToggle.addEventListener("click", async () => {
 
 document.addEventListener(
   "pointerdown",
-  async () => {
-    if (audio.paused && !audioToggle.classList.contains("is-playing")) {
+  async (event) => {
+    if (event.target.closest(".audio-toggle")) {
+      return;
+    }
+
+    if (audio.paused) {
       await startAudio();
     }
   },
