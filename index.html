@@ -19,6 +19,17 @@
       </div>
     </div>
 
+    <audio class="background-audio" src="assets/music.mp3" loop preload="auto"></audio>
+
+    <button class="audio-toggle" type="button" aria-label="Ativar áudio" aria-pressed="false">
+      <svg class="audio-toggle__icon audio-toggle__icon--on" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.2-3.9v7.8a4.5 4.5 0 0 0 2.2-3.9zm0-8.2v2.1a7 7 0 0 1 0 12.2v2.1a9 9 0 0 0 0-16.4z" />
+      </svg>
+      <svg class="audio-toggle__icon audio-toggle__icon--off" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4zm12.6 3 2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4-2.7-2.7z" />
+      </svg>
+    </button>
+
     <div class="background" aria-hidden="true"></div>
     <div class="ambient-light" aria-hidden="true"></div>
     <div class="rack-glow rack-glow--left" aria-hidden="true"></div>
@@ -29,7 +40,7 @@
     <main class="hero" aria-labelledby="site-title">
       <section class="hero__content">
         <h1 id="site-title">ngr3p</h1>
-        <p>InfoSec <span aria-hidden="true">|</span> Labs <span aria-hidden="true">|</span> Research</p>
+        <p class="tagline">InfoSec<span aria-hidden="true">|</span>Labs<span aria-hidden="true">|</span>Research</p>
         <p class="coming-soon">COMING SOON<span class="terminal-cursor" aria-hidden="true">_</span></p>
       </section>
     </main>
