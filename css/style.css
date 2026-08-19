@@ -165,6 +165,20 @@ p span {
   margin: 0 0.35em;
 }
 
+.coming-soon {
+  margin-top: 12px;
+  color: #00ff66;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.65);
+}
+
+.terminal-cursor {
+  margin-left: 0.3em;
+  animation: cursorBlink 900ms steps(1, end) infinite;
+}
+
 .footer {
   position: fixed;
   left: 40px;
@@ -242,6 +256,18 @@ p span {
   }
 }
 
+@keyframes cursorBlink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     padding: 25px 20px;
@@ -260,6 +286,11 @@ p span {
     letter-spacing: 0.1em;
   }
 
+  .coming-soon {
+    font-size: 0.56rem;
+    letter-spacing: 0.15em;
+  }
+
   .footer {
     left: 20px;
     bottom: calc(20px + env(safe-area-inset-bottom));
@@ -275,7 +306,8 @@ p span {
   .background,
   .ambient-light,
   .rack-glow,
-  .floor-reflection {
+  .floor-reflection,
+  .terminal-cursor {
     animation: none;
   }
 }
