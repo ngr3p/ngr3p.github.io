@@ -41,11 +41,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   filter: brightness(0.92) contrast(1.06);
-  transition: filter 100ms linear;
-}
-
-.background.glitch {
-  filter: brightness(1.08) contrast(1.18);
 }
 
 .ambient-light {
