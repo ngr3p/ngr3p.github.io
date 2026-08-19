@@ -125,11 +125,31 @@ body {
   );
 }
 
-.audio-toggle {
+.audio-control {
   position: fixed;
   top: 40px;
   right: 40px;
   z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audio-status {
+  color: #ff3b3b;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(255, 59, 59, 0.6);
+  animation: musicOffBlink 1s steps(1, end) infinite;
+}
+
+.audio-control.is-playing .audio-status {
+  display: none;
+}
+
+.audio-toggle {
   width: 42px;
   height: 42px;
   display: grid;
@@ -317,6 +337,18 @@ p {
   }
 }
 
+@keyframes musicOffBlink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  49%,
+  100% {
+    opacity: 0.18;
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     padding: 25px 20px;
@@ -344,9 +376,18 @@ p {
     letter-spacing: 0.15em;
   }
 
-  .audio-toggle {
+  .audio-control {
     top: 25px;
     right: 20px;
+    gap: 8px;
+  }
+
+  .audio-status {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .audio-toggle {
     width: 38px;
     height: 38px;
   }
@@ -367,7 +408,8 @@ p {
   .ambient-light,
   .rack-glow,
   .floor-reflection,
-  .terminal-cursor {
+  .terminal-cursor,
+  .audio-status {
     animation: none;
   }
 }
