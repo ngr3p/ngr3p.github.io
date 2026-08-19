@@ -55,7 +55,6 @@ body {
 
 .background,
 .ambient-light,
-.core-glow,
 .rack-glow,
 .floor-reflection,
 .vignette {
@@ -73,6 +72,9 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   filter: brightness(0.92) contrast(1.06);
+  transform: scale(1);
+  animation: backgroundZoom 24s ease-in-out infinite;
+  will-change: transform;
 }
 
 .ambient-light {
@@ -82,19 +84,6 @@ body {
     radial-gradient(circle at 81% 50%, rgba(255, 255, 255, 0.12), transparent 16%);
   mix-blend-mode: screen;
   animation: ambientShift 6.5s ease-in-out infinite alternate;
-}
-
-.core-glow {
-  z-index: 2;
-  background: radial-gradient(
-    circle at 50% 36%,
-    rgba(0, 0, 0, 0.78) 0%,
-    rgba(0, 0, 0, 0.52) 9%,
-    rgba(0, 0, 0, 0.20) 18%,
-    transparent 31%
-  );
-  mix-blend-mode: multiply;
-  animation: coreDim 4.2s ease-in-out infinite;
 }
 
 .rack-glow {
@@ -191,6 +180,17 @@ p span {
   text-transform: none;
 }
 
+@keyframes backgroundZoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
+}
+
 @keyframes ambientShift {
   0% {
     opacity: 0.22;
@@ -198,21 +198,6 @@ p span {
 
   100% {
     opacity: 0.60;
-  }
-}
-
-@keyframes coreDim {
-  0%,
-  100% {
-    opacity: 0;
-  }
-
-  45% {
-    opacity: 0.54;
-  }
-
-  58% {
-    opacity: 0.38;
   }
 }
 
@@ -283,21 +268,11 @@ p span {
   .footer p {
     font-size: 0.55rem;
   }
-
-  .core-glow {
-    background: radial-gradient(
-      circle at 50% 34%,
-      rgba(0, 0, 0, 0.72) 0%,
-      rgba(0, 0, 0, 0.46) 12%,
-      rgba(0, 0, 0, 0.16) 22%,
-      transparent 36%
-    );
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .background,
   .ambient-light,
-  .core-glow,
   .rack-glow,
   .floor-reflection {
     animation: none;
