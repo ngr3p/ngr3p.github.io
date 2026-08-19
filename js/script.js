@@ -1,6 +1,7 @@
 const preloader = document.querySelector(".preloader");
 const progress = document.querySelector(".preloader__progress");
 const audio = document.querySelector(".background-audio");
+const audioControl = document.querySelector(".audio-control");
 const audioToggle = document.querySelector(".audio-toggle");
 
 const maxVolume = 0.45;
@@ -9,6 +10,7 @@ const fadeDuration = 3;
 let value = 0;
 
 const setAudioState = (playing) => {
+  audioControl.classList.toggle("is-playing", playing);
   audioToggle.classList.toggle("is-playing", playing);
   audioToggle.setAttribute("aria-pressed", String(playing));
   audioToggle.setAttribute("aria-label", playing ? "Mutar áudio" : "Ativar áudio");
@@ -58,7 +60,11 @@ window.addEventListener("load", async () => {
 
 audio.addEventListener("timeupdate", updateLoopVolume);
 audio.addEventListener("loadedmetadata", updateLoopVolume);
-audio.addEventListener("play", updateLoopVolume);
+audio.addEventListener("play", () => {
+  updateLoopVolume();
+  setAudioState(true);
+});
+audio.addEventListener("pause", () => setAudioState(false));
 
 audioToggle.addEventListener("click", async () => {
   if (audio.paused) {
@@ -67,7 +73,6 @@ audioToggle.addEventListener("click", async () => {
   }
 
   audio.pause();
-  setAudioState(false);
 });
 
 document.addEventListener(
