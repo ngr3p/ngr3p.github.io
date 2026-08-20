@@ -213,7 +213,7 @@ p {
 
 .footer p {
   margin: 0;
-  color: #9a9a9a;
+  color: #686868;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: none;
@@ -226,15 +226,15 @@ p {
   z-index: 20;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 13px;
   min-height: 35px;
   background: rgba(0, 0, 0, 0.85);
   padding: 8px 12px;
 }
 
 .footer-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -245,8 +245,8 @@ p {
 
 .footer-icon svg {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: #ffffff;
 }
 
@@ -343,14 +343,14 @@ p {
     right: 20px;
     bottom: calc(20px + env(safe-area-inset-bottom));
     min-height: 32px;
-    gap: 12px;
+    gap: 11px;
     padding: 7px 10px;
   }
 
   .footer-icon,
   .footer-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
 }
 
