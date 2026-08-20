@@ -75,10 +75,10 @@ body {
   z-index: 4;
   background: radial-gradient(
     ellipse at center,
-    transparent 30%,
-    rgba(0, 0, 0, 0.20) 52%,
-    rgba(0, 0, 0, 0.48) 76%,
-    rgba(0, 0, 0, 0.78) 100%
+    transparent 24%,
+    rgba(0, 0, 0, 0.24) 46%,
+    rgba(0, 0, 0, 0.58) 72%,
+    rgba(0, 0, 0, 0.90) 100%
   );
 }
 
