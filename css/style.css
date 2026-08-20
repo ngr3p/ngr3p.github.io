@@ -210,12 +210,11 @@ p {
   left: 40px;
   bottom: 40px;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.85);
-  padding: 10px 14px;
 }
 
 .footer p {
   margin: 0;
+  color: #c8c8c8;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: none;
@@ -334,7 +333,6 @@ p {
   .footer {
     left: 20px;
     bottom: calc(20px + env(safe-area-inset-bottom));
-    padding: 8px 12px;
   }
 
   .footer p {
