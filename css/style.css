@@ -62,13 +62,10 @@ body {
 
 .background {
   z-index: 0;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22)),
-    url("../assets/cover.png");
+  background-image: url("../assets/cover.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: brightness(0.92) contrast(1.06);
   transform: scale(1);
   animation: backgroundZoom 26s ease-in-out infinite;
   will-change: transform;
