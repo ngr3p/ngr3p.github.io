@@ -174,7 +174,7 @@ h1 {
   font-size: 2rem;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.015em;
 }
 
 p {
@@ -225,28 +225,31 @@ p {
   position: fixed;
   right: 40px;
   bottom: 40px;
-  z-index: 10;
-  height: 35px;
+  z-index: 20;
   display: flex;
   align-items: center;
   gap: 14px;
+  min-height: 35px;
   background: rgba(0, 0, 0, 0.85);
   padding: 8px 12px;
 }
 
 .footer-icon {
-  width: 18px;
-  height: 18px;
-  display: grid;
-  place-items: center;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #ffffff;
-  opacity: 0.82;
+  opacity: 1;
+  flex: 0 0 auto;
 }
 
 .footer-icon svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
 }
 
 @keyframes backgroundZoom {
@@ -295,6 +298,7 @@ p {
 
   h1 {
     font-size: 1.7rem;
+    letter-spacing: 0.01em;
   }
 
   p {
@@ -340,15 +344,15 @@ p {
   .footer-icons {
     right: 20px;
     bottom: calc(20px + env(safe-area-inset-bottom));
-    height: 32px;
+    min-height: 32px;
     gap: 12px;
     padding: 7px 10px;
   }
 
   .footer-icon,
   .footer-icon svg {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
   }
 }
 
