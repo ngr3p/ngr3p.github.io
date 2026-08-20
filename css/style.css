@@ -94,7 +94,7 @@ body {
 
 .audio-status {
   color: #ff3b3b;
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -321,7 +321,7 @@ p {
   }
 
   .audio-status {
-    font-size: 0.58rem;
+    font-size: 0.56rem;
     letter-spacing: 0.1em;
   }
 
