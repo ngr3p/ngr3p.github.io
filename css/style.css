@@ -54,9 +54,6 @@ body {
 }
 
 .background,
-.ambient-light,
-.rack-glow,
-.floor-reflection,
 .vignette {
   position: fixed;
   inset: 0;
@@ -75,43 +72,6 @@ body {
   transform: scale(1);
   animation: backgroundZoom 26s ease-in-out infinite;
   will-change: transform;
-}
-
-.ambient-light {
-  z-index: 1;
-  background:
-    radial-gradient(circle at 19% 50%, rgba(255, 255, 255, 0.12), transparent 16%),
-    radial-gradient(circle at 81% 50%, rgba(255, 255, 255, 0.12), transparent 16%);
-  mix-blend-mode: screen;
-  animation: ambientShift 6.5s ease-in-out infinite alternate;
-}
-
-.rack-glow {
-  z-index: 2;
-  mix-blend-mode: screen;
-}
-
-.rack-glow--left {
-  background:
-    radial-gradient(ellipse at 18% 52%, rgba(255, 255, 255, 0.18), transparent 11%),
-    radial-gradient(ellipse at 30% 55%, rgba(255, 255, 255, 0.13), transparent 10%);
-  animation: rackPulseLeft 4.3s ease-in-out infinite;
-}
-
-.rack-glow--right {
-  background:
-    radial-gradient(ellipse at 82% 52%, rgba(255, 255, 255, 0.18), transparent 11%),
-    radial-gradient(ellipse at 70% 55%, rgba(255, 255, 255, 0.13), transparent 10%);
-  animation: rackPulseRight 4.9s ease-in-out infinite;
-}
-
-.floor-reflection {
-  z-index: 2;
-  background:
-    radial-gradient(ellipse at 20% 100%, rgba(255, 255, 255, 0.06), transparent 17%),
-    radial-gradient(ellipse at 80% 100%, rgba(255, 255, 255, 0.06), transparent 17%);
-  mix-blend-mode: screen;
-  animation: floorPulse 5.4s ease-in-out infinite alternate;
 }
 
 .vignette {
@@ -275,56 +235,6 @@ p {
   }
 }
 
-@keyframes ambientShift {
-  0% {
-    opacity: 0.22;
-  }
-
-  100% {
-    opacity: 0.60;
-  }
-}
-
-@keyframes rackPulseLeft {
-  0%,
-  100% {
-    opacity: 0.18;
-  }
-
-  40% {
-    opacity: 0.48;
-  }
-
-  72% {
-    opacity: 0.28;
-  }
-}
-
-@keyframes rackPulseRight {
-  0%,
-  100% {
-    opacity: 0.20;
-  }
-
-  34% {
-    opacity: 0.30;
-  }
-
-  68% {
-    opacity: 0.50;
-  }
-}
-
-@keyframes floorPulse {
-  0% {
-    opacity: 0.18;
-  }
-
-  100% {
-    opacity: 0.46;
-  }
-}
-
 @keyframes cursorBlink {
   0%,
   48% {
@@ -405,9 +315,6 @@ p {
 
 @media (prefers-reduced-motion: reduce) {
   .background,
-  .ambient-light,
-  .rack-glow,
-  .floor-reflection,
   .terminal-cursor,
   .audio-status {
     animation: none;
